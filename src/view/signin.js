@@ -9,7 +9,7 @@ const SignIn = () => {
   const showSignIn = `
  <div class"conteinerGeneral">
       <div class="SingUpBox">
-        <p class="title" >¡BIENVENIDX!</p>
+        <p class="title" >¡Bienvenidx!</p>
         <form id="formLogIn" class="formLogIn">
 
           <div class="form-control">

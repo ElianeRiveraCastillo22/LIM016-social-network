@@ -206,7 +206,7 @@ export const timeline = () => {
             const textAreaEdit = divElemt.querySelector(
                 `[data-id="${btnUpdateID}"]`,
             );
-            const doc = await getPost(btnEditID);
+            const doc = await getPost();
             const dataUser = doc.data().user;
             const textEditVerified = textAreaEdit.value.replace(/\s+/g, '');
 

@@ -3,7 +3,7 @@ import {updateUserName} from '../firebase/auth/auth_signup_password.js';
 const updateUserProfile = () => {
   const UpdateProfile = `
     <div class="conteinerGeneral">
-      <div class="SingUpBox">
+      <div class="SingUpBox update" >
         <h2>¿Con qué nombre te identificas?</h2>
         <form id="formRegister" class="formRegister">
           <div class="form-control">

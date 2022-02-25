@@ -17,6 +17,8 @@ export const currentUser = (user, name, photo) => {
   postUser = user;
   userName = name;
   userPhoto = photo;
+
+  console.log(userPhoto);
 };
 currentUser();
 
@@ -59,7 +61,7 @@ export const timeline = () => {
     <textarea id="postDescription" class="postDescription"
     placeholder="¿Tienes alguna recomendación?" ></textarea>
     <div class="btnPost">
-      
+
       <button id="btnSave" class="btnSave">Publicar</button>
     </div>
 

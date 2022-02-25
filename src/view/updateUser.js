@@ -4,9 +4,8 @@ const updateUserProfile = () => {
   const UpdateProfile = `
     <div class="conteinerGeneral">
       <div class="SingUpBox">
-        <h2>¿Como te gustaria que te llamemos?</h2>
+        <h2>¿Con qué nombre te identificas?</h2>
         <form id="formRegister" class="formRegister">
-
           <div class="form-control">
             <input id="name" class="input" type="text"
             placeholder=" Nombre">

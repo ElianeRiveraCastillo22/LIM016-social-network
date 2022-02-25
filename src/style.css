@@ -185,7 +185,6 @@ html{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Clicker Script';
   margin-top: 15px;
 }
 .formRegister{
@@ -223,12 +222,12 @@ html{
   background-color: rgba(var(--b3f,250,250,250),1);
 }
 .recordTitle {
-  font-family: 'Clicker Script';
   font-size: 4rem;
   display: flex;
   margin: 12px 0px;
   justify-content: center;
   align-items: center;
+  font-family: 'Clicker Script', sans-serif;
 }
 .SingUpBox {
   display: flex;
@@ -276,7 +275,7 @@ html{
   font-size: 1.6rem;
   padding: 20px 50px;
   text-align: center;
-   font-family: 'Poppins', sans-serif; 
+   font-family: 'Poppins', sans-serif;
 }
 
 /*navegador*/
@@ -312,6 +311,7 @@ html{
   flex-direction: row;
   border-radius: 50px;
   cursor: pointer;
+  font-family: 'Clicker Script', sans-serif;
 }
 .tabTitle >p{
   font-size: 2.8rem;
@@ -320,14 +320,13 @@ html{
   align-items: center;
   justify-content: center;
   align-content: center;
-  font-family: 'Clicker Script';
 }
 .fasNav{
   color:#8662C7;
   font-size: 20px;
   transition: color .5s;
 }
-.fasNav{
+.fasNav:hover{
   color: #724BB7
 }
 
@@ -375,7 +374,7 @@ html{
   text-align: left;
   max-width: 90%;
   min-width: 90%;
-  height: 95px;
+  height: 90px;
   overflow: hidden;
   resize: none;
 }
@@ -415,7 +414,7 @@ html{
   display: flex;
   align-items: center;
   justify-content: center;
-  align-content: center; 
+  align-content: center;
 }
 .user{
   font-weight: bold;
@@ -453,9 +452,7 @@ html{
   color: #653CAD;
   height:100% ;
   width: 100%;
-  display: flex;
   align-items: center;
-  justify-content: center;
 }
 i.fas.fa-trash-alt.btnDelete.iconPost {
   display: flex;

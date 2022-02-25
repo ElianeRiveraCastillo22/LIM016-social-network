@@ -4,7 +4,6 @@ import {
 
 jest.mock('../../../src/firebase/configuraciones.js');
 
-
 describe('updatePost', () => {
   it('Actualiza el post', async () => {
     const result = await updatePost(null, 'valor');

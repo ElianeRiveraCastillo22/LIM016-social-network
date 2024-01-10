@@ -36,5 +36,12 @@
   },
   "engines": {
     "node": ">=10"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "dependencies": {
+    "firebase": "^10.7.1"
   }
 }

@@ -1,26 +1,31 @@
-import {
+/* import {
   savePost,
   onGetPosts,
   deletePost,
   getPost,
-} from '../firebase/firestore/firestore-add.js';
-import {updatePost, addLike} from '../firebase/firestore/fb-test.js';
+} from '../firebase/firestore/firestore-add.js'; */
+/* import {updatePost, addLike} from '../firebase/firestore/fb-test.js'; */
 
-let postDescription;
-let postLike;
-let postUser;
-let cleanPost;
-let userName;
-let userPhoto;
+import { userActive } from "../firebase/auth/auth_state_listener.js";
+import { createUser } from "../helpers/functions.js";
+/* import { publicationPosts } from "./templates/createPost.js"; */
 
-export const currentUser = (user, name, photo) => {
+/* export const currentUser = (user, name, photo) => {
   postUser = user;
   userName = name;
   userPhoto = photo;
 
   console.log(userPhoto);
 };
-currentUser();
+currentUser(); */
+/*  let postDescription;
+let postLike;
+let postUser;
+let cleanPost;
+let userName;
+let userPhoto;
+
+
 
 const addPost = (e) => {
   e.preventDefault();
@@ -41,41 +46,42 @@ const addPost = (e) => {
     cleanPost.reset();
   };
 };
+ */
+/* CreatePost */
 
-
-export const timeline = () => {
-  if (userPhoto == null) {
+export const Timeline = () => {
+/*   if (userPhoto == null) {
     userPhoto = './img/avatar.png';
   } else {
     userPhoto;
-  }
-  const showTimeline = `
-  <form id="form" class="postForm">
+  } */
 
-    <div class="postUser">
-      <div class="boxPerfil">
-        <img class="perfil" src="${userPhoto}" alt="">
-      </div>
-      <p class="user">${userName}</p>
-    </div>
-    <textarea id="postDescription" class="postDescription"
-    placeholder="¿Tienes alguna recomendación?" ></textarea>
-    <div class="btnPost">
+  const divElemt = document.createElement('section');
+  divElemt.setAttribute('class', 'section--posts');
+  /* divElemt.innerHTML=publicationPosts */
 
-      <button id="btnSave" class="btnSave">Publicar</button>
-    </div>
+  let heightHead=document.querySelector("#navegador")
+  divElemt.style.top=`${heightHead.clientHeight}px`
+  createUser(userActive,divElemt)
 
 
-  </form>
-  <div id="postsContainer"></div>
-`;
-  const divElemt = document.createElement('div');
-  divElemt.setAttribute('class', 'containerPost');
-  divElemt.innerHTML = showTimeline;
-  divElemt.querySelector('#btnSave').addEventListener('click', addPost);
 
-  cleanPost = divElemt.querySelector('#form');
 
+
+
+/*   const dataUserGoogle=async(dataUser)=>{
+    const prueba = await dataUser
+    divElemt.innerHTML = CreatePost(prueba.displayName);
+  } */
+  /* dataUserGoogle(userActive) */
+  //necesito guaradr los datos de user active
+  
+
+  /* console.log(firebase.auth.Auth.Persistence.LOCAL) */
+/*   divElemt.querySelector('#btnSave').addEventListener('click', addPost);
+
+  cleanPost = divElemt.querySelector('#form'); */
+/* 
   let allPosts;
   let showAllPosts;
   let allLikes;
@@ -222,6 +228,6 @@ export const timeline = () => {
       });
     }
   };
-  timelineFuntion();
+  timelineFuntion(); */
   return divElemt;
 };

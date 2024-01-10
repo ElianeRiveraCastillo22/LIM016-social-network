@@ -1,71 +1,57 @@
-import {createUser} from '../firebase/auth/auth_signup_password.js';
+/* import {createUser} from '../firebase/auth/auth_signup_password.js';*/
 import {googleAuth} from '../firebase/auth/auth_google_signin_popup.js';
+
+import { createUserWithEmailPsw } from "../firebase/auth/auth_signup_password.js";
+import { userActive } from '../firebase/auth/auth_state_listener.js';
+import { showSignUp } from './templates/signUp.js';
 
 export const backSignIn = () => {
   window.location.hash = '#/signIn';
 };
 
-const SignUp = () => {
-  const showSignUp = `
-  <div class="conteinerGeneral">
-    <div class="SingUpBox">
-      <h1>Queer Place</h1>
-      <form id="formRegister" class="formRegister">
-        <a class="loginInGoogle" id="btnStartGoogle"><img class="google" src="https://brandlogos.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png" alt="google"> iniciar sesión con google</a>
-        <div class="form-control">
-          <input id="email" class="input" type="email"
-          placeholder=" Correo electrónico">
-            <i class="far fa-times-circle"></i>
-            <small></small>
-        </div>
-        <div class="form-control">
-          <input id="password" class="input" type="password"
-           placeholder="  Contraseña">
-            <i class="far fa-times-circle"></i>
-            <small></small>
-        </div>
-        <button id="btnCheckIn" class="button">Continuar</button>
-        <p>¿Tienes cuenta?</p>
-        <a  id="SignIn" class="loginInCheckIn">Entrar</a>
-        <img class="imgRegistration" src="./img/CB2.png" alt="img">
-      </form>
-    </div>
-  </div>
-  `;
+export const SignUp = () => {
 
-  const divElemt = document.createElement('div');
-  divElemt.setAttribute('class', 'flexSection register');
-  divElemt.innerHTML = showSignUp;
+  const sectionSignup = document.createElement('div');
+  sectionSignup.setAttribute('class', 'section--signup');
+  sectionSignup.innerHTML = showSignUp;
 
-  const btnChekIn = divElemt.querySelector('#btnCheckIn');
+  sectionSignup.querySelector('#google').addEventListener('click', googleAuth);
 
-  btnChekIn.addEventListener('click', registerUserNew);
 
-  divElemt
-      .querySelector('#btnStartGoogle').addEventListener('click', googleAuth);
-  divElemt.querySelector('#SignIn').addEventListener('click', backSignIn);
+  sectionSignup.querySelector('#btnCheckIn').addEventListener('click', (e)=>{
 
-  return divElemt;
+    let email = sectionSignup.querySelector('#email').value;
+    let password = sectionSignup.querySelector('#password').value;
+
+    if(email == '' || password == '' || (email == '' && password == '')){
+      alert("por favor ingrese sus datos 👨‍💻")
+    }else{
+      createUserWithEmailPsw(email, password);
+    }
+  });
+  sectionSignup.querySelector('#SignIn').addEventListener('click', backSignIn);
+
+  return sectionSignup;
+
 };
 
-export default SignUp;
 
-export const registerUserNew = async (e) => {
+/* export const registerUserNew = (e) => {
   e.preventDefault();
 
-  const email = e.target.closest('form').querySelector('#email').value;
-  const password = e.target.closest('form').querySelector('#password').value;
-
+  const email = document.querySelector('#email').value;
+  const password = document.querySelector('#password').value;
   if (email === '' && password === '') {
     alert('Ups, debes completar el formulario');
   } else {
-    await createUser(email, password);
+    createUser(email, password);
   };
-};
+}; */
 
 export const showErrorRegister = (error) => {
   const setErrorInput = (input, errorMessage) => {
     const formControl = input.parentElement;
+    console.log(formControl)
     const small = formControl.querySelector('small');
 
     small.innerText = errorMessage;
@@ -75,13 +61,20 @@ export const showErrorRegister = (error) => {
       formControl.classList.remove('error');
     });
   };
-
+  /* console.log(error) */
   switch (error) {
     case 'auth/internal-error':
       setErrorInput(password, 'Ingrese contraseña');
       break;
     case 'auth/weak-password':
+      console.log(password);
       setErrorInput(password, 'Debe tener mínimo 6 caracteres');
+      break;
+    case 'auth/missing-password':
+      setErrorInput(password, 'Ingresa tu contraseña');
+      break;
+    case 'auth/missing-email':
+      setErrorInput(email, 'Ingresa tu email');
       break;
     case 'auth/invalid-email':
       setErrorInput(email, 'Correo electrónico invalido');
@@ -89,5 +82,6 @@ export const showErrorRegister = (error) => {
     case 'auth/email-already-in-use':
       setErrorInput(email, 'El correo ya se encuentra registrado');
       break;
+
   }
 };

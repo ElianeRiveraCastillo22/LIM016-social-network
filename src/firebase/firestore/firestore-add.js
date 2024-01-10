@@ -1,4 +1,4 @@
-import {
+/* import {
   collection,
   addDoc,
   db,
@@ -8,7 +8,7 @@ import {
   doc,
   onSnapshot,
   orderBy,
-} from '../configuraciones.js';
+} from '../configuraciones.js'; 
 
 export const savePost = (date, description, like, name, photo, user) => {
   return addDoc(collection(db, 'post'), {
@@ -37,3 +37,4 @@ export const onGetPosts = (callback) => {
 export const deletePost = (id) => {
   return deleteDoc(doc(db, 'post', id));
 };
+*/

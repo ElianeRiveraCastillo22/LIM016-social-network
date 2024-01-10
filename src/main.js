@@ -1,10 +1,8 @@
-import {changeView} from './view-controler/router.js';
+import { App } from './App.js';
 
-const init = () => {
-  changeView(window.location.hash);
+window.addEventListener('hashchange',App)
 
-  window.addEventListener('hashchange', () =>
-    changeView(window.location.hash));
-};
+document.addEventListener('DOMContentLoaded', App());
 
-window.addEventListener('load', init);
+
+

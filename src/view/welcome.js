@@ -10,7 +10,6 @@ export const Welcome = () => {
   sectionWelcome.setAttribute('class', 'section--welcome');
   sectionWelcome.innerHTML = viewWelcome;
 
-  sectionWelcome.querySelector('#btnJoin').addEventListener('click', join);
-
+  setTimeout(join, 1000);
   return sectionWelcome;
 };

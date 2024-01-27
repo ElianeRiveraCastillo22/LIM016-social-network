@@ -1,104 +1,166 @@
 :root{
-  /* tono violeta desendente  */
---color-10:#240754;
---color-9:#34126F;
---color-8:#421987;
---color-7:#51279B;
---color-6:#653CAD;
---color-5:#724BB7;
---color-4:#8662C7;
---color-3:#A081D9;
---color-2:#CFBCF2;
---color-1:#EAE2F8;
-  /*tono neutrales plomos*/
---neutral-10:#;
---neutral-9:#323F4F;
---neutral-8:#3E4C59;
---netral-7:#59606D;
---neutral-6:#616E7C;
---neutral-5:#7B8794;
---neutral-4:#9AA5B1;
---neutral-3:#C8D2D9;
---neutral-2:#EAE7EB;
---neutral-1:#F5F7FA;
---font-text:'Poppins', sans-serif
+  /*colors*/
+  --p-color-text-Input: #A081D9;
+  --p--color-bg-input: #EAE2F8;
+  --color-bg-form: #FAFAFA;
+  --i-color-bg--icon: #653CAD;
+  --color-btn-primary: #8662C7;
+  --color--bg-homeandporfile: #EAE7EB;
+  --color--text-nameporfile: #D7D5DF;
+  --color-border-form: #27241D33;
+  --color-bg-btn-tag-1: #F064EA33;
+  --color-bg-btn-tag-2: ##64F0833D;
+  --color-text-public:#27241DE5;
+  --color-text-title:#27241D;
+  --color-bg-post:#FFF;
+  /*fonts*/
+  --font-poppins:'Poppins', sans-serif;
+  --font-rubik:'Rubik', sans-serif;
+  --font-queerplace:'Clicker Script', cursive;
+}
+/* reset CSS*/
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 *{
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  border: 0;
+  vertical-align: baseline;
+}
+img, picture, video, iframe{
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+a{
+  display: block;
+}
+p a{
+  display: inline;
+}
+li{
+  list-style-type: none;
 }
 html{
   scroll-behavior: smooth;
   font-size: 100%;
 }
-/**/
-body{
-  height: 100vh;
-  width: 100vw;
-  font-family: var(--font-text);
-  overflow: hidden;
+h1, h2, h3, h4, h5, h6, p, span, a, strong, blockquote, em{
+  font-size: 1em;
+  font-weight: inherit;
+  font-style: inherit;
+  text-decoration: none;
+  color: inherit;
 }
+
+form, input, textarea, select, button, label{
+  font-family: inherit;
+  font: inherit;
+  font-size: inherit;
+  hyphens: auto;
+  background-color: transparent;
+  display: block;
+  color: inherit;
+}
+svg{
+  width: 100%;
+  display: block;
+  fill: currentColor;
+}
+body{
+  height: 100dvb;
+  font-size: 100%;
+  line-height: calc(1em + 0.5rem);
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-poppins);
+}
+
 #container {
   height: 100%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .section--welcome,
 .section--singnin,
 .section--signup,
 .section--updateProfile{
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.section--welcome{
+  position: relative;
+}
 .welcome-text {
-  font-size: 1em;
-  padding: 20px 50px;
   text-align: center;
   font-family: var(--font-text);
-  padding: 1rem 1.5rem 2rem;
+  padding-top: 1.5rem;
+  font-size: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
+}
+#btnJoin{
+  z-index: 1;
 }
 .box--welcome,
 .box--singIn,
 .box--singup,
 .box--updateProfile{
+  width: 100%;
+  padding: 1.5rem;
+  max-width: 21.875rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 350px;
+}
+.box--singup, .box--singIn {
+  row-gap: 1.875rem;
 }
 .singIn--title{
-  font-family: 'Poppins', sans-serif;
   text-align: center;
-  font-size: 2.5rem;
+  padding: 0rem 0rem .625rem;
+  font-size: clamp(2.5rem, 2.054rem + 1.19vw, 3.125rem);
 }
 .logo--queerPlace {
-  font-size: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Clicker Script', sans-serif;
-  padding: 0rem 0rem 1.25rem;
+  padding: 0rem 0rem .625rem;
+  font-size: clamp(3rem, 2.464rem + 1.429vw, 3.75rem);
+  font-family: var(--font-queerplace);
+
 }
 .section--signup,
 .section--singnin,
 .section--updateProfile{
-  background-color: rgba(var(--b3f,250,250,250),1);
+  background: var(--color-bg-form);
 }
-.signin-text--question,.signup-text--question {
-  font-size: 15px;
-  padding: 20px 0px 0px;
+.sinup--options, .sinin--options{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: .625rem;
+  font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+  color: var(--color-text-public, rgba(39, 36, 29, 0.90));
+  font-weight: 400;
 }
-.singup--form {
-  padding: 20px 40px 0px;
-  font-size: 15px;
-  text-decoration: none;
+.imgRegistration {
+  max-width: 156px;
+}
+.singup--form,.singIn--form {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 1.25rem;
 }
 .updateProfile--question {
   font-size: 0.9em;
@@ -128,209 +190,120 @@ body{
   max-width: 100%;
   overflow: hidden;
 }
-
 .update{
   background-color: white;
   box-shadow: 0 2px 5px rgb(151 148 148 / 50%);
 }
-
-
-.SingUpBox>h2{
-  margin: 25px 0px 25px 0px;
-  padding: 20px;
-  font-size: 20px;
-  font-family: 'Rubik', sans-serif;
-}
-.singIn--form, .formProfile,.updateProfile--form{
-  display: flex;
-  flex-direction: column;
-  padding: 20px 40px;
-}
 .loginInGoogle{
   cursor: pointer;
-  font-size: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
 }
-.loginInCheckIn{
+a#google {
+  font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+  color: var(--color-text-public, rgba(39, 36, 29, 0.90));
+  font-weight: 400;
   cursor: pointer;
-  padding: 20px;
-  font-size: 15px;
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--color-5);
-  font-family: 'Poppins', sans-serif;
+}
+.goToOption{
+  color: var(--i-color-bg--icon, #653CAD);
+  font-weight: 600;
+  cursor: pointer;
 }
 .formLogIn p{
-  font-size: 15px;
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
 }
 .google{
-  height: 30px;
-  width: 30px;
-  margin-right:.5rem ;
+  max-height: 1.75rem;
+  max-width: 1.75rem;
 }
 .form-control, .formProfileControl {
-  padding-bottom: 20px;
+  width: 100%;
   position: relative;
 }
-.form-control>input{
-  border: 0px solid var(--color-5);
-  border-radius: 8px;
-  font-size: 14px;
-  height: 36px;
-  width: 266px;
-  padding: 10px;
-  outline-color: #EAE2F8;
-  background: #EAE2F8;
-  font-family: 'Poppins', sans-serif;
-}
-.formProfileControl>input{
-  border-radius: 8px;
-  font-size: 14px;
-  height: 36px;
-  width: 266px;
-  padding: 10px;
-  outline-color: #EAE2F8;
-}
-.form-control>i {
-  visibility: hidden;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px
-}
-.form-control.error i.fa-times-circle {
-  visibility: visible;
-  color: #FE6F5E;
-}
-.form-control small {
-  visibility: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-.form-control.error small {
-  font-size: 15px;
-  color: var(--neutral-6);
-  visibility: visible;
- font-family: 'Rubik', sans-serif;
-}
-.button {
-  padding: .25rem 1rem;
-  border-radius: .5rem;
-  color: #ffff;
-  font-size: .875rem;
-  font-weight: 900;
-  border: solid 1px var(--color-5);
-  background-color: var(--color-5);
-  transition:background-color .5s;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
+.form__typeregister{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
-#btnCheckIn {
+.form__typeregister > p{
+    color: var(--p-color-text-Input);
+    font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+    font-weight: 500;
+    padding: .5rem .625rem;
+}
+.form__radios{
+  display: flex;
+  column-gap: .625rem;
+  padding: .5rem .625rem;
+}
+.form-control > input{
+  outline-color: var(--p--color-bg-input);
+  background: var(--p--color-bg-input);
+  color: var(--p-color-text-Input);
+  font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+  font-weight: 500;
+  width: 100%;
+  padding: .5rem .625rem;
+  border-radius: .625rem;
+  background: var(--p--color-bg-input, #EAE2F8);
+}
+.form-control > input::placeholder{
+  color: var(--p-color-text-Input);
+  font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+  font-weight: 500;
+  width: 100%;
+  background: var(--p--color-bg-input, #EAE2F8);
+}
+.button {
+  font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+  padding: .5rem .625rem;
+  border-radius: .625rem;
+  font-weight: 400;
+  color: #FFF;
+  text-align: center;
+  background: var(--color-btn-primary, #8662C7);
+}
+#btnCheckIn, #btnSignIn {
   width: 100%;
 }
 .button:hover{
   background-color: var(--color-7);
 }
-.imgWelcome{
-    height: 200px;
-    width: 250px;
+.welcome__img,.welcome__span{
+    position: absolute;
+    bottom: 0;
 }
-
-
-.SingUpBox>h1{
-  font-size: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-  font-family: 'Clicker Script', sans-serif;
-}
-
-.flexSection {
-  background: white;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 20px;
-  align-items: center;
-  height: 100vh;
+.welcome__span{
+  background: #B6B6FF;
+  min-height: 4.375rem;
+  max-height: 17.375rem;
   width: 100%;
-  align-content: center;
-  justify-content: center;
 }
-.flexBox{
+.welcome__img{
+  z-index: 1;
+  max-width: 25rem;
+}
+hgroup {
+  position: absolute;
+  top: 30%;
+  max-width: 22.75rem;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  background: white;
-  border-radius:10px ;
+  padding: 1rem;
 }
-.register{
-  background-color: rgba(var(--b3f,250,250,250),1);
-}
-.SignUpBox>h1{
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-}
-.SignUpBox>p, .SignUpBox>a{
-  display: flex;
-  justify-content: center;
-  font-size: 15px;
-}
-.formProfileControl>label{
-  display: flex;
-  justify-content: left;
-  font-size: 15px;
-}
-.SignUpBox>h4{
-  color: var(--neutral-9);
-  font-size: 30px;
-  padding: 30px;
-}
-.imgRegistration{
-  width: 150px;
-  height: 100px;
-}
-.formLogIn>input{
-  background-color: var(--color-1);
-  border:solid var(--neutal-2);
-  color: var(--color-10);
-}
-
-@media (min-width:450px){
-  .flexBox{
-      width: 350px;
-  }
-}
-
-
 /*navegador*/
 #navegador {
-  max-height: 65px;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    background-color: #fff;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background: #FFF;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
-#navegador ul {
+#navegador nav {
   height: 100%;
   width: 100%;
   display: grid;
@@ -338,8 +311,7 @@ body{
   grid-template-rows: 1fr;
   justify-items: center;
   align-items: center;
-  padding: 0.5rem;
-  list-style: none;
+  padding: 16px 16px 8px;
 }
 .nav--section{
   height: 100%;
@@ -347,7 +319,6 @@ body{
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
-  font-size: 0.7rem;
   justify-items: center;
   align-items: center;
   border-bottom: 3px solid #fff;
@@ -356,6 +327,9 @@ body{
 .nav--section figcaption{
   display: flex;
   align-items: center;
+  color: var(---color-text-title, #27241D);
+  font-size: clamp(0.75rem, 0.571rem + 0.476vw, 1rem);
+  font-weight: 500;
 }
 .nav--section img{
   display: flex;
@@ -366,15 +340,8 @@ body{
   border-radius: 0.2px;
 }
 .nav--icon {
-max-height: 28px;
-max-width: 28px;
-}
-
-/* pubicacion */
-
-.imagen{
-  height:20px ;
-  width:20px ;
+max-height: 1.75rem;
+max-width: 1.75rem;
 }
 .section--posts{
   background: #EAE7EB;
@@ -393,28 +360,26 @@ max-width: 28px;
   flex-direction: column;
 }
 .createPost{
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    background: white;
-    margin: .75rem 0px;
-    padding: 1.5rem 0px;
-    width: 100%;
-    min-width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  background: white;
+  margin: .75rem 0px;
+  padding: 1.5rem 0px;
+  width: 100%;
+  min-width: 9.375rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .create--post{
-  font-family: 'Poppins', sans-serif;
   border: solid 0.01px #C8D2D9;
-  padding: 10px;
-  border-radius: 10px;
+  padding: .625rem;
+  border-radius: .625rem;
   text-align: left;
   overflow: hidden;
   resize: none;
   width: 90%;
   margin-bottom: .75rem;
-  font-size: .75rem;
 }
 .btnPost{
   min-width: 90%;
@@ -422,20 +387,17 @@ max-width: 28px;
   justify-content: flex-end;
 }
 .btnSave{
-  font-family: 'Poppins', sans-serif;
   box-shadow: 2px 2px 5px #999;
   background-color:#8662C7;
   transition: background-color .5s;
   border-radius: 8px;
   color: white;
-  font-size: 1rem;
   border: solid 0px ;
   padding: .25rem 1rem;
-  font-size: .75rem;
   font-weight: 700;
 }
 .btnSave:hover{
- background-color:#724BB7;
+  background-color:#724BB7;
 }
 .createUser--user__photo{
   display: flex;
@@ -459,12 +421,9 @@ max-width: 28px;
 }
 .createPost--user__name{
   font-weight: 300;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.8rem;
   width: 90%;
   display: flex;
 }
-
 #postsContainer {
   display: flex;
   width: 100%;
@@ -509,19 +468,6 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 .postSection {
   width: 80%;
 }
-.btnUpdate {
-  font-family: 'Poppins', sans-serif;
-  box-shadow: 2px 2px 5px #999;
-  margin-bottom: 2%;
-  background-color: #8662C7;
-  border-radius: 8px;
-  width: 28%;
-  height: 25px;
-  color: white;
-  font-size: 1rem;
-  border: solid 0px;
-  transition:   background-color .5s;
-}
 .btnUpdate:hover{
  background-color: #724BB7;
 }
@@ -529,9 +475,6 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
   display: flex;
   justify-content: flex-end;
   width: 90%;
-}
-.iconPost{
-  font-size: 15px;
 }
 .divbtnLike {
   display: flex;
@@ -542,59 +485,61 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 @media (min-width: 600px) {
   .createPost {
     width: 70%;
-    border-radius: 8px;
   }
-  .tabTitle >p{
-    font-size: 3.5rem;
-  }
-  .fasNav {
-    font-size: 24px;
-  }
- .iconPost{
-    font-size: 18px;
-  }
-/*   .btnUpdate,.btnPhoto, .btnSave {
-    font-size: 1.2rem;
-  } */
-  .box--singIn,
-  .box--singup,
-  .box--updateProfile{
-    max-width: 350px;
-    max-height: 560px;
-    padding: 1.5rem;
-    border-radius: 16px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgb(151 148 148 / 50%);
-  }
-/*   #container {
-    background-color: rgba(var(--b3f,250,250,250),1);
-} */
   /* borrar */
   .updateBoX, .postBox {
     background-color: white;
     box-shadow: 0 2px 5px rgb(151 148 148 / 50%);
   }
-
 }
 @media (min-width: 800px) {
   .section--posts{
     background-color: #fff;
   }
   .box--posts {
-    width: 800px;
+    width: 50rem;
     background: #EAE7EB;
     margin-left: auto;
     margin-right: auto;
     }
-  #navegador ul {
-    width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    }
-  .tabTitle >p{
-    font-size: 4rem;
-  }
-  .fasNav {
-    font-size: 25px;
-  }
+}
+@media (width >= 320px) {
+
+}
+@media (width >= 375px) {
+  .welcome__span {
+    min-height: 7.375rem;
+}
+}
+@media (width >= 425px) {
+  .logo--queerPlace, .singIn--title {
+    padding-top: 2rem;
+}
+
+}
+
+@media (width >= 768px) {
+.box--singIn,
+.box--singup,
+.box--updateProfile{
+  max-width: 350px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgb(151 148 148 / 50%);
+}
+/* .welcome__img {
+  z-index: 1;
+  width: 50%;
+} */
+}
+@media (width >= 1024px) {
+/*   .welcome__img {
+    width: 35%;
+} */
+}
+@media (width >= 1440px) {
+
+}
+@media (width >= 2560px) {
+
 }

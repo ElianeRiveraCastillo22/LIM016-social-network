@@ -10,6 +10,7 @@ export const verifyWithEmailAndPassword = (email, password,inputEmail,inputPassw
         listensToTheActiveUser()
       })
       .catch((error) => {
+        console.log(error.code)
         showErrorSignIn(error.code,inputEmail,inputPassword)
       });
 };

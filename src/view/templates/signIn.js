@@ -1,40 +1,33 @@
 export const showSignIn = `
-<div class="box--singIn">
-  <p class="singIn--title">¡Bienvenidx!</p>
-  <form id="formLogIn" class="singIn--form">
+<div class="box--signIn">
+  <h1 class="logo--queerPlace">Queer Place</h1>
+  <form id="formRegister" class="signIn--form">
 
     <div class="form-control">
-      <input id="email" type="email" placeholder="Correo electrónico">
-      <i class="far fa-times-circle"></i>
-      <small></small>
+        <input id="email" class="input" type="email" placeholder="Correo electrónico">
+        <img class="hiddenError" src="../../img/iconos/close.svg">
+        <small class="messageError"></small>
     </div>
 
     <div class="form-control">
-      <input id="email" type="email" placeholder="Correo electrónico">
-      <i class="far fa-times-circle"></i>
-      <small></small>
+      <input id="password" class="input" type="password" placeholder="Contraseña">
+      <img class="hiddenError" src="../../img/iconos/close.svg">
+      <small class="messageError"></small>
     </div>
 
-    <div class="form-control form__typeregister">
-      <p>Registrarse como:</p>
-      <div class="form__radios">
-        <input type="radio">
-        <input type="radio">
-      </div>
-    </div>
-
-    <button id="btnSignIn" class="button">Inicia sesión</button>
+    <button id="btnSignIn" class="button">Iniciar sesión</button>
 
   </form>
-  <section class="sinup--options">
+  <section class="signIn--options">
+
     <div class="loginInGoogle">
       <img class="google" src="https://brandlogos.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png" alt="google"> 
       <a id="google">Iniciar sesión con google</a>
     </div>
+    <p class="signIn-text--question">¿Tienes cuenta?</p>
+    <a class="goToOption">Registrarse</a>
 
-    <p class="signin-text--question">¿No tienes cuenta?</p>
-    <a id="btnSignUp" class="goToOption">Regístrate</a>
   </section>
-  <img src="./img/CB2.png" alt="img Welcome" class="imgRegistration">
+  <img class="imgRegistration" src="./img/CB2.png" alt="img">
 </div>
 `;

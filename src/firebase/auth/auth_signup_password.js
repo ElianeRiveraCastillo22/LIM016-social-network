@@ -1,5 +1,5 @@
 import { registerLocalStorage } from '../../helpers/functions.js';
-import { showErrorRegister } from '../../view/Signup.js';
+import { showError } from '../../view/signUp.js';
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -20,7 +20,7 @@ export const createUserWithEmailPsw = (email, password) => {
       .catch((error) => {
         const errorCode = error.code;
         /* console.log(errorCode) */
-        showErrorRegister(errorCode)
+        showError(errorCode)
       });
 };
 

@@ -109,8 +109,8 @@ body{
   z-index: 1;
 }
 .box--welcome,
-.box--singIn,
-.box--singup,
+.box--signIn,
+.box--signUp,
 .box--updateProfile{
   width: 100%;
   padding: 1.5rem;
@@ -120,10 +120,10 @@ body{
   justify-content: center;
   align-items: center;
 }
-.box--singup, .box--singIn {
+.box--signUp, .box--signIn {
   row-gap: 1.875rem;
 }
-.singIn--title{
+.signUp--title{
   text-align: center;
   padding: 0rem 0rem .625rem;
   font-size: clamp(2.5rem, 2.054rem + 1.19vw, 3.125rem);
@@ -142,7 +142,7 @@ body{
 .section--updateProfile{
   background: var(--color-bg-form);
 }
-.sinup--options, .sinin--options{
+.signUp--options, .signIn--options{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,7 +154,7 @@ body{
 .imgRegistration {
   max-width: 156px;
 }
-.singup--form,.singIn--form {
+.signUp--form,.signIn--form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -207,6 +207,11 @@ a#google {
   cursor: pointer;
 }
 .goToOption{
+  color: var(--color-btn-primary, #8662C7);
+  font-weight: 600;
+  cursor: pointer;
+}
+.goToOption:hover{
   color: var(--i-color-bg--icon, #653CAD);
   font-weight: 600;
   cursor: pointer;
@@ -241,8 +246,11 @@ a#google {
   column-gap: .625rem;
   padding: .5rem .625rem;
 }
-.form-control > input{
-  outline-color: var(--p--color-bg-input);
+.form-control {
+  position: relative;
+}
+.form-control input{
+  outline: var(--color-btn-primary);
   background: var(--p--color-bg-input);
   color: var(--p-color-text-Input);
   font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
@@ -251,6 +259,29 @@ a#google {
   padding: .5rem .625rem;
   border-radius: .625rem;
   background: var(--p--color-bg-input, #EAE2F8);
+}
+.form-control img{
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: .5rem .625rem;
+}
+.hiddenError{
+  display: none;
+}
+.showError{
+  display: block ;
+}
+.messageError{
+  color: var(--color-text-public);
+  font-weight: 300;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
 }
 .form-control > input::placeholder{
   color: var(--p-color-text-Input);
@@ -268,11 +299,12 @@ a#google {
   text-align: center;
   background: var(--color-btn-primary, #8662C7);
 }
-#btnCheckIn, #btnSignIn {
+#btnSignUp, #btnSignIn {
   width: 100%;
 }
 .button:hover{
-  background-color: var(--color-7);
+  background-color: var(--i-color-bg--icon);
+  cursor: pointer;
 }
 .welcome__img,.welcome__span{
     position: absolute;
@@ -512,15 +544,15 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 }
 }
 @media (width >= 425px) {
-  .logo--queerPlace, .singIn--title {
+  .logo--queerPlace, .signUp--title {
     padding-top: 2rem;
 }
 
 }
 
 @media (width >= 768px) {
-.box--singIn,
-.box--singup,
+.box--signIn,
+.box--signUp,
 .box--updateProfile{
   max-width: 350px;
   border-radius: 16px;

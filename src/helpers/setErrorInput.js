@@ -4,7 +4,7 @@ export const setErrorInput = (input, errorMessage) => {
     const messageIcon = formControl.querySelector('img')
 
     messageError.innerText = errorMessage;
-    
+
     messageIcon.classList.add("showError")
     messageIcon.classList.remove("hiddenError")
     messageError.classList.add("showError")

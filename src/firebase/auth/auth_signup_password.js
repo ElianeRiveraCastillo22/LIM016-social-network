@@ -1,14 +1,15 @@
 import { showErrorSignUp } from '../../helpers/showErrorSignUp.js';
+import { signInPopUp } from '../../helpers/signInPopUp.js';
 import { auth, createUserWithEmailAndPassword } from '../configuraciones.js';
 import { sendEmail } from './auth_send_email.js';
 
-export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword) => {
+export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,sectionSignUp) => {
   return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         sendEmail()
-        alert("te acabamos te enviar un email de confirmacion, verificalo 👨‍💻")
-        console.log(user)
+        signInPopUp(sectionSignUp)
+
       })
       .catch((error) => {
         console.log(error.code)

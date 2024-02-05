@@ -120,6 +120,41 @@ body{
   justify-content: center;
   align-items: center;
 }
+.signUp__popup {
+  width: 100%;
+  padding: 1.5rem;
+  background: #FFF;
+  height: 100%;
+  display: flex;
+  background: rgba(39, 36, 29, 0.20);
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+.signUp__popup > div {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  color: var(--color-text-title);
+  background: #FFF;
+  border-radius: 10px;
+  padding: 24px;
+  font-size: 14px;
+  display: flex;
+  row-gap: 10px;
+  flex-direction: column;
+  max-width: 250px;
+}
+.btnpopup__signUp {
+    font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
+    padding: .5rem .625rem;
+    border-radius: .625rem;
+    font-weight: 400;
+    color: #FFF;
+    text-align: center;
+    background: var(--color-btn-primary, #8662C7);
+}
+.closePopupSignIn{
+  display: none;
+}
 .box--signUp, .box--signIn {
   row-gap: 1.875rem;
 }

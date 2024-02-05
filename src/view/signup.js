@@ -10,7 +10,7 @@ import { showSignUp } from './templates/signUp.js';
 export const SignUp = () => {
 
   const sectionSignUp = document.createElement('div');
-  sectionSignUp.setAttribute('class', 'section--singnin');
+  sectionSignUp.setAttribute('class', 'section--signup');
   sectionSignUp.innerHTML = showSignUp;
 
   const btnGoogle=sectionSignUp.querySelector('#google')
@@ -28,9 +28,9 @@ export const SignUp = () => {
     const inputEmail =sectionSignUp.querySelector('#email')
     const inputPassword =sectionSignUp.querySelector('#password')
 
-    if (mailValidator(emailValue) && strongPassword) {
+    if (!strongPassword) {
 
-      createUserWithEmailPsw(emailValue, passwordValue,inputEmail,inputPassword);
+      createUserWithEmailPsw(emailValue, passwordValue,inputEmail,inputPassword,sectionSignUp);
 
     }else if(!mailValidator(emailValue) && !strongPassword){
 
@@ -41,7 +41,7 @@ export const SignUp = () => {
 
       setErrorInput(inputEmail, 'Correo electrónico invalido');
 
-    }else if(!strongPassword){
+    }else if(mailValidator(emailValue) && strongPassword){
 
       validatePassword(passwordValue,inputPassword)
 

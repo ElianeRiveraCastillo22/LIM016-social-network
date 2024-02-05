@@ -5,7 +5,6 @@ const showHome = () => {
   window.location.hash = '#/signIn';
 };
 
-
 export const Nav = () => {
   const showNav = `
       <figure id="profile" class="nav--section">

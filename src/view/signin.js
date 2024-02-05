@@ -3,7 +3,7 @@ import { verifyWithEmailAndPassword } from '../firebase/auth/auth_signin_passwor
 
 import { locationSignUp } from '../helpers/locations.js';
 import { mailValidator } from '../helpers/mailValidator.js';
-import { setErrorInput } from '../helpers/setErrorInput.js';
+import { validateseEmptyInputs } from '../helpers/validateseEmptyInputs.js';
 import { showSignIn } from './templates/signIn.js';
 
 export const SignIn = () => {
@@ -18,17 +18,24 @@ export const SignIn = () => {
 
   btnGoogle.addEventListener('click', googleAuth);
   btnGoToOption.addEventListener('click', locationSignUp);
-  btnSignIn.addEventListener('click', ()=>{
+  btnSignIn.addEventListener('click', (e)=>{
 
-    const emailValue = sectionSignIn.querySelector('#email').value;
-    const passwordValue = sectionSignIn.querySelector('#password').value;
+    e.preventDefault()
+
+    let emailValue = sectionSignIn.querySelector('#email').value;
+    let passwordValue = sectionSignIn.querySelector('#password').value;
     const inputEmail =sectionSignIn.querySelector('#email')
     const inputPassword =sectionSignIn.querySelector('#password')
 
     if (mailValidator(emailValue)) {
+
       verifyWithEmailAndPassword(emailValue, passwordValue,inputEmail,inputPassword);
-    } else {
-        setErrorInput(inputEmail, 'El email no es valido');
+
+    } else{
+
+      validateseEmptyInputs(emailValue,passwordValue,inputEmail,inputPassword)
+      setErrorInput(inputEmail, 'Correo electrónico invalido');
+
     }
 
   });
@@ -36,7 +43,3 @@ export const SignIn = () => {
   return sectionSignIn;
 
 };
-
-
-
-

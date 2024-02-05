@@ -5,21 +5,27 @@ export const showSignUp = `
 
     <div class="form-control">
       <input id="email" type="email" placeholder="Correo electrónico">
-      <i class="far fa-times-circle"></i>
+      <img class="hiddenError" src="../../img/iconos/close.svg">
       <small></small>
     </div>
 
     <div class="form-control">
       <input id="password" class="input" type="password" placeholder="Contraseña">
-      <i class="far fa-times-circle"></i>
+      <img class="hiddenError" src="../../img/iconos/close.svg">
       <small></small>
     </div>
 
     <div class="form-control form__typeregister">
       <p>Registrarse como:</p>
       <div class="form__radios">
-        <input type="radio">
-        <input type="radio">
+        <div class="form__optionRegister">
+          <input type="radio" name="option register">
+          <label>Usuario</label>
+        </div>
+        <div class="form__optionRegister">
+          <input type="radio" name="option register">
+          <label>Lugar</label>
+        </div>
       </div>
     </div>
 

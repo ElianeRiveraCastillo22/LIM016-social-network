@@ -1,6 +1,10 @@
 import { googleAuth } from '../firebase/auth/auth_google_signin_popup.js';
 import { createUserWithEmailPsw } from '../firebase/auth/auth_signup_password.js';
 import { locationSignIn } from '../helpers/locations.js';
+import { mailValidator } from '../helpers/mailValidator.js';
+import { setErrorInput } from '../helpers/setErrorInput.js';
+import { validatePassword,strongPassword } from '../helpers/validatePassword.js';
+import { validateseEmptyInputs } from '../helpers/validateseEmptyInputs.js';
 import { showSignUp } from './templates/signUp.js';
 
 export const SignUp = () => {
@@ -9,67 +13,48 @@ export const SignUp = () => {
   sectionSignUp.setAttribute('class', 'section--singnin');
   sectionSignUp.innerHTML = showSignUp;
 
-  sectionSignUp.querySelector('#google').addEventListener('click',googleAuth);
+  const btnGoogle=sectionSignUp.querySelector('#google')
+  const btnSignUp=sectionSignUp.querySelector('#btnSignUp')
+  const btnGoToOption=sectionSignUp.querySelector('.goToOption')
 
-  sectionSignUp.querySelector('#btnSignUp').addEventListener('click', (e)=>{
+  btnGoogle.addEventListener('click',googleAuth);
+  btnGoToOption.addEventListener('click', locationSignIn);
+  btnSignUp.addEventListener('click', (e)=>{
 
-    let email = sectionSignUp.querySelector('#email').value;
-    let password = sectionSignUp.querySelector('#password').value;
+    e.preventDefault()
 
-    if(email == '' || password == '' || (email == '' && password == '')){
-      alert("por favor ingrese sus datos 👨‍💻")
+    let emailValue = sectionSignUp.querySelector('#email').value;
+    let passwordValue = sectionSignUp.querySelector('#password').value;
+    const inputEmail =sectionSignUp.querySelector('#email')
+    const inputPassword =sectionSignUp.querySelector('#password')
+
+    if (mailValidator(emailValue) && strongPassword) {
+
+      createUserWithEmailPsw(emailValue, passwordValue,inputEmail,inputPassword);
+
+    }else if(!mailValidator(emailValue) && !strongPassword){
+
+      setErrorInput(inputEmail, 'Correo electrónico invalido');
+      validatePassword(passwordValue,inputPassword)
+
+    }else if(!mailValidator(emailValue)){
+
+      setErrorInput(inputEmail, 'Correo electrónico invalido');
+
+    }else if(!strongPassword){
+
+      validatePassword(passwordValue,inputPassword)
+
     }else{
-      createUserWithEmailPsw(email, password);
+
+      validateseEmptyInputs(emailValue, passwordValue,inputEmail,inputPassword)
+
     }
+
   });
-
-  sectionSignUp.querySelector('.goToOption').addEventListener('click', locationSignIn);
-
 
   return sectionSignUp;
 };
 
 
-export const showError = (error) => {
-  console.error(error);
 
-  const setErrorInput = (input, errorMessage) => {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('small');
-
-    small.innerText = errorMessage;
-    formControl.classList.add('error');
-
-    formControl.addEventListener('keyup', () => {
-      formControl.classList.remove('error');
-    });
-  };
-
-  const typeError = () => {
-    switch (error) {
-      case 'auth/internal-error':
-        setErrorInput(password, 'Ingrese contraseña');
-        break;
-      case 'auth/wrong-password':
-        setErrorInput(password, 'Contraseña incorrecta');
-        break;
-      case 'auth/invalid-email':
-        setErrorInput(email, 'Correo electrónico invalido');
-        break;
-      case 'auth/user-not-found':
-        setErrorInput(email, 'No se encuentra registrado');
-        break;
-      case 'auth/too-many-requests':
-        setErrorInput(password,
-            'Toma un descanso y vuelve a intentarlo');
-        break;
-      case 'auth/invalid-credential':
-        setErrorInput(password,'correo o contraseña incorrecta');
-        setErrorInput(email,'correo o contraseña incorrecta');
-      break;
-      default:
-        setErrorInput(email, 'Lo sentimos, se ha producido un error');
-        break;
-    }
-  }; typeError();
-};

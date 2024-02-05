@@ -246,8 +246,23 @@ a#google {
   column-gap: .625rem;
   padding: .5rem .625rem;
 }
+.form__optionRegister {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: .25rem;
+}
+.form__optionRegister > label {
+  color: var(--p-color-text-Input);
+  font-size: clamp(0.625rem, 0.536rem + 0.238vw, 0.75rem);
+  font-weight: 500;
+}
 .form-control {
   position: relative;
+}
+.form-control small {
+  font-size: clamp(0.75rem, 0.661rem + 0.238vw, 0.875rem);
+  /* padding: .0rem .625rem; */
 }
 .form-control input{
   outline: var(--color-btn-primary);
@@ -271,6 +286,7 @@ a#google {
 }
 .showError{
   display: block ;
+  padding: .0rem .625rem;
 }
 .messageError{
   color: var(--color-text-public);

@@ -3,6 +3,7 @@ import { verifyWithEmailAndPassword } from '../firebase/auth/auth_signin_passwor
 
 import { locationSignUp } from '../helpers/locations.js';
 import { mailValidator } from '../helpers/mailValidator.js';
+import { setErrorInput } from '../helpers/setErrorInput.js';
 import { validateseEmptyInputs } from '../helpers/validateseEmptyInputs.js';
 import { showSignIn } from './templates/signIn.js';
 

@@ -1,30 +1,30 @@
+import { registerLocalStorage } from '../../helpers/functions.js';
+import { showErrorRegister } from '../../view/Signup.js';
 import {
   auth,
   createUserWithEmailAndPassword,
-  sendEmailVerification,
-  updateProfile,
+/*   sendEmailVerification,
+    updateProfile, */
 } from '../configuraciones.js';
-import {showErrorRegister} from '../../view/signup.js';
+import { sendEmail } from './auth_send_email.js';
 
-export const createUser = (email, password) => {
+export const createUserWithEmailPsw = (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const email = userCredential.user.email;
-
-        userVerification(email)
-            .then(() => {
-              window.location.hash = '#/profile';
-            });
+        const user = userCredential.user;
+        sendEmail()
+        alert("te acabamos te enviar un email de confirmacion, verificalo 👨‍💻")
+        console.log(user)
+       /*  registerLocalStorage(user,name) */
       })
       .catch((error) => {
         const errorCode = error.code;
-        showErrorRegister(errorCode);
+        /* console.log(errorCode) */
+        showErrorRegister(errorCode)
       });
 };
 
-export const userVerification = () => {
-  return sendEmailVerification(auth.currentUser);
-};
+/*
 
 export const updateUserName = (name) => {
   return updateProfile(auth.currentUser, {
@@ -37,4 +37,4 @@ export const updateUserName = (name) => {
     console.error(error.code);
     alert('Lo sentimos, se ha producido un error');
   });
-};
+}; */

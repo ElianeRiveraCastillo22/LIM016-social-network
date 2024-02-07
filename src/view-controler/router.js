@@ -1,42 +1,52 @@
+/* import DifferentPage from '../view/404.js'; */
 import {components} from '../view/index.js';
+/* import { Nav } from '../view/Nav.js';
+import { SignIn } from '../view/SignIn.js';
+import { SignUp } from '../view/Signup.js';
+import { Timeline } from '../view/timeline.js'; */
 
-const changeView = (route) => {
-  const container = document.getElementById('container');
-  container.innerHTML = '';
+import { Welcome } from '../view/welcome.js';
 
-  const navegador = document.getElementById('navegador');
-  navegador.innerHTML = '';
-
-  switch (route) {
+const changeView = (container,navegador) => {
+  container.innerHTML= ''
+  navegador.innerHTML= ''
+  let { hash } = location;
+  switch (hash) {
     case '':
     case '#':
     case '#/': {
-      return container.appendChild(components.welcome());
+      container.append(components.welcome());
+      break;
     }
     case '#/signIn': {
-      container.appendChild(components.signIn());
+      container.append(components.signIn());
       break;
     }
     case '#/signUp': {
-      container.appendChild(components.signUp());
+      container.append(components.signUp());
       break;
     }
     case '#/home': {
-      navegador.appendChild(components.nav());
-      container.appendChild(components.timeLine());
+      navegador.append(components.nav());
+      container.append(components.timeline());
       break;
     }
     case '#/profile': {
-      container.appendChild(components.profile());
+      navegador.append(components.nav());
+      container.append(components.profile());
       break;
     }
-    case '#/signOut': {
+    case '#/update-profile': {
+      container.append(components.updateProfile());
+      break;
+    }
+/*    case '#/signOut': {
       navegador.appendChild(components.nav());
       container.appendChild(components.signOut());
       break;
-    }
+    } */
     default:
-      return container.appendChild(components.different());
+      return container.append(components.different());
   }
 };
 

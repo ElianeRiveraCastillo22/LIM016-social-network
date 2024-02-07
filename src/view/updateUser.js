@@ -1,40 +1,18 @@
-import {updateUserName} from '../firebase/auth/auth_signup_password.js';
+/* import {updateUserName} from '../firebase/auth/auth_signup_password.js'; */
 
-const updateUserProfile = () => {
-  const UpdateProfile = `
-    <div class="conteinerGeneral">
-      <div class="SingUpBox">
-        <h2>¿Con qué nombre te identificas?</h2>
-        <form id="formRegister" class="formRegister">
-          <div class="form-control">
-            <input id="name" class="input" type="text"
-            placeholder=" Nombre">
-          </div>
+import { updateProfile } from "./templates/updateProfile.js";
 
-          <div class="form-control">
-            <input id="lastname" class="input" type="text"
-            placeholder="  Apellido">
-          </div>
-
-          <button id="btnCheckIn" class="button">Confirmar</button>
-
-          <img class="imgRegistration" src="./img/CB2.png" alt="img">
-        </form>
-      </div>
-    </div>
-  `;
+export const updateUserProfile = () => {
 
   const divElemt = document.createElement('div');
-  divElemt.setAttribute('class', 'flexSection');
-  divElemt.innerHTML = UpdateProfile;
+  divElemt.setAttribute('class', 'section--updateProfile');
+  divElemt.innerHTML = updateProfile;
 
-  divElemt.querySelector('#btnCheckIn').addEventListener('click', registerUser);
 
   return divElemt;
 };
 
-export default updateUserProfile;
-
+/* 
 export const registerUser = (e) => {
   e.preventDefault();
 
@@ -48,4 +26,4 @@ export const registerUser = (e) => {
     updateUserName(displayName);
     console.log(displayName, 'actualizó su perfil');
   }
-};
+}; */

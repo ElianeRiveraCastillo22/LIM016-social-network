@@ -1,4 +1,58 @@
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+/* import firebase from "firebase/compat/app"; */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+  //buscar como arreglar
+  setPersistence,
+  browserSessionPersistence,
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { 
+  getFirestore,
+  
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyByPJrQx9oWGrr7qi5C_pucJItSbOOe54A",
+  authDomain: "queer-place-b571e.firebaseapp.com",
+  projectId: "queer-place-b571e",
+  storageBucket: "queer-place-b571e.appspot.com",
+  messagingSenderId: "343097311813",
+  appId: "1:343097311813:web:08d083e367fa8013a3192c"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const dataUser = auth.currentUser;
+const provider = new GoogleAuthProvider();
+/* console.log(auth) */
+
+/* firebase.auth().setPersistence */
+export{
+  app,
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  onAuthStateChanged,
+  dataUser,
+  GoogleAuthProvider,
+  signInWithPopup,
+  provider,
+  signOut,
+  setPersistence,
+  browserSessionPersistence,
+}
+
+/* import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -10,7 +64,19 @@ import {
   sendEmailVerification,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
-import {getFirestore, collection, getDocs, getDoc, addDoc, query, orderBy, onSnapshot, deleteDoc, doc, updateDoc, where} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  deleteDoc,
+  doc,
+  updateDoc,
+  where} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
 
 
 const firebaseConfig = {
@@ -56,4 +122,4 @@ export {
   query,
   where,
   orderBy,
-};
+}; */

@@ -1,4 +1,22 @@
-import {auth, provider, signInWithPopup} from '../configuraciones.js';
+import {auth,provider, GoogleAuthProvider, signInWithPopup } from "../configuraciones.js";
+import { sendEmail } from "./auth_send_email.js";
+import { listensToTheActiveUser } from "./auth_state_listener.js";
+export const googleAuth = () =>{
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    /* sendEmail() */
+    listensToTheActiveUser();
+  }).catch((error) => {
+    console.log(error);
+/*     const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error); */
+  });
+}
+
+
+/* import {auth, provider, signInWithPopup} from '../configuraciones.js';
 import {onAuth} from './auth_state_listener.js';
 
 
@@ -30,3 +48,4 @@ const mailVerificado = (verificado) => {
     // funcion que manda mail verificacion
   }
 };
+ */

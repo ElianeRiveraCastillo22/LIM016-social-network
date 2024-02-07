@@ -1,16 +1,15 @@
 import {auth, signInWithEmailAndPassword} from '../configuraciones.js';
-/* import {onAuth} from './auth_state_listener.js'; */
-import {showError} from '../../view/SignIn.js';
 import { listensToTheActiveUser } from './auth_state_listener.js';
+import { showErrorSignIn } from '../../helpers/showErrorSignIn.js';
 
 
-export const verifyWithEmailAndPassword = (email, password) => {
+export const verifyWithEmailAndPassword = (email, password,inputEmail,inputPassword) => {
+  console.log(email,password)
   return signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        /* const emailVerified = userCredential.user.emailVerified; */
         listensToTheActiveUser()
       })
       .catch((error) => {
-        showError(error.code);
+        showErrorSignIn(error.code,inputEmail,inputPassword)
       });
 };

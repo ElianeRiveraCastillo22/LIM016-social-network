@@ -1,26 +1,19 @@
-import { registerLocalStorage } from '../../helpers/functions.js';
-import { showErrorRegister } from '../../view/Signup.js';
-import {
-  auth,
-  createUserWithEmailAndPassword,
-/*   sendEmailVerification,
-    updateProfile, */
-} from '../configuraciones.js';
+import { showErrorSignUp } from '../../helpers/showErrorSignUp.js';
+import { signInPopUp } from '../../helpers/signInPopUp.js';
+import { auth, createUserWithEmailAndPassword } from '../configuraciones.js';
 import { sendEmail } from './auth_send_email.js';
 
-export const createUserWithEmailPsw = (email, password) => {
+export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,sectionSignUp) => {
   return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         sendEmail()
-        alert("te acabamos te enviar un email de confirmacion, verificalo 👨‍💻")
-        console.log(user)
-       /*  registerLocalStorage(user,name) */
+        signInPopUp(sectionSignUp)
+
       })
       .catch((error) => {
-        const errorCode = error.code;
-        /* console.log(errorCode) */
-        showErrorRegister(errorCode)
+        console.log(error.code)
+        showErrorSignUp(error.code,inputEmail,inputPassword)
       });
 };
 

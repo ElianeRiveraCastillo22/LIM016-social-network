@@ -1,3 +1,4 @@
+import { locationSignIn } from "../helpers/locations.js";
 import { viewWelcome } from "./templates/welcome.js";
 
 const join =() => {
@@ -10,7 +11,6 @@ export const Welcome = () => {
   sectionWelcome.setAttribute('class', 'section--welcome');
   sectionWelcome.innerHTML = viewWelcome;
 
-  sectionWelcome.querySelector('#btnJoin').addEventListener('click', join);
-
+  setTimeout(locationSignIn, 1000);
   return sectionWelcome;
 };

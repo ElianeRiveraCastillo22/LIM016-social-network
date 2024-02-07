@@ -1,71 +1,46 @@
-import { googleAuth } from '../firebase/auth/auth_google_signin_popup.js';
-import {verifyWithEmailAndPassword} from '../firebase/auth/auth_signin_password.js';
+import {googleAuth} from '../firebase/auth/auth_google_signin_popup.js';
+import { verifyWithEmailAndPassword } from '../firebase/auth/auth_signin_password.js';
+
+import { locationSignUp } from '../helpers/locations.js';
+import { mailValidator } from '../helpers/mailValidator.js';
+import { setErrorInput } from '../helpers/setErrorInput.js';
+import { validateseEmptyInputs } from '../helpers/validateseEmptyInputs.js';
 import { showSignIn } from './templates/signIn.js';
 
 export const SignIn = () => {
 
-  const sectionSingin = document.createElement('div');
-  sectionSingin.setAttribute('class', 'section--singnin');
-  sectionSingin.innerHTML = showSignIn;
+  const sectionSignIn = document.createElement('div');
+  sectionSignIn.setAttribute('class', 'section--signup');
+  sectionSignIn.innerHTML = showSignIn;
 
-  sectionSingin.querySelector('#btnSignIn').addEventListener('click', (e)=>{
-    const email = sectionSingin.querySelector('#email').value;
-    const password = sectionSingin.querySelector('#password').value;
-    verifyWithEmailAndPassword(email, password);
+  const btnGoogle=sectionSignIn.querySelector('#google')
+  const btnSignIn=sectionSignIn.querySelector('#btnSignIn')
+  const btnGoToOption=sectionSignIn.querySelector('.goToOption')
+
+  btnGoogle.addEventListener('click', googleAuth);
+  btnGoToOption.addEventListener('click', locationSignUp);
+  btnSignIn.addEventListener('click', (e)=>{
+
+    e.preventDefault()
+
+    let emailValue = sectionSignIn.querySelector('#email').value;
+    let passwordValue = sectionSignIn.querySelector('#password').value;
+    const inputEmail =sectionSignIn.querySelector('#email')
+    const inputPassword =sectionSignIn.querySelector('#password')
+
+    if (mailValidator(emailValue)) {
+
+      verifyWithEmailAndPassword(emailValue, passwordValue,inputEmail,inputPassword);
+
+    } else{
+
+      validateseEmptyInputs(emailValue,passwordValue,inputEmail,inputPassword)
+      setErrorInput(inputEmail, 'Correo electrónico invalido');
+
+    }
+
   });
 
-  sectionSingin.querySelector('#btnSignUp').addEventListener('click', SignUp);
-  sectionSingin.querySelector('#google').addEventListener('click',googleAuth);
+  return sectionSignIn;
 
-  return sectionSingin;
-};
-
-
-const SignUp = () => {
-  window.location.hash = '#/signUp';
-};
-
-
-export const showError = (error) => {
-  console.error(error);
-
-  const setErrorInput = (input, errorMessage) => {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('small');
-
-    small.innerText = errorMessage;
-    formControl.classList.add('error');
-
-    formControl.addEventListener('keyup', () => {
-      formControl.classList.remove('error');
-    });
-  };
-
-  const typeError = () => {
-    switch (error) {
-      case 'auth/internal-error':
-        setErrorInput(password, 'Ingrese contraseña');
-        break;
-      case 'auth/wrong-password':
-        setErrorInput(password, 'Contraseña incorrecta');
-        break;
-      case 'auth/invalid-email':
-        setErrorInput(email, 'Correo electrónico invalido');
-        break;
-      case 'auth/user-not-found':
-        setErrorInput(email, 'No se encuentra registrado');
-        break;
-      case 'auth/too-many-requests':
-        setErrorInput(password,
-            'Toma un descanso y vuelve a intentarlo');
-        break;
-      case 'auth/invalid-credential':
-        setErrorInput(password,'correo o contraseña incorrecta');
-        setErrorInput(email,'correo o contraseña incorrecta');
-      break;
-      default:
-        setErrorInput(email, 'Lo sentimos, se ha producido un error');
-        break;
-    }
-  }; typeError();
 };

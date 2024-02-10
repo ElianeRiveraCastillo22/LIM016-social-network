@@ -2,19 +2,46 @@
 export const publicationPosts = (name,photo) =>{
     const timeline = `
     <div class="box--posts">
-        <form id="form" class="createPost">
+        <section class="createPost">
             <section class="createPost--user">
                 <figure class="createUser--user__photo boxPerfil">
                     <img class="perfil" src=${photo} alt="">
                 </figure>
                 <p class="createPost--user__name user">${name}</p>
             </section>
-            <textarea id="postDescription" class="create--post postDescription"
-            placeholder="¿Tienes alguna recomendación?" ></textarea>
-            <div class="btnPost">
-                <button id="btnSave" class="btnSave">Publicar</button>
-            </div>
-        </form>
+            <form class="createPost__all">
+                <div class="createPost__form">
+                    <input placeholder="Nombre del lugar:" class="createPost__point" type="text">
+                    <textarea placeholder="¿Tienes alguna recomendación?" ></textarea>
+                    <section class="createPost__tags">
+                        <input placeholder="Amigable con:" type="text">
+                        <div class="createpost__alltags">
+
+                        </div>
+                    </section>
+                    <section class="createPost__containerRating">
+                        <section class="createPost__rating">
+                            <p>¿Cómo lo calificas?</p>
+                            <div class="createPost__stars">
+                                <img src="../../img/iconos/star.svg" alt="star"/>
+                                <img src="../../img/iconos/star.svg" alt="star"/>
+                                <img src="../../img/iconos/star.svg" alt="star"/>
+                                <img src="../../img/iconos/star.svg" alt="star"/>
+                                <img src="../../img/iconos/star.svg" alt="star"/>
+                            </div>
+                        </section>
+                        <div class="createPost__file">
+                            <label for="fileUpload"><img src="../../img/iconos/image.svg"/></label>
+                            <input type="file" id="fileUpload" name="fileUpload">
+                        </div>
+                    </section>            
+                </div>
+
+                <div class="btnPost">
+                    <button id="btnSave" class="btnSave">Publicar</button>
+                </div>
+            </form>
+        </section>
         <div id="publicationPosts">
 
         </div>

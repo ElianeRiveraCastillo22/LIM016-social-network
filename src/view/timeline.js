@@ -60,9 +60,22 @@ export const Timeline = () => {
   divElemt.setAttribute('class', 'section--posts');
   /* divElemt.innerHTML=publicationPosts */
 
-  let heightHead=document.querySelector("#navegador")
-  divElemt.style.top=`${heightHead.clientHeight}px`
+  const heightHead=document.querySelector("#navegador")
+  let missingValue = 65 - heightHead.clientHeight
+  divElemt.style.top=`${heightHead.clientHeight+ missingValue +16}px`
   createUser(userActive,divElemt)
+
+  /* } */
+/*   console.log(heightHead.clientHeight)
+  
+  if (heightHead.clientHeight==44){
+    divElemt.style.top=`${heightHead.clientHeight+21}px`
+  }else if(heightHead.clientHeight==52){
+    divElemt.style.top=`${heightHead.clientHeight+13}px`
+  }else{
+    divElemt.style.top=`${heightHead.clientHeight}px`
+  } */
+  
 
 
 

@@ -14,7 +14,15 @@ export const publicationPosts = (name,photo) =>{
                     <input placeholder="Nombre del lugar:" class="createPost__point" type="text">
                     <textarea placeholder="¿Tienes alguna recomendación?" ></textarea>
                     <section class="createPost__tags">
-                        <input placeholder="Amigable con:" type="text">
+                        <div class="createTags">
+                            <input class="createTags__input createTags__input--onFocus" placeholder="inlusivos o diversos con:" type="text">
+                            <ul class="createTags__list createTags__list--open">
+
+                            </ul>
+                            <figure class="createTags__aprove createTags__aprove--onFocus">
+                                <img class="" src="../../img/iconos/aprove-post.svg"/>
+                            </figure>
+                        </div>
                         <div class="createpost__alltags">
 
                         </div>
@@ -34,7 +42,7 @@ export const publicationPosts = (name,photo) =>{
                             <label for="fileUpload"><img src="../../img/iconos/image.svg"/></label>
                             <input type="file" id="fileUpload" name="fileUpload">
                         </div>
-                    </section>            
+                    </section>
                 </div>
 
                 <div class="btnPost">

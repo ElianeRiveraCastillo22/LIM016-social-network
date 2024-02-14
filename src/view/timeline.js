@@ -6,6 +6,7 @@
 } from '../firebase/firestore/firestore-add.js'; */
 /* import {updatePost, addLike} from '../firebase/firestore/fb-test.js'; */
 
+import { tagsPost } from "../data/tags-post.js";
 import { userActive } from "../firebase/auth/auth_state_listener.js";
 import { createUser } from "../helpers/functions.js";
 /* import { publicationPosts } from "./templates/createPost.js"; */
@@ -56,31 +57,114 @@ export const Timeline = () => {
     userPhoto;
   } */
 
-  const divElemt = document.createElement('section');
-  divElemt.setAttribute('class', 'section--posts');
-  /* divElemt.innerHTML=publicationPosts */
+  const sectionAllPost = document.createElement('section');
+  sectionAllPost.setAttribute('class', 'section--posts');
 
   const heightHead=document.querySelector("#navegador")
   let missingValue = 65 - heightHead.clientHeight
-  divElemt.style.top=`${heightHead.clientHeight+ missingValue +16}px`
-  createUser(userActive,divElemt)
+  sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`
+  createUser(userActive,sectionAllPost)
 
-  /* } */
-/*   console.log(heightHead.clientHeight)
-  
-  if (heightHead.clientHeight==44){
-    divElemt.style.top=`${heightHead.clientHeight+21}px`
-  }else if(heightHead.clientHeight==52){
-    divElemt.style.top=`${heightHead.clientHeight+13}px`
-  }else{
-    divElemt.style.top=`${heightHead.clientHeight}px`
-  } */
-  
+  const contentTags = sectionAllPost.querySelector(".createTags")
+  const inputTags= sectionAllPost.querySelector(".createTags__input")
+  const iconCreateTags= sectionAllPost.querySelector(".createTags__aprove")
+  const tagsList = sectionAllPost.querySelector(".createTags__list")
+
+  let sortTags=tagsPost.sort()
+
+  function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
+
+    elem1.classList.remove(elem1remove)
+    elem1.classList.add(elem1add)
+
+    elem2.classList.remove(elem2remove)
+    elem2.classList.add(elem2add)
+
+  }
+
+  function createsTheListOfItems(valueVar,array,containeList) {
+
+    for( valueVar of array){
+
+      containeList.classList.add("createTags__list--open")
+      let listItem=document.createElement("li")
+      listItem.classList.add("allTags__item")
+      listItem.innerText=valueVar
+      containeList.appendChild(listItem)
+
+    }
+
+  }
+
+  inputTags.addEventListener("focus",()=>{
+
+    function dimensionsTheWidthOfTheList() {
+      const widthContentTags=contentTags.clientWidth
+      tagsList.style.width=`${widthContentTags}px`
+    }
+    dimensionsTheWidthOfTheList()
+
+    function createsTheListInTheFirstApproachInInput() {
+      if(inputTags.value == ""){
+
+        changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+        let tag;
+        createsTheListOfItems(tag,sortTags,tagsList)
+
+      }
+    }
+    createsTheListInTheFirstApproachInInput()
 
 
+    let allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
 
+    inputTags.addEventListener("keyup", ()=>{
 
+      let matchingWords = []
+      let matchingValue=[]
 
+      function filtersOutMatchingWords() {
+        tagsPost.forEach((tag)=>{
+
+          const cutTag = tag.slice(0,inputTags.value.length)
+          const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
+          matchingValue.push(evaluatesMatchingTags)
+
+          if(evaluatesMatchingTags){
+              tagsList.classList.add("createTags__list--open")
+              tagsList.innerHTML=""
+              matchingWords.push(tag)
+          }
+
+        })
+      }
+      filtersOutMatchingWords()
+
+      function deletesTheListBecauseItDoesNotMatch () {
+        if(matchingValue.every((value)=> value==false)){
+          tagsList.classList.remove("createTags__list--open")
+          changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+          tagsList.innerHTML=""
+        }
+      }
+      deletesTheListBecauseItDoesNotMatch ()
+
+      function addsStylesWhenDeletingTheIputValue() {
+        if(inputTags.value == ""){
+          changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+        }
+      }
+      addsStylesWhenDeletingTheIputValue()
+
+      function createsAListOfMatchingWords() {
+        let tag;
+        createsTheListOfItems(tag,matchingWords,tagsList)
+      }
+      createsAListOfMatchingWords()
+
+    })
+
+  })
 
 /*   const dataUserGoogle=async(dataUser)=>{
     const prueba = await dataUser
@@ -242,5 +326,5 @@ export const Timeline = () => {
     }
   };
   timelineFuntion(); */
-  return divElemt;
+  return sectionAllPost;
 };

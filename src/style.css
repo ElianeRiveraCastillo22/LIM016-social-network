@@ -72,7 +72,7 @@ svg{
 }
 body{
   height: 100dvb;
-  width: 100%;
+  width: 100dvw;
   font-size: 100%;
   line-height: calc(1em + 8px);
   font-smooth: always;
@@ -83,10 +83,12 @@ body{
 
 #container {
   height: 100%;
+  width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .section--welcome,
 .section--singnin,
@@ -548,6 +550,8 @@ hgroup {
   flex-direction: row;
   column-gap: .5rem;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 8px;
 }
 
 .createTags {
@@ -558,7 +562,15 @@ hgroup {
   position: relative;
 }
 .createpost__alltags{
-  visibility: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: .5rem;
+}
+.createpost__alltags li{
+  background: #64f08333;
+  padding: 2px 12px;
+  border-radius: 10px;
 }
 .createTags__list{
   position: absolute;
@@ -615,8 +627,8 @@ hgroup {
   position: relative;
 }
 .createPost__file > input {
-  width: 0..0625rem;
-  height: 0..0625rem;
+  width: 0.0625rem;
+  height: 0.0625rem;
   opacity: 0;
   position: absolute;
   z-index: -1;

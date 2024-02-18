@@ -61,16 +61,27 @@ export const Timeline = () => {
   sectionAllPost.setAttribute('class', 'section--posts');
 
   const heightHead=document.querySelector("#navegador")
-  let missingValue = 65 - heightHead.clientHeight
-  sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`
+  function resizeSpaceBetweenHeaderAndMain() {
+
+    let missingValue = 65 - heightHead.clientHeight
+    sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`
+
+  }
+  resizeSpaceBetweenHeaderAndMain()
   createUser(userActive,sectionAllPost)
 
   const contentTags = sectionAllPost.querySelector(".createTags")
   const inputTags= sectionAllPost.querySelector(".createTags__input")
   const iconCreateTags= sectionAllPost.querySelector(".createTags__aprove")
   const tagsList = sectionAllPost.querySelector(".createTags__list")
+  const alltags= sectionAllPost.querySelector(".createpost__alltags")
+  const createPostPoint = sectionAllPost.querySelector(".createPost__point")
+  const createPostInfo = sectionAllPost.querySelector(".createPost__Info")
+  const publicationPosts= sectionAllPost.querySelector(".publicationPosts")
 
   let sortTags=tagsPost.sort()
+  let allTagsItem = null;
+  let labelThatIsClicked= undefined;
 
   function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
@@ -95,28 +106,67 @@ export const Timeline = () => {
     }
 
   }
+  function createTag(textvalue) {
+
+    const tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
+    const elemtTag = document.createElement("li")
+    if(tagChosen.length !== 0){
+      let labelComparisons=[]
+      tagChosen.forEach((tagSelect)=>{
+        if(tagSelect.innerText==textvalue){
+          labelComparisons.push(true)
+        }else{
+          labelComparisons.push(false)
+        }
+      })
+
+      let evaluateIfTheLabelsAreSimilar = labelComparisons.every((value) => value == false)
+      // si es true imprimir
+      if(evaluateIfTheLabelsAreSimilar){
+
+        elemtTag.innerText = textvalue
+        alltags.appendChild(elemtTag)
+        inputTags.value=""
+
+      }else{
+
+        inputTags.value=""
+
+      }
+
+    }else{
+
+      elemtTag.innerText = textvalue
+      alltags.appendChild(elemtTag)
+      inputTags.value=""
+
+    }
+
+  }
 
   inputTags.addEventListener("focus",()=>{
 
     function dimensionsTheWidthOfTheList() {
+
       const widthContentTags=contentTags.clientWidth
       tagsList.style.width=`${widthContentTags}px`
+
     }
     dimensionsTheWidthOfTheList()
 
     function createsTheListInTheFirstApproachInInput() {
+
       if(inputTags.value == ""){
 
         changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
         let tag;
         createsTheListOfItems(tag,sortTags,tagsList)
+        allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
 
       }
+
     }
     createsTheListInTheFirstApproachInInput()
-
-
-    let allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
 
     inputTags.addEventListener("keyup", ()=>{
 
@@ -124,6 +174,7 @@ export const Timeline = () => {
       let matchingValue=[]
 
       function filtersOutMatchingWords() {
+
         tagsPost.forEach((tag)=>{
 
           const cutTag = tag.slice(0,inputTags.value.length)
@@ -131,9 +182,11 @@ export const Timeline = () => {
           matchingValue.push(evaluatesMatchingTags)
 
           if(evaluatesMatchingTags){
+
               tagsList.classList.add("createTags__list--open")
               tagsList.innerHTML=""
               matchingWords.push(tag)
+
           }
 
         })
@@ -141,28 +194,81 @@ export const Timeline = () => {
       filtersOutMatchingWords()
 
       function deletesTheListBecauseItDoesNotMatch () {
+
         if(matchingValue.every((value)=> value==false)){
+
           tagsList.classList.remove("createTags__list--open")
           changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
           tagsList.innerHTML=""
+
         }
+
       }
       deletesTheListBecauseItDoesNotMatch ()
 
       function addsStylesWhenDeletingTheIputValue() {
         if(inputTags.value == ""){
+
           changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+
         }
       }
       addsStylesWhenDeletingTheIputValue()
 
       function createsAListOfMatchingWords() {
+
         let tag;
         createsTheListOfItems(tag,matchingWords,tagsList)
+
       }
       createsAListOfMatchingWords()
 
+      allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+
     })
+
+  })
+
+  tagsList.addEventListener("pointerover",()=>{
+
+    allTagsItem.forEach((tag)=>{
+
+      tag.addEventListener("click",(e)=>{
+        labelThatIsClicked = tag.innerText
+        tagsList.innerHTML=""
+        tagsList.classList.remove("createTags__list--open")
+        changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+        createTag(labelThatIsClicked)
+
+      })
+
+    })
+
+  })
+
+  iconCreateTags.addEventListener("click",()=>{
+    if(inputTags.value!==""){
+      createTag(inputTags.value)
+    }
+
+  })
+  createPostPoint.addEventListener("click",()=>{
+    tagsList.innerHTML=""
+    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+    tagsList.classList.remove("createTags__list--open")
+  })
+  createPostInfo.addEventListener("click",()=>{
+    console.log("click en create text area")
+    tagsList.innerHTML=""
+    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+    tagsList.classList.remove("createTags__list--open")
+
+  })
+  publicationPosts.addEventListener("click",()=>{
+    console.log("fuera de")
+    tagsList.innerHTML=""
+    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+    tagsList.classList.remove("createTags__list--open")
 
   })
 

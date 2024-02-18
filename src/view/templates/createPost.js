@@ -12,7 +12,7 @@ export const publicationPosts = (name,photo) =>{
             <form class="createPost__all">
                 <div class="createPost__form">
                     <input placeholder="Nombre del lugar:" class="createPost__point" type="text">
-                    <textarea placeholder="¿Tienes alguna recomendación?" ></textarea>
+                    <textarea class="createPost__Info" placeholder="¿Tienes alguna recomendación?" ></textarea>
                     <section class="createPost__tags">
                         <div class="createTags">
                             <input class="createTags__input createTags__input--onFocus" placeholder="inlusivos o diversos con:" type="text">
@@ -23,9 +23,9 @@ export const publicationPosts = (name,photo) =>{
                                 <img class="" src="../../img/iconos/aprove-post.svg"/>
                             </figure>
                         </div>
-                        <div class="createpost__alltags">
+                        <ul class="createpost__alltags">
 
-                        </div>
+                        </ul>
                     </section>
                     <section class="createPost__containerRating">
                         <section class="createPost__rating">
@@ -50,7 +50,7 @@ export const publicationPosts = (name,photo) =>{
                 </div>
             </form>
         </section>
-        <div id="publicationPosts">
+        <div class="publicationPosts">
 
         </div>
     </div>

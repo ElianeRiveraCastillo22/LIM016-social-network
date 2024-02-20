@@ -82,7 +82,6 @@ export const Timeline = () => {
   let sortTags=tagsPost.sort()
   let allTagsItem = null;
   let labelThatIsClicked= undefined;
-
   function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
     elem1.classList.remove(elem1remove)
@@ -106,10 +105,24 @@ export const Timeline = () => {
     }
 
   }
+
   function createTag(textvalue) {
 
-    const tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
-    const elemtTag = document.createElement("li")
+    let tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
+
+    function createElementTag(text) {
+      const contentTag= `
+      <li class="createpost__tag">
+          <p class="createpost__txt" >${text}</p>
+          <figure class="createpost__figure">
+            <img class="createpost__img" src="../../img/iconos/close-post.svg" />
+          </figure>
+      </li>
+      `
+      return contentTag
+    }
+
+
     if(tagChosen.length !== 0){
       let labelComparisons=[]
       tagChosen.forEach((tagSelect)=>{
@@ -124,8 +137,7 @@ export const Timeline = () => {
       // si es true imprimir
       if(evaluateIfTheLabelsAreSimilar){
 
-        elemtTag.innerText = textvalue
-        alltags.appendChild(elemtTag)
+        alltags.innerHTML += createElementTag(textvalue)
         inputTags.value=""
 
       }else{
@@ -136,8 +148,7 @@ export const Timeline = () => {
 
     }else{
 
-      elemtTag.innerText = textvalue
-      alltags.appendChild(elemtTag)
+      alltags.innerHTML += createElementTag(textvalue)
       inputTags.value=""
 
     }
@@ -233,13 +244,12 @@ export const Timeline = () => {
 
     allTagsItem.forEach((tag)=>{
 
-      tag.addEventListener("click",(e)=>{
+      tag.addEventListener("click",()=>{
         labelThatIsClicked = tag.innerText
         tagsList.innerHTML=""
         tagsList.classList.remove("createTags__list--open")
         changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
         createTag(labelThatIsClicked)
-
       })
 
     })
@@ -247,11 +257,29 @@ export const Timeline = () => {
   })
 
   iconCreateTags.addEventListener("click",()=>{
+
     if(inputTags.value!==""){
       createTag(inputTags.value)
     }
 
   })
+
+  alltags.addEventListener("pointerover",()=>{
+
+      let tagCreated= alltags.childNodes
+      tagCreated.forEach((tag)=>{
+
+        if(tag.lastElementChild !== undefined){
+          tag.lastElementChild.addEventListener('click',(e)=>{
+            tag.remove()
+          });
+        }
+
+      })
+
+  })
+
+
   createPostPoint.addEventListener("click",()=>{
     tagsList.innerHTML=""
     changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")

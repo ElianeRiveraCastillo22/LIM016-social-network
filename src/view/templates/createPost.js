@@ -16,7 +16,7 @@ export const publicationPosts = (name,photo) =>{
                     <section class="createPost__tags">
                         <div class="createTags">
                             <input class="createTags__input createTags__input--onFocus" placeholder="inlusivos o diversos con:" type="text">
-                            <ul class="createTags__list createTags__list--open">
+                            <ul class="createTags__list">
 
                             </ul>
                             <figure class="createTags__aprove createTags__aprove--onFocus">

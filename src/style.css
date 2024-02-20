@@ -478,7 +478,7 @@ hgroup {
   color: var(--color-text-post);
   font-size: clamp(0.75rem, 0.616rem + 0.357vw, 0.938rem);
   display: flex;
-  row-gap: .25rem;
+  row-gap: .75rem;
   flex-direction: column;
 }
 .createPost__form textarea::placeholder{
@@ -567,13 +567,23 @@ hgroup {
   flex-direction: row;
   gap: .5rem;
 }
-.createpost__alltags li{
+.createpost__tag{
   background: #64f08333;
-  padding: .125rem .75rem;
+  padding: .125rem .5rem .125rem .75rem;
   border-radius: .625rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  column-gap: .5rem;
+}
+.createpost__figure {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.createpost__img {
+  width: 80%;
 }
 .createTags__list{
   position: absolute;
@@ -744,29 +754,17 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
   justify-content: center;
   align-items: center;
 }
-@media (min-width: 37.5rem) {
-  .createPost {
-    width: 70%;
-  }
-  /* borrar */
-  .updateBoX, .postBox {
-    background-color: white;
-    box-shadow: 0 .125rem .3125rem rgb(151 148 148 / 50%);
-  }
-}
-@media (min-width: 50rem) {
-  .section--posts{
-    background-color: #fff;
-  }
-  .box--posts {
-    width: 50rem;
-    background: #EAE7EB;
-    margin-left: auto;
-    margin-right: auto;
-    }
-}
-@media (width >= 20rem) {
 
+@media (width >= 20rem) {
+  .createPost__stars img {
+    min-width: 18px;
+  }
+  .createPost__rating {
+    align-items: flex-start;
+  }
+  .createPost__stars {
+    column-gap: .25rem;
+  }
 }
 @media (width >= 23.4375rem) {
   .welcome__span {
@@ -789,10 +787,23 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
   background-color: white;
   box-shadow: 0 .125rem .3125rem rgb(151 148 148 / 50%);
 }
-/* .welcome__img {
-  z-index: 1;
-  width: 50%;
-} */
+.createPost {
+  width: 70%;
+}
+
+.createPost__stars {
+  column-gap: 1rem;
+}
+.section--posts{
+  background-color: #fff;
+}
+.box--posts {
+  width: 50rem;
+  background: #EAE7EB;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
 }
 @media (width >= 64rem) {
 /*   .welcome__img {

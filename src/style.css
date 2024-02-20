@@ -549,7 +549,7 @@ hgroup {
   display: flex;
   flex-direction: row;
   column-gap: .5rem;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   row-gap: 8px;
 }
@@ -569,8 +569,11 @@ hgroup {
 }
 .createpost__alltags li{
   background: #64f08333;
-  padding: 2px 12px;
-  border-radius: 10px;
+  padding: .125rem .75rem;
+  border-radius: .625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .createTags__list{
   position: absolute;

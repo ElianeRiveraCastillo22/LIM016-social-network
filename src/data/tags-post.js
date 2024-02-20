@@ -2,7 +2,7 @@ export const tagsPost = [
     "LGTBQ+",
     "Mascotas",
     "Sordos",
-    "Ciegos",
+    "invidente",
     "Mudos",
     "discapacidad motriz",
     "Cultural"

@@ -1,6 +1,6 @@
 /* import firebase from "firebase/compat/app"; */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -10,14 +10,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendEmailVerification,
-  //buscar como arreglar
   setPersistence,
   browserSessionPersistence,
-} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { 
   getFirestore,
-  
-} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyByPJrQx9oWGrr7qi5C_pucJItSbOOe54A",
@@ -27,16 +27,20 @@ const firebaseConfig = {
   messagingSenderId: "343097311813",
   appId: "1:343097311813:web:08d083e367fa8013a3192c"
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
+//auth
+const auth = getAuth(app);
 const dataUser = auth.currentUser;
 const provider = new GoogleAuthProvider();
-/* console.log(auth) */
 
-/* firebase.auth().setPersistence */
+//firestore
+const db = getFirestore(app);
+
 export{
+  //auth
   app,
   auth,
   createUserWithEmailAndPassword,
@@ -50,6 +54,10 @@ export{
   signOut,
   setPersistence,
   browserSessionPersistence,
+  //firestore
+  db,
+  collection,
+  addDoc
 }
 
 /* import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';

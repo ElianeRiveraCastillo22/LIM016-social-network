@@ -60,28 +60,35 @@ export const Timeline = () => {
   const sectionAllPost = document.createElement('section');
   sectionAllPost.setAttribute('class', 'section--posts');
 
-  const heightHead=document.querySelector("#navegador")
+  const heightHead=document.querySelector("#navegador");
+
   function resizeSpaceBetweenHeaderAndMain() {
 
-    let missingValue = 65 - heightHead.clientHeight
-    sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`
+    let missingValue = 65 - heightHead.clientHeight;
+    sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`;
 
   }
   resizeSpaceBetweenHeaderAndMain()
+
   createUser(userActive,sectionAllPost)
 
-  const contentTags = sectionAllPost.querySelector(".createTags")
-  const inputTags= sectionAllPost.querySelector(".createTags__input")
-  const iconCreateTags= sectionAllPost.querySelector(".createTags__aprove")
-  const tagsList = sectionAllPost.querySelector(".createTags__list")
-  const alltags= sectionAllPost.querySelector(".createpost__alltags")
-  const createPostPoint = sectionAllPost.querySelector(".createPost__point")
-  const createPostInfo = sectionAllPost.querySelector(".createPost__Info")
-  const publicationPosts= sectionAllPost.querySelector(".publicationPosts")
+  const contentTags = sectionAllPost.querySelector(".createTags");
+  const inputTags= sectionAllPost.querySelector(".createTags__input");
+  const iconCreateTags= sectionAllPost.querySelector(".createTags__aprove");
+  const tagsList = sectionAllPost.querySelector(".createTags__list");
+  const alltags= sectionAllPost.querySelector(".createpost__alltags");
+  const createPostPoint = sectionAllPost.querySelector(".createPost__point");
+  const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
+  const publicationPosts= sectionAllPost.querySelector(".publicationPosts");
+  const createPostStars= sectionAllPost.querySelectorAll(".createPost__stars img");
 
-  let sortTags=tagsPost.sort()
+  let sortTags=tagsPost.sort();
   let allTagsItem = null;
   let labelThatIsClicked= undefined;
+  let pointScoring = undefined;
+
+  // creates the tags selelect
+
   function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
     elem1.classList.remove(elem1remove)
@@ -121,7 +128,6 @@ export const Timeline = () => {
       `
       return contentTag
     }
-
 
     if(tagChosen.length !== 0){
       let labelComparisons=[]
@@ -279,6 +285,31 @@ export const Timeline = () => {
 
   })
 
+  // Create add the value of stars
+
+  function addTheValueOfTheStars() {
+    createPostStars.forEach((star,indexStart)=>{
+      star.addEventListener("click",()=>{
+
+        for(let i = 0; i <= indexStart; i++){
+          createPostStars[i].classList.add("puntuacion_escogida")
+        }
+
+        for(let i = indexStart+1; i<createPostStars.length; i++){
+          createPostStars[i].classList.remove("puntuacion_escogida")
+        }
+
+        pointScoring = indexStart + 1
+        /* console.log(pointScoring); */
+      })
+    })
+  }
+  addTheValueOfTheStars()
+
+
+
+
+
 
   createPostPoint.addEventListener("click",()=>{
     tagsList.innerHTML=""
@@ -286,18 +317,15 @@ export const Timeline = () => {
     tagsList.classList.remove("createTags__list--open")
   })
   createPostInfo.addEventListener("click",()=>{
-    console.log("click en create text area")
     tagsList.innerHTML=""
     changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
     tagsList.classList.remove("createTags__list--open")
 
   })
   publicationPosts.addEventListener("click",()=>{
-    console.log("fuera de")
     tagsList.innerHTML=""
     changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
     tagsList.classList.remove("createTags__list--open")
-
   })
 
 /*   const dataUserGoogle=async(dataUser)=>{

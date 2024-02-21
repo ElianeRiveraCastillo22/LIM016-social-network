@@ -492,25 +492,27 @@ hgroup {
   outline: none;
   caret-color: var(--p-color-text-Input);
 }
-.createPost__point, .createPost__form > textarea{
+.createPost__point, .createPost__Info{
   caret-color: var(--p-color-text-Input);
   border-radius: 0.625rem;
   cursor: pointer;
+    background: #eae2f880;
+  padding: 0.3rem 0.625rem;
+  /* transition: .1s; */
 }
-.createPost__form > textarea{
+.createPost__point:focus, .createPost__Info:focus,.createPost__point:focus{
+  transform: scale(1.01);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.createPost__Info{
   width: 100%;
   min-height: 4.5rem;
   outline: none;
   caret-color: var(--p-color-text-Input);
 }
-.createPost__point:focus, .createPost__form > textarea:focus {
-  background: #eae2f880;
-  padding: 0.3rem 0.625rem;
-  transition: .1s;
-}
+
 .createTags__input:focus {
-  background: #eae2f880;
-  /* padding: 0.3rem 2.125rem 0.3rem 0.625rem; */
+  /* background: #eae2f880; */
   transition: .1s;
 }
 .createTags__input {
@@ -596,6 +598,8 @@ hgroup {
   display: flex;
   flex-direction: column;
   row-gap: .25rem;
+  transition:  .1s;
+  transition-timing-function: linear
 }
 .createTags__list--open{
   padding: 0rem 0rem .5rem 0rem;

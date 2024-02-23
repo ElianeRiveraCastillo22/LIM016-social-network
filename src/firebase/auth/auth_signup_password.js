@@ -9,7 +9,6 @@ export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,
         const user = userCredential.user;
         sendEmail()
         signInPopUp(sectionSignUp)
-
       })
       .catch((error) => {
         console.log(error.code)

@@ -6,10 +6,12 @@ import { loginPersistence } from './auth_setPersistence.js';
 let userActive
 export const listensToTheActiveUser = () => {
   return onAuthStateChanged(auth, (user) => {
+    console.log(user)
     if (user !== undefined && user.emailVerified) {
       console.log(user.displayName)
+      
       if(user.displayName !== null){
-        locationHome()
+        locationHome(user)
       }else{
         locationUpdateUser()
       }

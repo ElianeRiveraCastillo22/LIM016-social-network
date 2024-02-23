@@ -46,13 +46,16 @@ export const publicationPosts = (name,photo) =>{
                 </div>
 
                 <div class="btnPost">
-                    <button id="btnSave" class="btnSave">Publicar</button>
+                    <button id="btnSave" class="btnSave btnSave--disebled" >Publicar</button>
                 </div>
             </form>
         </section>
         <div class="publicationPosts">
 
         </div>
+        <dialog class="btnPost__message">
+            <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
+        </dialog>
     </div>
     `;
     return timeline

@@ -73,20 +73,28 @@ export const Timeline = () => {
   createUser(userActive,sectionAllPost)
 
   const contentTags = sectionAllPost.querySelector(".createTags");
-  const inputTags= sectionAllPost.querySelector(".createTags__input");
-  const iconCreateTags= sectionAllPost.querySelector(".createTags__aprove");
+  const inputTags = sectionAllPost.querySelector(".createTags__input");
+  const iconCreateTags = sectionAllPost.querySelector(".createTags__aprove");
   const tagsList = sectionAllPost.querySelector(".createTags__list");
-  const alltags= sectionAllPost.querySelector(".createpost__alltags");
+  const alltags = sectionAllPost.querySelector(".createpost__alltags");
   const createPostPoint = sectionAllPost.querySelector(".createPost__point");
   const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
-  const publicationPosts= sectionAllPost.querySelector(".publicationPosts");
-  const createPostStars= sectionAllPost.querySelectorAll(".createPost__stars img");
+  const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
+  const createPostStars=  sectionAllPost.querySelectorAll(".createPost__stars img");
+  const containerPostStars=  sectionAllPost.querySelector(".createPost__stars");
+  const btnSave = sectionAllPost.querySelector(".btnSave")
+  const btnPost = sectionAllPost.querySelector(".btnPost")
+  const boxPosts = sectionAllPost.querySelector(".box--posts")
+  const btnPostMessage = sectionAllPost.querySelector(".btnPost__message")
+  const createPostFile = sectionAllPost.querySelector(".createPost__file input")
 
   let sortTags=tagsPost.sort();
   let allTagsItem = null;
-  let labelThatIsClicked= undefined;
-  let pointScoring = undefined;
-
+  let passingScoreToPublish=0;
+  let cardCreated = false
+  let qualifiedTheTag = false
+  let clickCounter =0
+  /* let nameOfThePoint =false */
   // creates the tags selelect
 
   function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
@@ -153,14 +161,23 @@ export const Timeline = () => {
       }
 
     }else{
-
       alltags.innerHTML += createElementTag(textvalue)
       inputTags.value=""
-
     }
 
   }
-
+  function closeThelistTags() {
+    tagsList.innerHTML=""
+    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+    tagsList.classList.remove("createTags__list--open")
+  }
+  function activatePostBtn() {
+    if(passingScoreToPublish>=3){
+        console.log("activar el boton");
+        btnSave.classList.add("btnSave--active")
+        btnSave.classList.remove("btnSave--disebled")
+    }
+  }
   inputTags.addEventListener("focus",()=>{
 
     function dimensionsTheWidthOfTheList() {
@@ -174,9 +191,8 @@ export const Timeline = () => {
     function createsTheListInTheFirstApproachInInput() {
 
       if(inputTags.value == ""){
-
-        changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
         let tag;
+        changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
         createsTheListOfItems(tag,sortTags,tagsList)
         allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
 
@@ -193,19 +209,15 @@ export const Timeline = () => {
       function filtersOutMatchingWords() {
 
         tagsPost.forEach((tag)=>{
-
           const cutTag = tag.slice(0,inputTags.value.length)
           const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
           matchingValue.push(evaluatesMatchingTags)
 
           if(evaluatesMatchingTags){
-
               tagsList.classList.add("createTags__list--open")
               tagsList.innerHTML=""
               matchingWords.push(tag)
-
           }
-
         })
       }
       filtersOutMatchingWords()
@@ -213,11 +225,7 @@ export const Timeline = () => {
       function deletesTheListBecauseItDoesNotMatch () {
 
         if(matchingValue.every((value)=> value==false)){
-
-          tagsList.classList.remove("createTags__list--open")
-          changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-          tagsList.innerHTML=""
-
+          closeThelistTags()
         }
 
       }
@@ -245,17 +253,27 @@ export const Timeline = () => {
     })
 
   })
+  function firstLetterCapitalized(inputValue) {
+    let firstLetterOfInput=inputValue.value.substring(0,1).toUpperCase()
+    let restOfTheInputWord
+    if(!inputValue.value) return
+    restOfTheInputWord=inputValue.value.substring(1).toLowerCase();
+    inputValue.value = firstLetterOfInput.concat(restOfTheInputWord)
+  }
 
   tagsList.addEventListener("pointerover",()=>{
 
     allTagsItem.forEach((tag)=>{
 
       tag.addEventListener("click",()=>{
-        labelThatIsClicked = tag.innerText
-        tagsList.innerHTML=""
-        tagsList.classList.remove("createTags__list--open")
-        changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-        createTag(labelThatIsClicked)
+        closeThelistTags()
+        createTag(tag.innerText)
+        cardCreated = true
+        if(cardCreated){
+          passingScoreToPublish++
+
+          activatePostBtn()
+        }
       })
 
     })
@@ -266,6 +284,11 @@ export const Timeline = () => {
 
     if(inputTags.value!==""){
       createTag(inputTags.value)
+      cardCreated = true
+      if(cardCreated){
+        passingScoreToPublish++
+        activatePostBtn()
+      }
     }
 
   })
@@ -286,11 +309,20 @@ export const Timeline = () => {
   })
 
   // Create add the value of stars
+  let pointScoring;
 
-  function addTheValueOfTheStars() {
+  function addTheValueToTheStars() {
+
+    containerPostStars.addEventListener("click",()=>{
+      clickCounter++
+      if(clickCounter==1){
+        passingScoreToPublish++
+        activatePostBtn()
+      }
+    })
+
     createPostStars.forEach((star,indexStart)=>{
       star.addEventListener("click",()=>{
-
         for(let i = 0; i <= indexStart; i++){
           createPostStars[i].classList.add("puntuacion_escogida")
         }
@@ -300,33 +332,67 @@ export const Timeline = () => {
         }
 
         pointScoring = indexStart + 1
-        /* console.log(pointScoring); */
       })
     })
+
   }
-  addTheValueOfTheStars()
+  addTheValueToTheStars()
 
+  createPostPoint.addEventListener("keyup",()=>{
+    closeThelistTags()
+    firstLetterCapitalized(createPostPoint)
 
-
-
-
-
-  createPostPoint.addEventListener("click",()=>{
-    tagsList.innerHTML=""
-    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-    tagsList.classList.remove("createTags__list--open")
+    if(createPostPoint.value.length==1){
+      passingScoreToPublish++
+      activatePostBtn()
+    }
   })
+
+  inputTags.addEventListener("keyup",()=>{
+    firstLetterCapitalized(inputTags)
+  })
+
   createPostInfo.addEventListener("click",()=>{
-    tagsList.innerHTML=""
-    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-    tagsList.classList.remove("createTags__list--open")
+    closeThelistTags()
+    firstLetterCapitalized(createPostPoint)
+  })
 
-  })
   publicationPosts.addEventListener("click",()=>{
-    tagsList.innerHTML=""
-    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-    tagsList.classList.remove("createTags__list--open")
+    closeThelistTags()
   })
+
+
+  btnSave.addEventListener("click",(e)=>{
+    e.preventDefault()
+    closeThelistTags()
+
+    if(passingScoreToPublish<3){
+
+      btnPostMessage.show()
+      setTimeout(() => {
+        btnPostMessage.close()
+      }, 1500);
+
+    }else{
+
+      passingScoreToPublish=0
+
+      const createpostTag=document.querySelectorAll(".createpost__tag")
+      let textOfTheChosenLabels = []
+      createpostTag.forEach((tag)=>{
+        textOfTheChosenLabels.push(tag.innerText)
+      })
+
+      console.log(textOfTheChosenLabels)
+      console.log(createPostPoint.value);
+      console.log(createPostInfo.value);
+      console.log(pointScoring);
+      console.log(createPostFile.value);
+    }
+  })
+
+
+
 
 /*   const dataUserGoogle=async(dataUser)=>{
     const prueba = await dataUser

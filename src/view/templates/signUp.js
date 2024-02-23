@@ -43,4 +43,10 @@ export const showSignUp = `
   </section>
   <img src="./img/CB2.png" alt="img Welcome" class="imgRegistration">
 </div>
+<dialog class="signUp__popup signUp__popup--close">
+  <div>
+      <p>te acabamos te enviar un email de confirmacion, verificalo 👨‍💻</p>
+      <button class="btnpopup__signUp">Ok!</button>
+  </div>
+</dialog>
 `;

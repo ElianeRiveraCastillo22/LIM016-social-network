@@ -114,8 +114,7 @@ body{
 }
 .box--welcome,
 .box--signIn,
-.box--signUp,
-.box--updateProfile{
+.box--signUp{
   width: 100%;
   padding: 1.5rem;
   max-width: 21.875rem;
@@ -123,6 +122,17 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.box--updateProfile {
+  height: 100%;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  max-width: 21.875rem;
+  flex-direction: column;
+  position: relative;
+  max-height: 560px;
 }
 .signUp__popup {
   width: 100%;
@@ -196,7 +206,7 @@ body{
 .imgRegistration {
   max-width: 9.75rem;
 }
-.signUp--form,.signIn--form, .updateProfile--form  {
+.signUp--form,.signIn--form  {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -204,15 +214,6 @@ body{
   align-items: center;
   row-gap: 1.25rem;
 }
-/* .updateProfile--question {
-  font-size: 0.9em;
-  padding: 0rem 0rem .625rem;
-  font-weight: 400;
-}
-.updateProfile--text__request {
-  padding: 1em 0rem 0.5em;
-  font-size: .8rem; 
-}*/
 .updateProfile__containertxt {
   font-size: clamp(14px, 12.576px + 0.238vw, 16px);
   color: var(--color-text-public, rgba(39, 36, 29, 0.90));
@@ -318,10 +319,9 @@ a#google:hover{
 .form-control small {
   font-size: clamp(12px, 10.576px + 0.238vw, 14px);
 }
-.form-control input{
+.form-control input, .updateProfile--form input{
   outline: var(--color-btn-primary);
-  background: var(--p--color-bg-input);
-  color: var(--p-color-text-Input);
+  color: var(--p-color-text-Input); 
   font-size: clamp(14px, 12.576px + 0.238vw, 16px);
   font-weight: 500;
   width: 100%;
@@ -353,7 +353,7 @@ input:-webkit-autofill:focus {
 input[data-autocompleted] {
     background-color: transparent !important;
 }
-.form-control > input::placeholder{
+.form-control > input::placeholder, .updateProfile--form input::placeholder{
   color: var(--p-color-text-Input);
   font-size: clamp(14px, 12.576px + 0.238vw, 16px);
   font-weight: 500;
@@ -371,6 +371,10 @@ input[data-autocompleted] {
 }
 #btnSignUp, #btnSignIn, #btnRegister {
   width: 100%;
+}
+#btnRegisterupdate{
+  margin-top: 40px;
+  padding: .5rem 0.8rem;
 }
 .button:hover{
   background-color: var(--i-color-bg--icon);
@@ -800,8 +804,76 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 }
 
 .updateProfile--form {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    row-gap: 1.25rem;
+    flex-direction: column;
+}
+.updateProfile--form div{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1.25rem;
+}
+.updatePorfile__iconChange label img{
+  max-width: 36px;
+  max-height: 36px;
+}
+
+.updateProfile__imgUser {
+  position: relative;
+  width: 64%;
+  height: 100%;
+}
+.updatePorfile__imgUser {
+  width: 100%;
+  clip-path: circle(40%);
+  margin-left: -12%;
+  background: var(--color-bg-form);
+}
+.updatePorfile__imgUser img{
   width: 100%;
 }
+.updateProfile__containerImg {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 40px;
+}
+.updatePorfile__iconChange {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  z-index: 1;
+  bottom: 0%;
+  padding-right: 20%;
+}
+.updatePorfile__iconChange > label {
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.updatePorfile__iconChange >input{
+  width: 0.0625rem;
+    height: 0.0625rem;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+}
+
+
 
 
 

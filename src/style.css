@@ -708,13 +708,13 @@ hgroup {
   font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
 }
 
-.btnSave--disebled{
+.btn--disebled, .btn--disebled{
   background-color:#734bb787;
 }
 .btnSave--disebled:hover{
   cursor: not-allowed
 }
-.btnSave--active{
+.btn--active{
   background-color:#8662C7;
 }
 .createUser--user__photo{

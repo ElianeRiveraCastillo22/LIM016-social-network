@@ -11,8 +11,8 @@ export const publicationPosts = (name,photo) =>{
             </section>
             <form class="createPost__all">
                 <div class="createPost__form">
-                    <input placeholder="Nombre del lugar:" class="createPost__point" type="text">
-                    <textarea class="createPost__Info" placeholder="¿Tienes alguna recomendación?" ></textarea>
+                    <input placeholder="Nombre del lugar:" class="createPost__point" type="text" autocomplete="off">
+                    <textarea class="createPost__Info" placeholder="¿Tienes alguna recomendación?" autocomplete="off"></textarea>
                     <section class="createPost__tags">
                         <div class="createTags">
                             <input class="createTags__input createTags__input--onFocus" placeholder="inlusivos o diversos con:" type="text">
@@ -46,7 +46,7 @@ export const publicationPosts = (name,photo) =>{
                 </div>
 
                 <div class="btnPost">
-                    <button id="btnSave" class="btnSave btnSave--disebled" >Publicar</button>
+                    <button id="btnSave" class="btnSave btn--disebled" >Publicar</button>
                 </div>
             </form>
         </section>

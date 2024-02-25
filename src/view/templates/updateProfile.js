@@ -16,10 +16,10 @@ export const updateProfile =`
     </section>
     <form id="formRegister" class="updateProfile--form">
         <div>
-            <input id="userName" class="input" type="text" placeholder="Nombre con el que te identificas">
-            <input id="userName" class="input" type="text" placeholder="Apellidos">
+            <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombres" autocomplete="off">
+            <input id="userName" class="input updateProfile__lastName" type="text" placeholder="Apellidos" autocomplete="off">
         </div>
-        <button id="btnRegisterupdate" class="button">Guardar los datos</button>
+        <button id="btnRegisterupdate" class="button btn--disebled">Guardar los datos</button>
     </form>
 </div>
     `

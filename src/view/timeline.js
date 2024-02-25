@@ -9,6 +9,9 @@
 import { tagsPost } from "../data/tags-post.js";
 import { userActive } from "../firebase/auth/auth_state_listener.js";
 import { createUser } from "../helpers/functions.js";
+import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
+import { activateBtn } from "../helpers/activeBtn.js";
+
 /* import { publicationPosts } from "./templates/createPost.js"; */
 
 /* export const currentUser = (user, name, photo) => {
@@ -166,18 +169,15 @@ export const Timeline = () => {
     }
 
   }
+
   function closeThelistTags() {
     tagsList.innerHTML=""
     changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
     tagsList.classList.remove("createTags__list--open")
   }
-  function activatePostBtn() {
-    if(passingScoreToPublish>=3){
-        console.log("activar el boton");
-        btnSave.classList.add("btnSave--active")
-        btnSave.classList.remove("btnSave--disebled")
-    }
-  }
+
+
+
   inputTags.addEventListener("focus",()=>{
 
     function dimensionsTheWidthOfTheList() {
@@ -253,13 +253,6 @@ export const Timeline = () => {
     })
 
   })
-  function firstLetterCapitalized(inputValue) {
-    let firstLetterOfInput=inputValue.value.substring(0,1).toUpperCase()
-    let restOfTheInputWord
-    if(!inputValue.value) return
-    restOfTheInputWord=inputValue.value.substring(1).toLowerCase();
-    inputValue.value = firstLetterOfInput.concat(restOfTheInputWord)
-  }
 
   tagsList.addEventListener("pointerover",()=>{
 
@@ -272,7 +265,7 @@ export const Timeline = () => {
         if(cardCreated){
           passingScoreToPublish++
 
-          activatePostBtn()
+          activateBtn(btnSave,3,passingScoreToPublish)
         }
       })
 
@@ -287,7 +280,7 @@ export const Timeline = () => {
       cardCreated = true
       if(cardCreated){
         passingScoreToPublish++
-        activatePostBtn()
+        activateBtn(btnSave,3,passingScoreToPublish)
       }
     }
 
@@ -317,7 +310,7 @@ export const Timeline = () => {
       clickCounter++
       if(clickCounter==1){
         passingScoreToPublish++
-        activatePostBtn()
+        activateBtn(btnSave,3,passingScoreToPublish)
       }
     })
 
@@ -344,7 +337,7 @@ export const Timeline = () => {
 
     if(createPostPoint.value.length==1){
       passingScoreToPublish++
-      activatePostBtn()
+      activateBtn(btnSave,3,passingScoreToPublish)
     }
   })
 

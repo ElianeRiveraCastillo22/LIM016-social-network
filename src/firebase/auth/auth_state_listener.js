@@ -9,9 +9,8 @@ export const listensToTheActiveUser = () => {
     console.log(user)
     if (user !== undefined && user.emailVerified) {
       console.log(user.displayName)
-      
       if(user.displayName !== null){
-        locationHome(user)
+        locationHome()
       }else{
         locationUpdateUser()
       }

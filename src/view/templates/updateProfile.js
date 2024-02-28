@@ -15,9 +15,8 @@ export const updateProfile =`
         </div>
     </section>
     <form id="formRegister" class="updateProfile--form">
-        <div>
-            <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombres" autocomplete="off">
-            <input id="userName" class="input updateProfile__lastName" type="text" placeholder="Apellidos" autocomplete="off">
+        <div class="updateProfile__containerForm">
+            <span class="loader"></span>
         </div>
         <button id="btnRegisterupdate" class="button btn--disebled">Guardar los datos</button>
     </form>

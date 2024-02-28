@@ -16,17 +16,20 @@ export const showSignUp = `
     </div>
 
     <div class="form-control form__typeregister">
-      <p>Registrarse como:</p>
-      <div class="form__radios">
-        <div class="form__optionRegister">
-          <input type="radio" name="option register">
-          <label>Usuario</label>
-        </div>
-        <div class="form__optionRegister">
-          <input type="radio" name="option register">
-          <label>Lugar</label>
-        </div>
+      <div class="typeregister__container">
+          <p>Registrarse como:</p>
+          <section class="form__radios">
+            <section class="form__optionRegister">
+              <input type="radio" name="option register" value="user" class="optionRegister">
+              <label>Usuario</label>
+            </section>
+            <section class="form__optionRegister">
+              <input type="radio" name="option register" value="point" class="optionRegister">
+              <label>Lugar</label>
+            </section>
+          </section>
       </div>
+      <small class="typeregister__warningTxt"></small>
     </div>
 
     <button id="btnSignUp" class="button">Registrase</button>

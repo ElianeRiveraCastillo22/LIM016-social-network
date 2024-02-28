@@ -1,14 +1,20 @@
 import { showErrorSignUp } from '../../helpers/showErrorSignUp.js';
 import { signInPopUp } from '../../helpers/signInPopUp.js';
 import { auth, createUserWithEmailAndPassword } from '../configuraciones.js';
+import { addPointToFirestore, addUserToFirestore } from '../firestore/add_document.js';
 import { sendEmail } from './auth_send_email.js';
 
-export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,sectionSignUp) => {
+export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,sectionSignUp,valueOptionRegister) => {
   return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         sendEmail()
         signInPopUp(sectionSignUp)
+        if(valueOptionRegister=="user"){
+          addUserToFirestore(email,user.uid,"",password,[],"","user")
+        }else if(valueOptionRegister=="point"){
+          addPointToFirestore(user.uid,"","",email,password,"",[],[],"point")
+        }
       })
       .catch((error) => {
         console.log(error.code)

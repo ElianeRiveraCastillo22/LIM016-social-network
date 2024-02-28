@@ -15,8 +15,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { 
   getFirestore,
-  collection,
-  addDoc
+  doc,
+  updateDoc,
+  setDoc,
+  getDoc 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -56,8 +58,10 @@ export{
   browserSessionPersistence,
   //firestore
   db,
-  collection,
-  addDoc
+  doc,
+  updateDoc,
+  setDoc,
+  getDoc 
 }
 
 /* import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';

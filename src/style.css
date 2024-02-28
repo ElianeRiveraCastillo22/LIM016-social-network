@@ -204,7 +204,7 @@ body{
   font-weight: 400;
 }
 .imgRegistration {
-  max-width: 9.75rem;
+  max-width: 6.75rem;
 }
 .signUp--form,.signIn--form  {
   width: 100%;
@@ -288,10 +288,21 @@ a#google:hover{
 }
 .form__typeregister{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-direction: column;
 }
-.form__typeregister > p{
+.typeregister__warningTxt {
+  padding: 0rem .625rem;
+}
+
+.typeregister__container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+.typeregister__container > p{
     color: var(--p-color-text-Input);
     font-size: clamp(14px, 12.576px + 0.238vw, 16px);
     font-weight: 500;
@@ -871,6 +882,52 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
     position: absolute;
     z-index: -1;
     top: 50%;
+}
+.updateProfile__description {
+  width: 100%;
+  outline: var(--color-btn-primary);
+  color: var(--p-color-text-Input);
+  font-size: clamp(14px, 12.576px + 0.238vw, 16px);
+  font-weight: 500;
+  width: 100%;
+  padding: .5rem .625rem;
+  border-radius: .625rem;
+  background: var(--p--color-bg-input);
+}
+.updateProfile__description::placeholder {
+  color: var(--p-color-text-Input);
+  font-size: clamp(14px, 12.576px + 0.238vw, 16px);
+  font-weight: 500;
+}
+
+@keyframes loader{
+  0%{
+    transform: scale(0);
+    opacity: 1;
+  }
+  100%{
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.loader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.loader::after,
+.loader::before{
+  animation: loader 2s linear infinite;
+  content: '';
+  border: 2px solid var(--color-btn-primary);
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  border-radius: 50%;
+}
+.loader::after{
+  opacity: 0;
+  animation-delay: 1s;
 }
 
 

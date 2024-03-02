@@ -1,7 +1,7 @@
 import { locationHome, locationUpdateUser } from '../../helpers/locations.js';
-import {app, auth, dataUser, onAuthStateChanged} from '../configuraciones.js';
-import { addUserToFirestore } from '../firestore/add_document.js';
+import {auth, onAuthStateChanged} from '../configuraciones.js';
 import { getDocPoint, getDocUser } from '../firestore/get_document.js';
+import { updateRegistration } from '../firestore/update_document.js';
 /* import { showHome } from '../../view/SignIn.js' */;
 import { loginPersistence } from './auth_setPersistence.js';
 
@@ -36,10 +36,13 @@ export const listensToTheActiveUser = (sectionLoader) => {
 
           if(response !== undefined){
             registryData = response;
+            console.log(response)
             if(response.name == ""){
               locationUpdateUser()
             }else{
+              updateRegistration(response.id,{active_session:true},response.nameRegister)
               locationHome()
+
             }
           }
 
@@ -57,6 +60,7 @@ export const listensToTheActiveUser = (sectionLoader) => {
             if(response.name == ""){
               locationUpdateUser()
             }else{
+              updateRegistration(response.id,{active_session:true},response.nameRegister)
               locationHome()
             }
 
@@ -75,8 +79,10 @@ export const listensToTheActiveUser = (sectionLoader) => {
           let documentWasCreated = 2;
 
           function evaluatesWhetherTheDocWasCreated(response) {
+            console.log(response)
             if(response !== undefined){
                 userActive = response
+                updateRegistration(response.id,{active_session:true},response.nameRegister)
                 locationHome()
             }else{
               documentWasCreated -= 1

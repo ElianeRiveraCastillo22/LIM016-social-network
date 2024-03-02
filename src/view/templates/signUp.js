@@ -20,12 +20,12 @@ export const showSignUp = `
           <p>Registrarse como:</p>
           <section class="form__radios">
             <section class="form__optionRegister">
-              <input type="radio" name="option register" value="user" class="optionRegister">
-              <label>Usuario</label>
+              <input id="user" type="radio" name="option register" value="user" class="optionRegister">
+              <label for="user">Usuario</label>
             </section>
             <section class="form__optionRegister">
-              <input type="radio" name="option register" value="point" class="optionRegister">
-              <label>Lugar</label>
+              <input id="point" type="radio" name="option register" value="point" class="optionRegister">
+              <label for="point">Lugar</label>
             </section>
           </section>
       </div>

@@ -1,9 +1,7 @@
 import { signOutUser } from "../firebase/auth/auth_sign_out.js";
-import { locationHome, locationProfile } from "../helpers/locations.js";
-
-const showHome = () => {
-  window.location.hash = '#/signIn';
-};
+import { registryData, userActive } from "../firebase/auth/auth_state_listener.js";
+import { updateRegistration } from "../firebase/firestore/update_document.js";
+import { locationHome, locationProfile, locationSignIn } from "../helpers/locations.js";
 
 export const Nav = () => {
   const showNav = `
@@ -32,8 +30,21 @@ export const Nav = () => {
   navElemt.innerHTML = showNav;
   const navSection = navElemt.querySelectorAll(".nav--section")
 
-  navElemt.querySelector("#signout").addEventListener('click',signOutUser)
-  navElemt.querySelector("#signout").addEventListener('click',showHome)
+  navElemt.querySelector("#signout").addEventListener('click',(e)=>{
+    e.preventDefault()
+    
+    const sessionStatusUpdate  = updateRegistration(userActive.id,{active_session:false},userActive.nameRegister)
+    sessionStatusUpdate.then((response)=>{
+      console.log("listo")
+      signOutUser()
+      locationSignIn()
+    })
+    /* console.log(prueba) */
+/*     signOutUser()
+    locationSignIn() */
+
+  })
+
 
   const {hash}= location
   const currentHash=hash.split("/")[1]
@@ -44,7 +55,6 @@ export const Nav = () => {
   navSection.forEach((hashCurrent,indexCurrentHash) => {
     hashCurrent.addEventListener("click",()=>{
 
-      /* console.log(hashCurrent) */
       if(indexCurrentHash==0){
         locationProfile()
       }else if(indexCurrentHash==1){

@@ -14,9 +14,9 @@ export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,
     signInPopUp(sectionSignUp)
 
     if(valueOptionRegister=="user"){
-      addUserToFirestore(email,user.uid,"",password,[],"","user")
+      addUserToFirestore(email,user.uid,"",password,[],"","user",false)
     }else if(valueOptionRegister=="point"){
-      addPointToFirestore(user.uid,"","",email,password,"",[],[],"point")
+      addPointToFirestore(user.uid,"","",email,password,"",[],[],"point",false)
     }
 
   })

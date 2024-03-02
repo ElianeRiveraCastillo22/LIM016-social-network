@@ -1,6 +1,5 @@
 import { googleAuth } from '../firebase/auth/auth_google_signin_popup.js';
 import { createUserWithEmailPsw } from '../firebase/auth/auth_signup_password.js';
-import { addUserToFirestore } from '../firebase/firestore/add_document.js';
 import { locationSignIn } from '../helpers/locations.js';
 import { mailValidator } from '../helpers/mailValidator.js';
 import { setErrorInput } from '../helpers/setErrorInput.js';

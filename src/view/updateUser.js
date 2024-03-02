@@ -98,10 +98,10 @@ export const updateUser = () => {
         e.preventDefault()
 
         if(typeRegister == "user"){
-          addUserToFirestore(userActive.email,userActive.uid,userActive.displayName,"",[],userActive.photoURL,typeRegister)
+          addUserToFirestore(userActive.email,userActive.uid,userActive.displayName,"",[],userActive.photoURL,typeRegister,true)
         }else if(typeRegister == "point"){
           inputNamePoint.value = userActive.displayName
-          addPointToFirestore(userActive.uid, userActive.displayName, userActive.photoURL, userActive.email, "", inputDescription.value, [], [], typeRegister)
+          addPointToFirestore(userActive.uid, userActive.displayName, userActive.photoURL, userActive.email, "", inputDescription.value, [], [], typeRegister,true)
         }
         locationHome()
 
@@ -114,7 +114,7 @@ export const updateUser = () => {
 
       btnRegisterupdate.addEventListener("click",(e)=>{
         e.preventDefault()
-        updateRegistration(registryData.id, {name:inputName.value},"user-account")
+        updateRegistration(registryData.id, {name:inputName.value,active_session:true},"user-account")
         locationHome()
       })
 
@@ -126,7 +126,7 @@ export const updateUser = () => {
 
       btnRegisterupdate.addEventListener("click",(e)=>{
         e.preventDefault()
-        updateRegistration(registryData.id, {name:inputName.value, description:description.value},"point-account")
+        updateRegistration(registryData.id, {name:inputName.value, description:description.value,active_session:true},"point-account")
         locationHome()
       })
 

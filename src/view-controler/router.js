@@ -1,11 +1,4 @@
-/* import DifferentPage from '../view/404.js'; */
 import {components} from '../view/index.js';
-/* import { Nav } from '../view/Nav.js';
-import { SignIn } from '../view/SignIn.js';
-import { SignUp } from '../view/Signup.js';
-import { Timeline } from '../view/timeline.js'; */
-
-import { Welcome } from '../view/welcome.js';
 
 const changeView = (container,navegador) => {
   container.innerHTML= ''
@@ -37,14 +30,9 @@ const changeView = (container,navegador) => {
       break;
     }
     case '#/update-profile': {
-      container.append(components.updateProfile());
+      container.append(components.updateUser());
       break;
     }
-/*    case '#/signOut': {
-      navegador.appendChild(components.nav());
-      container.appendChild(components.signOut());
-      break;
-    } */
     default:
       return container.append(components.different());
   }

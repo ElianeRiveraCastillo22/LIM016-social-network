@@ -15,7 +15,7 @@ export const showSignIn = `
       <small class="messageError"></small>
     </div>
 
-    <button id="btnSignIn" class="button">Iniciar sesión</button>
+    <button id="btnSignIn" class="button"><p>Iniciar sesión</p></button>
 
   </form>
   <section class="signIn--options">

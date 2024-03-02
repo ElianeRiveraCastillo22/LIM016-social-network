@@ -1,14 +1,16 @@
-import { userActive } from "../firebase/auth/auth_state_listener.js";
-import { addUserToFirestore } from "../firebase/firestore/add_document.js";
+import { registryData, userActive } from "../firebase/auth/auth_state_listener.js";
+import { addPointToFirestore, addUserToFirestore } from "../firebase/firestore/add_document.js";
 import { getDocPoint, getDocUser } from "../firebase/firestore/get_document.js";
 import { updateRegistration } from "../firebase/firestore/update_document.js";
 import { activateBtn } from "../helpers/activeBtn.js";
 import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { locationHome } from "../helpers/locations.js";
 import { updateProfile } from "./templates/updateProfile.js";
+import { templateTypePoint, templateTypeUndefine, templateTypeUser } from "./templates/updateUser_cases.js";
 
-export const updateUserProfile = () => {
-
+export const updateUser = () => {
+/*     console.log(userActive);
+    console.log(registryData); */
     const sectionupdateProfile = document.createElement('div');
     sectionupdateProfile.setAttribute('class', 'section--updateProfile');
     sectionupdateProfile.innerHTML = updateProfile;
@@ -18,116 +20,117 @@ export const updateUserProfile = () => {
     const inputUpdateImg = sectionupdateProfile.querySelector("#updateImg")
     const imgUser= sectionupdateProfile.querySelector(".updatePorfile__imgUser img")
 
+    function getImage() {
+      inputUpdateImg.addEventListener("change",(e)=>{
+        const reader = new FileReader()
+        reader.onload = async (event) => {
+          imgUser.src=event.target.result
+          urlImgProfile=event.target.result
+        }
+        reader.readAsDataURL(inputUpdateImg.files[0])
+      })
+    }
+    getImage()
 
-    function activateTheRegistrationBtn(inputName, lastNameOTextarea,typeAccount,score) {
-      let ApprovalScoreToUpdate=0
-      let urlImgProfile=undefined
+    if(registryData == undefined){
 
-      function evaluatesIfItHasText(inputName) {
-        inputName.addEventListener("keyup",()=>{
-          firstLetterCapitalized(inputName)
-          if(inputName.value.length == 1){
-              ApprovalScoreToUpdate++
-              activateBtn(btnRegisterupdate,2,ApprovalScoreToUpdate)
-          }
-        })
+      containerInputsForm.innerHTML= templateTypeUndefine
+      const containerGglOptionsOptions = containerInputsForm.querySelectorAll(".containerGglOptions__option")
+      const updateGglRegisterTypes = containerInputsForm.querySelectorAll(".updateGglRegister__type label")
+      const inputName = containerInputsForm.querySelector(".updateProfile__name")
+      const inputNamePoint = containerInputsForm.querySelector(".updateProfile__namePoint")
+      const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
+
+      let typeRegister = "user";
+
+      if(typeRegister == "user"){
+
+        inputName.value = userActive.displayName
+        imgUser.src= userActive.photoURL
+
       }
-      evaluatesIfItHasText(inputName)
-      evaluatesIfItHasText(lastNameOTextarea)
 
-      function getImage() {
-        inputUpdateImg.addEventListener("change",(e)=>{
-          const reader = new FileReader()
-          reader.onload = async (event) => {
-            imgUser.src=event.target.result
-            urlImgProfile=event.target.result
-          }
-          reader.readAsDataURL(inputUpdateImg.files[0])
-        })
-      }
-      getImage()
+      updateGglRegisterTypes.forEach((optionRegister)=>{
 
-      function updateTheData() {
-        btnRegisterupdate.addEventListener("click",(e)=>{
+        optionRegister.addEventListener("click",(e)=>{
+
           e.preventDefault()
-          if(ApprovalScoreToUpdate >= score){
-            let userName;
-            let objectUser;
+          typeRegister = optionRegister.previousElementSibling.value
 
-            if (urlImgProfile == undefined) {
-              urlImgProfile="../img/avatar.png"
-            }
-            if(typeAccount=="user"){
-              userName = inputName.value.concat(' ',lastNameOTextarea.value)
-              objectUser={
-                name:userName,
-                url_profile:urlImgProfile,
-              }
-              console.log(objectUser)
-              updateRegistration(userActive.uid, objectUser,"user-account")
-
-            }else if(typeAccount=="point"){
-              userName = inputName.value
-              let descriptionPoint= lastNameOTextarea.value
-              objectUser={
-                name:userName,
-                description:descriptionPoint,
-                url_profile:urlImgProfile,
-              }
-              console.log(objectUser)
-              updateRegistration(userActive.uid, objectUser, "point-account")
-            }
-            locationHome()
+          if(typeRegister == "point"){
+            inputNamePoint.value = userActive.displayName
           }
+          function showsRegistrationOptions() {
+
+            if(optionRegister.classList=="updateGglRegister--noselected"){
+              optionRegister.classList.add("updateGglRegister--selected")
+            }else if(optionRegister.classList=="updateGglRegister--selected"){
+              return
+            }
+
+            if(optionRegister.innerText.toLowerCase()=="usuario"){
+              containerGglOptionsOptions[0].classList.remove("containerGglOptions__hidden")
+              containerGglOptionsOptions[1].classList.add("containerGglOptions__hidden")
+            }else if(optionRegister.innerText.toLowerCase()=="lugar"){
+              containerGglOptionsOptions[1].classList.remove("containerGglOptions__hidden")
+              containerGglOptionsOptions[0].classList.add("containerGglOptions__hidden")
+            }
+
+            updateGglRegisterTypes.forEach((optionType)=>{
+              if(optionType.classList[0]=="updateGglRegister--selected"){
+                optionType.classList.remove("updateGglRegister--selected")
+                optionType.classList.add("updateGglRegister--noselected")
+              }else if(optionType.classList.length==2){
+                optionType.classList.remove("updateGglRegister--noselected")
+              }
+            })
+
+          }
+
+          showsRegistrationOptions()
+
         })
-      }
-      updateTheData()
+
+      })
+
+      btnRegisterupdate.addEventListener("click",(e)=>{
+
+        e.preventDefault()
+
+        if(typeRegister == "user"){
+          addUserToFirestore(userActive.email,userActive.uid,userActive.displayName,"",[],userActive.photoURL,typeRegister)
+        }else if(typeRegister == "point"){
+          inputNamePoint.value = userActive.displayName
+          addPointToFirestore(userActive.uid, userActive.displayName, userActive.photoURL, userActive.email, "", inputDescription.value, [], [], typeRegister)
+        }
+        locationHome()
+
+      })
+
+    }else if(registryData.typeOfRegistration =="user"){
+
+      containerInputsForm.innerHTML= templateTypeUser
+      const inputName= sectionupdateProfile.querySelector(".updateProfile__name")
+
+      btnRegisterupdate.addEventListener("click",(e)=>{
+        e.preventDefault()
+        updateRegistration(registryData.id, {name:inputName.value},"user-account")
+        locationHome()
+      })
+
+    }else if(registryData.typeOfRegistration == "point"){
+
+      containerInputsForm.innerHTML= templateTypePoint
+      const inputName= sectionupdateProfile.querySelector(".updateProfile__name")
+      const description = sectionupdateProfile.querySelector(".updateProfile__description")
+
+      btnRegisterupdate.addEventListener("click",(e)=>{
+        e.preventDefault()
+        updateRegistration(registryData.id, {name:inputName.value, description:description.value},"point-account")
+        locationHome()
+      })
 
     }
 
-    getDocUser(userActive.uid).then((response)=>{
-      console.log(response)
-      if(response !== undefined){
-        containerInputsForm.innerHTML= `
-          <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombres" autocomplete="off">
-          <input id="userName" class="input updateProfile__lastName" type="text" placeholder="Apellidos" autocomplete="off">
-        `
-        const inputName= sectionupdateProfile.querySelector(".updateProfile__name")
-        const inputLastName = sectionupdateProfile.querySelector(".updateProfile__lastName")
-        activateTheRegistrationBtn(inputName, inputLastName,response.typeOfRegistration,2)
-      }else{
-        return console.log("se creo una cuenta como lugar")
-      }
-    })
-    getDocPoint(userActive.uid).then((response)=>{
-      if(response !== undefined){
-        containerInputsForm.innerHTML= `
-          <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombre del lugar" autocomplete="off">
-          <textarea id="descriptionPoint" class="updateProfile__description" placeholder="Descripción del lugar"></textarea>
-        `
-        const inputName= sectionupdateProfile.querySelector(".updateProfile__name")
-        const descriptionPoint = sectionupdateProfile.querySelector(".updateProfile__description")
-        activateTheRegistrationBtn(inputName, descriptionPoint,response.typeOfRegistration,2)
-      }else{
-        return console.log("se creo una cuenta como usuario")
-      }
-    })
-
   return sectionupdateProfile;
 };
-
-/* 
-export const registerUser = (e) => {
-  e.preventDefault();
-
-  const name = e.target.closest('form').querySelector('#name').value;
-  const lastname = e.target.closest('form').querySelector('#lastname').value;
-
-  if (name === '' && lastname === '') {
-    alert('Ups, debes completar el formulario');
-  } else {
-    const displayName = name + ' ' + lastname;
-    updateUserName(displayName);
-    console.log(displayName, 'actualizó su perfil');
-  }
-}; */

@@ -3,12 +3,14 @@ import {auth, signOut} from '../configuraciones.js';
 
 
 export const signOutUser = () => {
+
   return signOut(auth)
-      .then(() => {
-        console.log('El Usuario cerró sesión');
-        /* backSignIn(); */
-      })
-      .catch((error) => {
-        console.error(error.code);
-      });
+  .then(() => {
+    console.log('El Usuario cerró sesión');
+    /* backSignIn(); */
+  })
+  .catch((error) => {
+    console.error(error.code);
+  });
+
 };

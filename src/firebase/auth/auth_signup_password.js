@@ -5,21 +5,27 @@ import { addPointToFirestore, addUserToFirestore } from '../firestore/add_docume
 import { sendEmail } from './auth_send_email.js';
 
 export const createUserWithEmailPsw = (email, password,inputEmail,inputPassword,sectionSignUp,valueOptionRegister) => {
+
   return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        sendEmail()
-        signInPopUp(sectionSignUp)
-        if(valueOptionRegister=="user"){
-          addUserToFirestore(email,user.uid,"",password,[],"","user")
-        }else if(valueOptionRegister=="point"){
-          addPointToFirestore(user.uid,"","",email,password,"",[],[],"point")
-        }
-      })
-      .catch((error) => {
-        console.log(error.code)
-        showErrorSignUp(error.code,inputEmail,inputPassword)
-      });
+  .then((userCredential) => {
+
+    const user = userCredential.user;
+    sendEmail()
+    signInPopUp(sectionSignUp)
+
+    if(valueOptionRegister=="user"){
+      addUserToFirestore(email,user.uid,"",password,[],"","user")
+    }else if(valueOptionRegister=="point"){
+      addPointToFirestore(user.uid,"","",email,password,"",[],[],"point")
+    }
+
+  })
+  .catch((error) => {
+
+    showErrorSignUp(error.code,inputEmail,inputPassword)
+
+  });
+
 };
 
 /*

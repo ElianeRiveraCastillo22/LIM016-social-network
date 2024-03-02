@@ -3,8 +3,8 @@ import { Nav } from "./Nav.js";
 import { Profile } from "./Profile.js";
 import { SignIn } from "./signIn.js";
 import { SignUp } from "./signUp.js";
-import { updateUserProfile } from "./UpdateUser.js";
 import { Timeline } from "./Timeline.js";
+import { updateUser } from "./updateUser.js";
 import { Welcome } from "./welcome.js";
 
 const components = {
@@ -14,9 +14,8 @@ const components = {
   signUp: SignUp,
   timeline: Timeline,
   profile: Profile,
-  updateUser:updateUserProfile,
   different: DifferentPage,
-  updateProfile: updateUserProfile
+  updateUser: updateUser
 };
 
 export {components};

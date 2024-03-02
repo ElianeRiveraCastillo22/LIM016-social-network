@@ -7,10 +7,12 @@
 /* import {updatePost, addLike} from '../firebase/firestore/fb-test.js'; */
 
 import { tagsPost } from "../data/tags-post.js";
-import { userActive } from "../firebase/auth/auth_state_listener.js";
+import { listensToTheActiveUser, userActive } from "../firebase/auth/auth_state_listener.js";
 import { createUser } from "../helpers/functions.js";
 import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { activateBtn } from "../helpers/activeBtn.js";
+import { loginPersistence } from "../firebase/auth/auth_setPersistence.js";
+/* import { pswvalue,emailvalue } from "../firebase/auth/auth_signin_password.js"; */
 
 /* import { publicationPosts } from "./templates/createPost.js"; */
 
@@ -72,6 +74,13 @@ export const Timeline = () => {
 
   }
   resizeSpaceBetweenHeaderAndMain()
+/*   console.log(emailvalue)
+  const sdkj = emailvalue
+  const wk=pswvalue
+  console.log(sdkj);
+  loginPersistence(emailvalue,pswvalue) */
+/*   listensToTheActiveUser()
+  console.log(userActive) */
 
   createUser(userActive,sectionAllPost)
 
@@ -99,7 +108,7 @@ export const Timeline = () => {
   let clickCounter =0
   /* let nameOfThePoint =false */
   // creates the tags selelect
-
+  console.log(inputTags);
   function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
     elem1.classList.remove(elem1remove)

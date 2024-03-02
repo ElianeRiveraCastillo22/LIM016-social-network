@@ -16,9 +16,9 @@ export const updateProfile =`
     </section>
     <form id="formRegister" class="updateProfile--form">
         <div class="updateProfile__containerForm">
-            <span class="loader"></span>
+
         </div>
-        <button id="btnRegisterupdate" class="button btn--disebled">Guardar los datos</button>
+        <button id="btnRegisterupdate" class="button ">Guardar los datos</button>
     </form>
 </div>
     `

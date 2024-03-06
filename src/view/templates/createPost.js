@@ -1,5 +1,5 @@
 
-export const publicationPosts = (name,photo) =>{
+export const publicationPostsUser = (name,photo) =>{
     const timeline = `
     <div class="box--posts">
         <section class="createPost">
@@ -47,6 +47,44 @@ export const publicationPosts = (name,photo) =>{
 
                 <div class="btnPost">
                     <button id="btnSave" class="btnSave btn--disebled" >Publicar</button>
+                </div>
+            </form>
+        </section>
+        <div class="publicationPosts">
+
+        </div>
+        <dialog class="btnPost__message">
+            <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
+        </dialog>
+    </div>
+    `;
+    return timeline
+}
+
+export const publicationPostsPoint = (name,photo) =>{
+    const timeline = `
+    <div class="box--posts">
+        <section class="createPost">
+            <section class="createPost--user">
+                <figure class="createUser--user__photo boxPerfil">
+                    <img class="perfil" src=${photo} alt="">
+                </figure>
+                <p class="createPost--user__name user">${name}</p>
+            </section>
+            <form class="createPost__all">
+                <div class="createPost__form">
+                    <textarea class="createPost__Info" placeholder="Descripción de oferta:" autocomplete="off"></textarea>
+                    <div class="createPost__validUntil">
+                        <label class="" for="date">Valido desde:</label>
+                        <input class="validUntil--start" id="date" type="date" >
+                    </div>
+                    <div class="createPost__validUntil">
+                        <label for="date">Valido hasta:</label>
+                        <input class="validUntil--end" id="date" type="date" >
+                    </div>
+                </div>
+                <div class="btnPost">
+                    <button id="btnSave" class="btnSave btn--active" >Publicar</button>
                 </div>
             </form>
         </section>

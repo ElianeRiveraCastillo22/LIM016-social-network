@@ -1,5 +1,4 @@
 import { signOutUser } from "../firebase/auth/auth_sign_out.js";
-import { registryData, userActive } from "../firebase/auth/auth_state_listener.js";
 import { updateRegistration } from "../firebase/firestore/update_document.js";
 import { locationHome, locationProfile, locationSignIn } from "../helpers/locations.js";
 
@@ -32,16 +31,14 @@ export const Nav = () => {
 
   navElemt.querySelector("#signout").addEventListener('click',(e)=>{
     e.preventDefault()
-    
-    const sessionStatusUpdate  = updateRegistration(userActive.id,{active_session:false},userActive.nameRegister)
+    let userIdActive=localStorage.getItem('IdUsuario')
+    let userNameRegister= localStorage.getItem('nameRegister')
+
+    const sessionStatusUpdate  = updateRegistration(userIdActive,{active_session:false},userNameRegister)
     sessionStatusUpdate.then((response)=>{
-      console.log("listo")
       signOutUser()
       locationSignIn()
     })
-    /* console.log(prueba) */
-/*     signOutUser()
-    locationSignIn() */
 
   })
 

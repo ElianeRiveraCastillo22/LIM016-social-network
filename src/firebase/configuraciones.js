@@ -18,7 +18,9 @@ import {
   doc,
   updateDoc,
   setDoc,
-  getDoc 
+  getDoc,
+  collection,
+  addDoc 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -61,7 +63,9 @@ export{
   doc,
   updateDoc,
   setDoc,
-  getDoc 
+  getDoc,
+  collection,
+  addDoc
 }
 
 /* import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';

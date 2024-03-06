@@ -495,7 +495,6 @@ hgroup {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: .625rem;
 }
 .createPost__all{
   width: 90%;
@@ -1103,6 +1102,9 @@ button#btnSignIn {
   }
   .loader {
     padding-bottom: 20%;
+  }
+  .createPost {
+    border-radius: .625rem;
   }
 }
 @media (width >= 64rem) {

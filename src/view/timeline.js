@@ -22,6 +22,12 @@ export const Timeline = () => {
   let userIdActive=localStorage.getItem('IdUsuario')
   let userNameRegiste= localStorage.getItem('nameRegister')
 
+  sectionAllPost.innerHTML =`
+    <div class="box--posts">
+      <span class="loader"></span>
+    </div>
+  `
+
   if(userNameRegiste=="user-account"){
     getDocUser(userIdActive).then((response)=>{
 
@@ -31,6 +37,7 @@ export const Timeline = () => {
         if (response.url_profile == ""){
           pathImgPorfile = "../img/avatar.png"
         }
+
         sectionAllPost.innerHTML = publicationPostsUser(response.name, pathImgPorfile)
 
         const contentTags = sectionAllPost.querySelector(".createTags");
@@ -371,10 +378,6 @@ export const Timeline = () => {
       console.log(error)
     })
   }
-
-
-
-
 
 
   return sectionAllPost;

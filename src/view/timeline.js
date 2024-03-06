@@ -25,13 +25,21 @@ export const Timeline = () => {
 
   sectionAllPost.innerHTML =`
     <div class="box--posts">
+      <div class="createPost"></div>
+      <div class="publicationPosts">
+
+      </div>
+      <dialog class="btnPost__message">
+          <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
+      </dialog>
       <span class="loader"></span>
     </div>
   `
-
+  const createPost = sectionAllPost.querySelector(".createPost")
+  const postLoader = sectionAllPost.querySelector("loader")
   if(userNameRegiste=="user-account"){
     getDocUser(userIdActive).then((response)=>{
-
+      createPost.classList.add("createPost--space")
       if(response !== undefined && response.active_session == true){
 
         let pathImgPorfile = response.url_profile;
@@ -39,7 +47,7 @@ export const Timeline = () => {
           pathImgPorfile = "../img/avatar.png"
         }
 
-        sectionAllPost.innerHTML = publicationPostsUser(response.name, pathImgPorfile)
+        createPost.innerHTML = publicationPostsUser(response.name, pathImgPorfile)
 
         const contentTags = sectionAllPost.querySelector(".createTags");
         const inputTags = sectionAllPost.querySelector(".createTags__input");
@@ -61,6 +69,7 @@ export const Timeline = () => {
         let cardCreated = false
         let clickCounter =0
         let textOfTheChosenLabels=[]
+        let pointScoring;
 
         function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
@@ -264,9 +273,6 @@ export const Timeline = () => {
 
         })
 
-        // Create add the value of stars
-        let pointScoring;
-
         function addTheValueToTheStars() {
 
           containerPostStars.addEventListener("click",()=>{
@@ -348,7 +354,7 @@ export const Timeline = () => {
     })
   }else if(userNameRegiste == "point-account"){
     getDocPoint(userIdActive).then((response)=>{
-
+      createPost.classList.add("createPost--space")
       if(response !== undefined && response.active_session == true){
 
         let pathImgPorfile = response.url_profile;
@@ -357,7 +363,7 @@ export const Timeline = () => {
           pathImgPorfile = "../img/avatar.png"
         }
 
-        sectionAllPost.innerHTML = publicationPostsPoint(response.name, pathImgPorfile)
+        createPost.innerHTML = publicationPostsPoint(response.name, pathImgPorfile)
         const descriptionOffer= sectionAllPost.querySelector(".createPost__Info")
         const dateStart= sectionAllPost.querySelector(".validUntil--start")
         const dateEnd= sectionAllPost.querySelector(".validUntil--end")

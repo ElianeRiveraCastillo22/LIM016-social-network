@@ -1,8 +1,6 @@
 
 export const publicationPostsUser = (name,photo) =>{
     const timeline = `
-    <div class="box--posts">
-        <section class="createPost">
             <section class="createPost--user">
                 <figure class="createUser--user__photo boxPerfil">
                     <img class="perfil" src=${photo} alt="">
@@ -49,22 +47,13 @@ export const publicationPostsUser = (name,photo) =>{
                     <button id="btnSave" class="btnSave btn--disebled" >Publicar</button>
                 </div>
             </form>
-        </section>
-        <div class="publicationPosts">
 
-        </div>
-        <dialog class="btnPost__message">
-            <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
-        </dialog>
-    </div>
     `;
     return timeline
 }
 
 export const publicationPostsPoint = (name,photo) =>{
     const timeline = `
-    <div class="box--posts">
-        <section class="createPost">
             <section class="createPost--user">
                 <figure class="createUser--user__photo boxPerfil">
                     <img class="perfil" src=${photo} alt="">
@@ -87,14 +76,6 @@ export const publicationPostsPoint = (name,photo) =>{
                     <button id="btnSave" class="btnSave btn--active" >Publicar</button>
                 </div>
             </form>
-        </section>
-        <div class="publicationPosts">
-
-        </div>
-        <dialog class="btnPost__message">
-            <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
-        </dialog>
-    </div>
     `;
     return timeline
 }

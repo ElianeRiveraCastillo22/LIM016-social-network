@@ -488,13 +488,16 @@ hgroup {
   box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.2);
   background: white;
   margin: .75rem 0rem;
-  padding: 1.5rem 0rem;
+  
   width: 100%;
   min-width: 9.375rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.createPost--space{
+  padding: 1.5rem 0rem;
 }
 .createPost__all{
   width: 90%;

@@ -52,7 +52,7 @@ export const createPost = async (id_user, name_point, description, attributes, r
 
 export const createOffer = async (id_point, description, start_date, end_date, url_reference, id_offer) => {
 
-    const docRef = await addDoc(collection(db, "user-publication"), {
+    const docRef = await addDoc(collection(db, "point-publication"), {
         id_point,
         description,
         start_date,
@@ -60,6 +60,5 @@ export const createOffer = async (id_point, description, start_date, end_date, u
         url_reference,
         id_offer
     });
-
     console.log("Document written with ID: ", docRef.id);
 }

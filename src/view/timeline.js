@@ -3,6 +3,7 @@ import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { activateBtn } from "../helpers/activeBtn.js";
 import { getDocPoint, getDocUser } from "../firebase/firestore/get_document.js";
 import { publicationPostsPoint, publicationPostsUser } from "./templates/createPost.js";
+import { createOffer, createPost } from "../firebase/firestore/add_document.js";
 
 export const Timeline = () => {
 
@@ -32,7 +33,7 @@ export const Timeline = () => {
     getDocUser(userIdActive).then((response)=>{
 
       if(response !== undefined && response.active_session == true){
-        console.log(response)
+
         let pathImgPorfile = response.url_profile;
         if (response.url_profile == ""){
           pathImgPorfile = "../img/avatar.png"
@@ -59,8 +60,8 @@ export const Timeline = () => {
         let passingScoreToPublish=0;
         let cardCreated = false
         let clickCounter =0
+        let textOfTheChosenLabels=[]
 
-        console.log(inputTags);
         function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
           elem1.classList.remove(elem1remove)
@@ -117,6 +118,7 @@ export const Timeline = () => {
 
               alltags.innerHTML += createElementTag(textvalue)
               inputTags.value=""
+              textOfTheChosenLabels.push(textvalue)
 
             }else{
 
@@ -126,6 +128,7 @@ export const Timeline = () => {
 
           }else{
             alltags.innerHTML += createElementTag(textvalue)
+            textOfTheChosenLabels.push(textvalue)
             inputTags.value=""
           }
 
@@ -223,9 +226,9 @@ export const Timeline = () => {
               cardCreated = true
               if(cardCreated){
                 passingScoreToPublish++
-
                 activateBtn(btnSave,3,passingScoreToPublish)
               }
+
             })
 
           })
@@ -252,6 +255,7 @@ export const Timeline = () => {
 
               if(tag.lastElementChild !== undefined){
                 tag.lastElementChild.addEventListener('click',(e)=>{
+                  console.log(textOfTheChosenLabels);
                   tag.remove()
                 });
               }
@@ -327,18 +331,12 @@ export const Timeline = () => {
           }else{
 
             passingScoreToPublish=0
-
-            const createpostTag=document.querySelectorAll(".createpost__tag")
-            let textOfTheChosenLabels = []
-            createpostTag.forEach((tag)=>{
-              textOfTheChosenLabels.push(tag.innerText)
-            })
-
             console.log(textOfTheChosenLabels)
             console.log(createPostPoint.value);
             console.log(createPostInfo.value);
             console.log(pointScoring);
             console.log(createPostFile.value);
+            createPost(userIdActive, createPostPoint.value, createPostInfo.value, textOfTheChosenLabels, pointScoring, "", "")
           }
         })
 
@@ -352,24 +350,25 @@ export const Timeline = () => {
     getDocPoint(userIdActive).then((response)=>{
 
       if(response !== undefined && response.active_session == true){
+
         let pathImgPorfile = response.url_profile;
+
         if (response.url_profile == ""){
           pathImgPorfile = "../img/avatar.png"
         }
+
         sectionAllPost.innerHTML = publicationPostsPoint(response.name, pathImgPorfile)
         const descriptionOffer= sectionAllPost.querySelector(".createPost__Info")
         const dateStart= sectionAllPost.querySelector(".validUntil--start")
         const dateEnd= sectionAllPost.querySelector(".validUntil--end")
         const btnSave = sectionAllPost.querySelector(".btnSave")
-        console.log(btnSave);
+
         descriptionOffer.addEventListener("keyup",()=>{
           firstLetterCapitalized(descriptionOffer)
         })
         btnSave.addEventListener("click",(e)=>{
           e.preventDefault()
-          console.log(dateStart.value);
-          console.log(dateEnd.value);
-
+          createOffer(userIdActive, descriptionOffer.value, dateStart.value, dateEnd.value, "", "")
         })
       }
 
@@ -378,7 +377,6 @@ export const Timeline = () => {
       console.log(error)
     })
   }
-
 
   return sectionAllPost;
 };

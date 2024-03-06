@@ -1,16 +1,12 @@
 import { registryData, userActive } from "../firebase/auth/auth_state_listener.js";
 import { addPointToFirestore, addUserToFirestore } from "../firebase/firestore/add_document.js";
-import { getDocPoint, getDocUser } from "../firebase/firestore/get_document.js";
 import { updateRegistration } from "../firebase/firestore/update_document.js";
-import { activateBtn } from "../helpers/activeBtn.js";
-import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { locationHome } from "../helpers/locations.js";
 import { updateProfile } from "./templates/updateProfile.js";
 import { templateTypePoint, templateTypeUndefine, templateTypeUser } from "./templates/updateUser_cases.js";
 
 export const updateUser = () => {
-/*     console.log(userActive);
-    console.log(registryData); */
+
     const sectionupdateProfile = document.createElement('div');
     sectionupdateProfile.setAttribute('class', 'section--updateProfile');
     sectionupdateProfile.innerHTML = updateProfile;
@@ -99,9 +95,11 @@ export const updateUser = () => {
 
         if(typeRegister == "user"){
           addUserToFirestore(userActive.email,userActive.uid,userActive.displayName,"",[],userActive.photoURL,typeRegister,true)
+          localStorage.setItem("nameRegister", "user-account")
         }else if(typeRegister == "point"){
           inputNamePoint.value = userActive.displayName
           addPointToFirestore(userActive.uid, userActive.displayName, userActive.photoURL, userActive.email, "", inputDescription.value, [], [], typeRegister,true)
+          localStorage.setItem("nameRegister", "point-account")
         }
         locationHome()
 
@@ -115,6 +113,7 @@ export const updateUser = () => {
       btnRegisterupdate.addEventListener("click",(e)=>{
         e.preventDefault()
         updateRegistration(registryData.id, {name:inputName.value,active_session:true},"user-account")
+        localStorage.setItem("nameRegister", "user-account")
         locationHome()
       })
 
@@ -127,6 +126,7 @@ export const updateUser = () => {
       btnRegisterupdate.addEventListener("click",(e)=>{
         e.preventDefault()
         updateRegistration(registryData.id, {name:inputName.value, description:description.value,active_session:true},"point-account")
+        localStorage.setItem("nameRegister", "point-account")
         locationHome()
       })
 

@@ -18,7 +18,7 @@ export const updateProfile =`
         <div class="updateProfile__containerForm">
 
         </div>
-        <button id="btnRegisterupdate" class="button ">Guardar los datos</button>
+        <button id="btnRegisterupdate" class="button btn--active">Guardar los datos</button>
     </form>
 </div>
     `

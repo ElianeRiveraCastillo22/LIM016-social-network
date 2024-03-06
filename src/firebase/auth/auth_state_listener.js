@@ -2,8 +2,6 @@ import { locationHome, locationUpdateUser } from '../../helpers/locations.js';
 import {auth, onAuthStateChanged} from '../configuraciones.js';
 import { getDocPoint, getDocUser } from '../firestore/get_document.js';
 import { updateRegistration } from '../firestore/update_document.js';
-/* import { showHome } from '../../view/SignIn.js' */;
-import { loginPersistence } from './auth_setPersistence.js';
 
 let userActive;
 let registryData;
@@ -12,7 +10,6 @@ export const listensToTheActiveUser = (sectionLoader) => {
   return onAuthStateChanged(auth, async(user) => {
 
     userActive= await user
-    console.log(user.emailVerified)
     if (userActive !== undefined && user.emailVerified) {
 
       emailVerified=true
@@ -36,11 +33,11 @@ export const listensToTheActiveUser = (sectionLoader) => {
 
           if(response !== undefined){
             registryData = response;
-            console.log(response)
             if(response.name == ""){
               locationUpdateUser()
             }else{
               updateRegistration(response.id,{active_session:true},response.nameRegister)
+              localStorage.setItem('nameRegister', response.nameRegister)
               locationHome()
 
             }
@@ -48,7 +45,6 @@ export const listensToTheActiveUser = (sectionLoader) => {
 
         })
         .catch((error)=>{
-          console.log(error)
         })
 
         getDocPoint(user.uid).then((response)=>{
@@ -61,6 +57,7 @@ export const listensToTheActiveUser = (sectionLoader) => {
               locationUpdateUser()
             }else{
               updateRegistration(response.id,{active_session:true},response.nameRegister)
+              localStorage.setItem('nameRegister', response.nameRegister)
               locationHome()
             }
 
@@ -68,7 +65,6 @@ export const listensToTheActiveUser = (sectionLoader) => {
 
         })
         .catch((error)=>{
-          console.log(error)
         })
       }
 
@@ -79,10 +75,10 @@ export const listensToTheActiveUser = (sectionLoader) => {
           let documentWasCreated = 2;
 
           function evaluatesWhetherTheDocWasCreated(response) {
-            console.log(response)
             if(response !== undefined){
                 userActive = response
                 updateRegistration(response.id,{active_session:true},response.nameRegister)
+                localStorage.setItem('nameRegister', response.nameRegister)
                 locationHome()
             }else{
               documentWasCreated -= 1

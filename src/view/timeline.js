@@ -1,66 +1,10 @@
-/* import {
-  savePost,
-  onGetPosts,
-  deletePost,
-  getPost,
-} from '../firebase/firestore/firestore-add.js'; */
-/* import {updatePost, addLike} from '../firebase/firestore/fb-test.js'; */
-
 import { tagsPost } from "../data/tags-post.js";
-import { listensToTheActiveUser, userActive } from "../firebase/auth/auth_state_listener.js";
-import { createUser } from "../helpers/functions.js";
 import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { activateBtn } from "../helpers/activeBtn.js";
-import { loginPersistence } from "../firebase/auth/auth_setPersistence.js";
-/* import { pswvalue,emailvalue } from "../firebase/auth/auth_signin_password.js"; */
-
-/* import { publicationPosts } from "./templates/createPost.js"; */
-
-/* export const currentUser = (user, name, photo) => {
-  postUser = user;
-  userName = name;
-  userPhoto = photo;
-
-  console.log(userPhoto);
-};
-currentUser(); */
-/*  let postDescription;
-let postLike;
-let postUser;
-let cleanPost;
-let userName;
-let userPhoto;
-
-
-
-const addPost = (e) => {
-  e.preventDefault();
-
-  postDescription = e.target.closest('form')
-      .querySelector('#postDescription').value;
-  postLike = [];
-  const postDescriptionVerified = postDescription.replace(/\s+/g, '');
-  const date = new Date();
-
-  const postDate = date.getTime();
-
-  console.log(postDate);
-
-  if (postDescriptionVerified !== '') {
-    savePost(
-        postDate, postDescription, postLike, userName, userPhoto, postUser);
-    cleanPost.reset();
-  };
-};
- */
-/* CreatePost */
+import { getDocPoint, getDocUser } from "../firebase/firestore/get_document.js";
+import { publicationPostsPoint, publicationPostsUser } from "./templates/createPost.js";
 
 export const Timeline = () => {
-/*   if (userPhoto == null) {
-    userPhoto = './img/avatar.png';
-  } else {
-    userPhoto;
-  } */
 
   const sectionAllPost = document.createElement('section');
   sectionAllPost.setAttribute('class', 'section--posts');
@@ -74,487 +18,364 @@ export const Timeline = () => {
 
   }
   resizeSpaceBetweenHeaderAndMain()
-/*   console.log(emailvalue)
-  const sdkj = emailvalue
-  const wk=pswvalue
-  console.log(sdkj);
-  loginPersistence(emailvalue,pswvalue) */
-/*   listensToTheActiveUser()
-  console.log(userActive) */
 
-  createUser(userActive,sectionAllPost)
+  let userIdActive=localStorage.getItem('IdUsuario')
+  let userNameRegiste= localStorage.getItem('nameRegister')
 
-  const contentTags = sectionAllPost.querySelector(".createTags");
-  const inputTags = sectionAllPost.querySelector(".createTags__input");
-  const iconCreateTags = sectionAllPost.querySelector(".createTags__aprove");
-  const tagsList = sectionAllPost.querySelector(".createTags__list");
-  const alltags = sectionAllPost.querySelector(".createpost__alltags");
-  const createPostPoint = sectionAllPost.querySelector(".createPost__point");
-  const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
-  const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
-  const createPostStars=  sectionAllPost.querySelectorAll(".createPost__stars img");
-  const containerPostStars=  sectionAllPost.querySelector(".createPost__stars");
-  const btnSave = sectionAllPost.querySelector(".btnSave")
-  const btnPost = sectionAllPost.querySelector(".btnPost")
-  const boxPosts = sectionAllPost.querySelector(".box--posts")
-  const btnPostMessage = sectionAllPost.querySelector(".btnPost__message")
-  const createPostFile = sectionAllPost.querySelector(".createPost__file input")
+  if(userNameRegiste=="user-account"){
+    getDocUser(userIdActive).then((response)=>{
 
-  let sortTags=tagsPost.sort();
-  let allTagsItem = null;
-  let passingScoreToPublish=0;
-  let cardCreated = false
-  let qualifiedTheTag = false
-  let clickCounter =0
-  /* let nameOfThePoint =false */
-  // creates the tags selelect
-  console.log(inputTags);
-  function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
-
-    elem1.classList.remove(elem1remove)
-    elem1.classList.add(elem1add)
-
-    elem2.classList.remove(elem2remove)
-    elem2.classList.add(elem2add)
-
-  }
-
-  function createsTheListOfItems(valueVar,array,containeList) {
-
-    for( valueVar of array){
-
-      containeList.classList.add("createTags__list--open")
-      let listItem=document.createElement("li")
-      listItem.classList.add("allTags__item")
-      listItem.innerText=valueVar
-      containeList.appendChild(listItem)
-
-    }
-
-  }
-
-  function createTag(textvalue) {
-
-    let tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
-
-    function createElementTag(text) {
-      const contentTag= `
-      <li class="createpost__tag">
-          <p class="createpost__txt" >${text}</p>
-          <figure class="createpost__figure">
-            <img class="createpost__img" src="../../img/iconos/close-post.svg" />
-          </figure>
-      </li>
-      `
-      return contentTag
-    }
-
-    if(tagChosen.length !== 0){
-      let labelComparisons=[]
-      tagChosen.forEach((tagSelect)=>{
-        if(tagSelect.innerText==textvalue){
-          labelComparisons.push(true)
-        }else{
-          labelComparisons.push(false)
+      if(response !== undefined && response.active_session == true){
+        console.log(response)
+        let pathImgPorfile = response.url_profile;
+        if (response.url_profile == ""){
+          pathImgPorfile = "../img/avatar.png"
         }
-      })
+        sectionAllPost.innerHTML = publicationPostsUser(response.name, pathImgPorfile)
 
-      let evaluateIfTheLabelsAreSimilar = labelComparisons.every((value) => value == false)
-      // si es true imprimir
-      if(evaluateIfTheLabelsAreSimilar){
+        const contentTags = sectionAllPost.querySelector(".createTags");
+        const inputTags = sectionAllPost.querySelector(".createTags__input");
+        const iconCreateTags = sectionAllPost.querySelector(".createTags__aprove");
+        const tagsList = sectionAllPost.querySelector(".createTags__list");
+        const alltags = sectionAllPost.querySelector(".createpost__alltags");
+        const createPostPoint = sectionAllPost.querySelector(".createPost__point");
+        const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
+        const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
+        const createPostStars=  sectionAllPost.querySelectorAll(".createPost__stars img");
+        const containerPostStars=  sectionAllPost.querySelector(".createPost__stars");
+        const btnSave = sectionAllPost.querySelector(".btnSave")
+        const btnPostMessage = sectionAllPost.querySelector(".btnPost__message")
+        const createPostFile = sectionAllPost.querySelector(".createPost__file input")
 
-        alltags.innerHTML += createElementTag(textvalue)
-        inputTags.value=""
+        let sortTags=tagsPost.sort();
+        let allTagsItem = null;
+        let passingScoreToPublish=0;
+        let cardCreated = false
+        let clickCounter =0
 
-      }else{
+        console.log(inputTags);
+        function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
 
-        inputTags.value=""
+          elem1.classList.remove(elem1remove)
+          elem1.classList.add(elem1add)
 
-      }
+          elem2.classList.remove(elem2remove)
+          elem2.classList.add(elem2add)
 
-    }else{
-      alltags.innerHTML += createElementTag(textvalue)
-      inputTags.value=""
-    }
+        }
 
-  }
+        function createsTheListOfItems(valueVar,array,containeList) {
 
-  function closeThelistTags() {
-    tagsList.innerHTML=""
-    changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-    tagsList.classList.remove("createTags__list--open")
-  }
+          for( valueVar of array){
 
+            containeList.classList.add("createTags__list--open")
+            let listItem=document.createElement("li")
+            listItem.classList.add("allTags__item")
+            listItem.innerText=valueVar
+            containeList.appendChild(listItem)
 
+          }
 
-  inputTags.addEventListener("focus",()=>{
+        }
 
-    function dimensionsTheWidthOfTheList() {
+        function createTag(textvalue) {
 
-      const widthContentTags=contentTags.clientWidth
-      tagsList.style.width=`${widthContentTags}px`
+          let tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
 
-    }
-    dimensionsTheWidthOfTheList()
+          function createElementTag(text) {
+            const contentTag= `
+            <li class="createpost__tag">
+                <p class="createpost__txt" >${text}</p>
+                <figure class="createpost__figure">
+                  <img class="createpost__img" src="../../img/iconos/close-post.svg" />
+                </figure>
+            </li>
+            `
+            return contentTag
+          }
 
-    function createsTheListInTheFirstApproachInInput() {
+          if(tagChosen.length !== 0){
+            let labelComparisons=[]
+            tagChosen.forEach((tagSelect)=>{
+              if(tagSelect.innerText==textvalue){
+                labelComparisons.push(true)
+              }else{
+                labelComparisons.push(false)
+              }
+            })
 
-      if(inputTags.value == ""){
-        let tag;
-        changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
-        createsTheListOfItems(tag,sortTags,tagsList)
-        allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+            let evaluateIfTheLabelsAreSimilar = labelComparisons.every((value) => value == false)
+            // si es true imprimir
+            if(evaluateIfTheLabelsAreSimilar){
 
-      }
+              alltags.innerHTML += createElementTag(textvalue)
+              inputTags.value=""
 
-    }
-    createsTheListInTheFirstApproachInInput()
+            }else{
 
-    inputTags.addEventListener("keyup", ()=>{
+              inputTags.value=""
 
-      let matchingWords = []
-      let matchingValue=[]
+            }
 
-      function filtersOutMatchingWords() {
+          }else{
+            alltags.innerHTML += createElementTag(textvalue)
+            inputTags.value=""
+          }
 
-        tagsPost.forEach((tag)=>{
-          const cutTag = tag.slice(0,inputTags.value.length)
-          const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
-          matchingValue.push(evaluatesMatchingTags)
+        }
 
-          if(evaluatesMatchingTags){
-              tagsList.classList.add("createTags__list--open")
-              tagsList.innerHTML=""
-              matchingWords.push(tag)
+        function closeThelistTags() {
+          tagsList.innerHTML=""
+          changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
+          tagsList.classList.remove("createTags__list--open")
+        }
+
+        inputTags.addEventListener("focus",()=>{
+
+          function dimensionsTheWidthOfTheList() {
+
+            const widthContentTags=contentTags.clientWidth
+            tagsList.style.width=`${widthContentTags}px`
+
+          }
+          dimensionsTheWidthOfTheList()
+
+          function createsTheListInTheFirstApproachInInput() {
+
+            if(inputTags.value == ""){
+              let tag;
+              changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+              createsTheListOfItems(tag,sortTags,tagsList)
+              allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+
+            }
+
+          }
+          createsTheListInTheFirstApproachInInput()
+
+          inputTags.addEventListener("keyup", ()=>{
+
+            let matchingWords = []
+            let matchingValue=[]
+
+            function filtersOutMatchingWords() {
+
+              tagsPost.forEach((tag)=>{
+                const cutTag = tag.slice(0,inputTags.value.length)
+                const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
+                matchingValue.push(evaluatesMatchingTags)
+
+                if(evaluatesMatchingTags){
+                    tagsList.classList.add("createTags__list--open")
+                    tagsList.innerHTML=""
+                    matchingWords.push(tag)
+                }
+              })
+            }
+            filtersOutMatchingWords()
+
+            function deletesTheListBecauseItDoesNotMatch () {
+
+              if(matchingValue.every((value)=> value==false)){
+                closeThelistTags()
+              }
+
+            }
+            deletesTheListBecauseItDoesNotMatch ()
+
+            function addsStylesWhenDeletingTheIputValue() {
+              if(inputTags.value == ""){
+
+                changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+
+              }
+            }
+            addsStylesWhenDeletingTheIputValue()
+
+            function createsAListOfMatchingWords() {
+
+              let tag;
+              createsTheListOfItems(tag,matchingWords,tagsList)
+
+            }
+            createsAListOfMatchingWords()
+
+            allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+
+          })
+
+        })
+
+        tagsList.addEventListener("pointerover",()=>{
+
+          allTagsItem.forEach((tag)=>{
+
+            tag.addEventListener("click",()=>{
+              closeThelistTags()
+              createTag(tag.innerText)
+              cardCreated = true
+              if(cardCreated){
+                passingScoreToPublish++
+
+                activateBtn(btnSave,3,passingScoreToPublish)
+              }
+            })
+
+          })
+
+        })
+
+        iconCreateTags.addEventListener("click",()=>{
+
+          if(inputTags.value!==""){
+            createTag(inputTags.value)
+            cardCreated = true
+            if(cardCreated){
+              passingScoreToPublish++
+              activateBtn(btnSave,3,passingScoreToPublish)
+            }
+          }
+
+        })
+
+        alltags.addEventListener("pointerover",()=>{
+
+            let tagCreated= alltags.childNodes
+            tagCreated.forEach((tag)=>{
+
+              if(tag.lastElementChild !== undefined){
+                tag.lastElementChild.addEventListener('click',(e)=>{
+                  tag.remove()
+                });
+              }
+
+            })
+
+        })
+
+        // Create add the value of stars
+        let pointScoring;
+
+        function addTheValueToTheStars() {
+
+          containerPostStars.addEventListener("click",()=>{
+            clickCounter++
+            if(clickCounter==1){
+              passingScoreToPublish++
+              activateBtn(btnSave,3,passingScoreToPublish)
+            }
+          })
+
+          createPostStars.forEach((star,indexStart)=>{
+            star.addEventListener("click",()=>{
+              for(let i = 0; i <= indexStart; i++){
+                createPostStars[i].classList.add("puntuacion_escogida")
+              }
+
+              for(let i = indexStart+1; i<createPostStars.length; i++){
+                createPostStars[i].classList.remove("puntuacion_escogida")
+              }
+
+              pointScoring = indexStart + 1
+            })
+          })
+
+        }
+        addTheValueToTheStars()
+
+        createPostPoint.addEventListener("keyup",()=>{
+          closeThelistTags()
+          firstLetterCapitalized(createPostPoint)
+
+          if(createPostPoint.value.length==1){
+            passingScoreToPublish++
+            activateBtn(btnSave,3,passingScoreToPublish)
           }
         })
-      }
-      filtersOutMatchingWords()
 
-      function deletesTheListBecauseItDoesNotMatch () {
+        inputTags.addEventListener("keyup",()=>{
+          firstLetterCapitalized(inputTags)
+        })
 
-        if(matchingValue.every((value)=> value==false)){
+        createPostInfo.addEventListener("click",()=>{
           closeThelistTags()
-        }
+          firstLetterCapitalized(createPostPoint)
+        })
 
-      }
-      deletesTheListBecauseItDoesNotMatch ()
+        publicationPosts.addEventListener("click",()=>{
+          closeThelistTags()
+        })
 
-      function addsStylesWhenDeletingTheIputValue() {
-        if(inputTags.value == ""){
+        btnSave.addEventListener("click",(e)=>{
+          e.preventDefault()
+          closeThelistTags()
 
-          changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+          if(passingScoreToPublish<3){
 
-        }
-      }
-      addsStylesWhenDeletingTheIputValue()
+            btnPostMessage.show()
+            setTimeout(() => {
+              btnPostMessage.close()
+            }, 1500);
 
-      function createsAListOfMatchingWords() {
+          }else{
 
-        let tag;
-        createsTheListOfItems(tag,matchingWords,tagsList)
+            passingScoreToPublish=0
 
-      }
-      createsAListOfMatchingWords()
+            const createpostTag=document.querySelectorAll(".createpost__tag")
+            let textOfTheChosenLabels = []
+            createpostTag.forEach((tag)=>{
+              textOfTheChosenLabels.push(tag.innerText)
+            })
 
-      allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
-
-    })
-
-  })
-
-  tagsList.addEventListener("pointerover",()=>{
-
-    allTagsItem.forEach((tag)=>{
-
-      tag.addEventListener("click",()=>{
-        closeThelistTags()
-        createTag(tag.innerText)
-        cardCreated = true
-        if(cardCreated){
-          passingScoreToPublish++
-
-          activateBtn(btnSave,3,passingScoreToPublish)
-        }
-      })
-
-    })
-
-  })
-
-  iconCreateTags.addEventListener("click",()=>{
-
-    if(inputTags.value!==""){
-      createTag(inputTags.value)
-      cardCreated = true
-      if(cardCreated){
-        passingScoreToPublish++
-        activateBtn(btnSave,3,passingScoreToPublish)
-      }
-    }
-
-  })
-
-  alltags.addEventListener("pointerover",()=>{
-
-      let tagCreated= alltags.childNodes
-      tagCreated.forEach((tag)=>{
-
-        if(tag.lastElementChild !== undefined){
-          tag.lastElementChild.addEventListener('click',(e)=>{
-            tag.remove()
-          });
-        }
-
-      })
-
-  })
-
-  // Create add the value of stars
-  let pointScoring;
-
-  function addTheValueToTheStars() {
-
-    containerPostStars.addEventListener("click",()=>{
-      clickCounter++
-      if(clickCounter==1){
-        passingScoreToPublish++
-        activateBtn(btnSave,3,passingScoreToPublish)
-      }
-    })
-
-    createPostStars.forEach((star,indexStart)=>{
-      star.addEventListener("click",()=>{
-        for(let i = 0; i <= indexStart; i++){
-          createPostStars[i].classList.add("puntuacion_escogida")
-        }
-
-        for(let i = indexStart+1; i<createPostStars.length; i++){
-          createPostStars[i].classList.remove("puntuacion_escogida")
-        }
-
-        pointScoring = indexStart + 1
-      })
-    })
-
-  }
-  addTheValueToTheStars()
-
-  createPostPoint.addEventListener("keyup",()=>{
-    closeThelistTags()
-    firstLetterCapitalized(createPostPoint)
-
-    if(createPostPoint.value.length==1){
-      passingScoreToPublish++
-      activateBtn(btnSave,3,passingScoreToPublish)
-    }
-  })
-
-  inputTags.addEventListener("keyup",()=>{
-    firstLetterCapitalized(inputTags)
-  })
-
-  createPostInfo.addEventListener("click",()=>{
-    closeThelistTags()
-    firstLetterCapitalized(createPostPoint)
-  })
-
-  publicationPosts.addEventListener("click",()=>{
-    closeThelistTags()
-  })
-
-
-  btnSave.addEventListener("click",(e)=>{
-    e.preventDefault()
-    closeThelistTags()
-
-    if(passingScoreToPublish<3){
-
-      btnPostMessage.show()
-      setTimeout(() => {
-        btnPostMessage.close()
-      }, 1500);
-
-    }else{
-
-      passingScoreToPublish=0
-
-      const createpostTag=document.querySelectorAll(".createpost__tag")
-      let textOfTheChosenLabels = []
-      createpostTag.forEach((tag)=>{
-        textOfTheChosenLabels.push(tag.innerText)
-      })
-
-      console.log(textOfTheChosenLabels)
-      console.log(createPostPoint.value);
-      console.log(createPostInfo.value);
-      console.log(pointScoring);
-      console.log(createPostFile.value);
-    }
-  })
-
-
-
-
-/*   const dataUserGoogle=async(dataUser)=>{
-    const prueba = await dataUser
-    divElemt.innerHTML = CreatePost(prueba.displayName);
-  } */
-  /* dataUserGoogle(userActive) */
-  //necesito guaradr los datos de user active
-  
-
-  /* console.log(firebase.auth.Auth.Persistence.LOCAL) */
-/*   divElemt.querySelector('#btnSave').addEventListener('click', addPost);
-
-  cleanPost = divElemt.querySelector('#form'); */
-/* 
-  let allPosts;
-  let showAllPosts;
-  let allLikes;
-
-  const timelineFuntion = async () => {
-    if (postUser == null) {
-      alert('Inicia sesión para disfrutar de nuestro contenido');
-    } else {
-      await onGetPosts((callback) => {
-        allPosts = '';
-        callback.forEach((doc) => {
-          const likes = doc.data().like.length;
-          if (likes == 0) {
-            allLikes = '';
-          } else {
-            allLikes = doc.data().like.length;
+            console.log(textOfTheChosenLabels)
+            console.log(createPostPoint.value);
+            console.log(createPostInfo.value);
+            console.log(pointScoring);
+            console.log(createPostFile.value);
           }
+        })
 
-          allPosts += `
-      <form class="postForm">
-        <div class="divRow">
-          <div class="postSection">
-            <div class="postUser">
-              <div class="boxPerfil">
-                <img class="perfil" src="${doc.data().photo}" alt="">
-              </div>
-              <p class="user">${doc.data().name}</p>
-            </div>
-            <textarea id="postDescription" class="postDescription"
-              data-id="${doc.id}" disabled>
-                ${doc.data().description}</textarea>
-            <div class="divBtbUpdate">
-              <button class='btnUpdate' data-id="${doc.id}"> Guardar</button>
-            </div>
-          </div>
-          <div class="iconPosts">
+      }
 
-            <i class="fas fa-trash-alt btnDelete iconPost"
-            data-id="${doc.id}"></i>
-            <i class="fas fa-pencil-alt btnEdit iconPost"
-            data-id="${doc.id}"></i>
-            <div class="divbtnLike">
-              <i class="fas fa-heart btnLike iconPost" data-id="${doc.id}"></i>
-              <span class='postsLike'
-                data-like="${doc.id}">${allLikes}</span>
-            </div>
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }else if(userNameRegiste == "point-account"){
+    getDocPoint(userIdActive).then((response)=>{
 
-          </div>
-        </div>
-      </form>
-      `;
-        });
-        showAllPosts = document.querySelector('#postsContainer');
-        showAllPosts.innerHTML = allPosts;
+      if(response !== undefined && response.active_session == true){
+        let pathImgPorfile = response.url_profile;
+        if (response.url_profile == ""){
+          pathImgPorfile = "../img/avatar.png"
+        }
+        sectionAllPost.innerHTML = publicationPostsPoint(response.name, pathImgPorfile)
+        const descriptionOffer= sectionAllPost.querySelector(".createPost__Info")
+        const dateStart= sectionAllPost.querySelector(".validUntil--start")
+        const dateEnd= sectionAllPost.querySelector(".validUntil--end")
+        const btnSave = sectionAllPost.querySelector(".btnSave")
+        console.log(btnSave);
+        descriptionOffer.addEventListener("keyup",()=>{
+          firstLetterCapitalized(descriptionOffer)
+        })
+        btnSave.addEventListener("click",(e)=>{
+          e.preventDefault()
+          console.log(dateStart.value);
+          console.log(dateEnd.value);
 
-        // like
-        const btnLike = divElemt.querySelectorAll('.btnLike');
+        })
+      }
 
-        btnLike.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
 
-            const likeID = e.target.dataset.id;
-            const doc = await getPost(likeID);
-            const dataLikes = doc.data().like;
-            const totalLikes = dataLikes;
 
-            if (totalLikes.includes(postUser) == false) {
-              totalLikes.push(postUser);
-              await addLike(likeID, totalLikes);
-            } else {
-              const dislike = totalLikes.filter((user) => user !== postUser);
-              await addLike(likeID, dislike);
-            }
-          });
-        });
 
-        // para eliminar
-        const btnDelete = divElemt.querySelectorAll('.btnDelete');
 
-        btnDelete.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const btnDeleteID = e.target.dataset.id;
 
-            const doc = await getPost(btnDeleteID);
-            const dataUser = doc.data().user;
-            console.log(postUser, dataUser, btnDeleteID);
 
-            if (postUser == dataUser) {
-              if (confirm('¿Desea eliminar esta publicación?')) {
-                await deletePost(btnDeleteID);
-              }
-            }
-          });
-        });
-
-        const btnEdit = divElemt.querySelectorAll('.btnEdit');
-
-        let btnEditID;
-        let textAreaEdit;
-
-        btnEdit.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            btnEditID = e.target.dataset.id;
-            textAreaEdit = divElemt.querySelector(`[data-id="${btnEditID}"]`);
-
-            const doc = await getPost(btnEditID);
-            const dataUser = doc.data().user;
-
-            if (postUser == dataUser) {
-              textAreaEdit.disabled = false;
-            } else {
-              console.warn('El post NO es tuyo');
-            }
-          });
-        });
-
-        const btnUpdate = divElemt.querySelectorAll('.btnUpdate');
-
-        btnUpdate.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            const btnUpdateID = e.target.dataset.id;
-            const textAreaEdit = divElemt.querySelector(
-                `[data-id="${btnUpdateID}"]`,
-            );
-            const doc = await getPost();
-            const dataUser = doc.data().user;
-            const textEditVerified = textAreaEdit.value.replace(/\s+/g, '');
-
-            if (postUser == dataUser) {
-              if (textEditVerified !== '') {
-                await updatePost(textAreaEdit.dataset.id, textAreaEdit.value);
-              } else {
-                alert('ups, el campo esta vacio');
-              }
-            }
-          });
-        });
-      });
-    }
-  };
-  timelineFuntion(); */
   return sectionAllPost;
 };

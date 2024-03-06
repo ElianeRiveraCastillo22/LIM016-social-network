@@ -249,7 +249,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 14.875rem;
+  max-width: 14rem;
   flex-wrap: wrap;
   row-gap: .625rem;
 }
@@ -543,6 +543,21 @@ hgroup {
   outline: none;
   caret-color: var(--p-color-text-Input);
 }
+.createPost__validUntil {
+  display: flex;
+  column-gap: .125rem;
+  align-items: center;
+  padding: 0rem 0.5rem;
+}
+.createPost__validUntil input{
+  outline-color: var(--color--text-nameporfile);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.createPost__validUntil input:focus{
+  outline-color: var(--color--text-nameporfile);
+}
+
 .createPost__point--required::placeholder,.createTags__input--required::placeholder{
   color:rgba(255, 0, 0, 0.5)
 }
@@ -1039,6 +1054,9 @@ button#btnSignIn {
   .createPost__file {
     width: auto;
   }
+  .createPost__validUntil {
+    column-gap: 12px;
+}
 }
 @media (width >= 23.4375rem) {
   .welcome__span {

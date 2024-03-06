@@ -1,6 +1,5 @@
 import {googleAuth} from '../firebase/auth/auth_google_signin_popup.js';
 import { verifyWithEmailAndPassword } from '../firebase/auth/auth_signin_password.js';
-import { emailVerified, userActive } from '../firebase/auth/auth_state_listener.js';
 
 import { locationSignUp } from '../helpers/locations.js';
 import { mailValidator } from '../helpers/mailValidator.js';

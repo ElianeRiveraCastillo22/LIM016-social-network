@@ -1,4 +1,4 @@
-import { defaultLabelData } from "../data/tags-post.js";
+import { tagsPost } from "../data/tags-post.js";
 import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
 import { activateBtn } from "../helpers/activeBtn.js";
 import { getDocUser, getPublished, getUserPublications } from "../firebase/firestore/get_document.js";
@@ -64,16 +64,18 @@ export const Timeline = () => {
             const contentTags = sectionAllPost.querySelector(".createTags");
             const inputTags = sectionAllPost.querySelector(".createTags__input");
             const iconCreateTags = sectionAllPost.querySelector(".createTags__aprove");
-            const defaultLabelListContainer = sectionAllPost.querySelector(".createTags__list");
+            const tagsList = sectionAllPost.querySelector(".createTags__list");
             const containerForAllLabels = sectionAllPost.querySelector(".createpost__alltags");
             const createPostPoint = sectionAllPost.querySelector(".createPost__point");
-            const formInformationInput = sectionAllPost.querySelector(".createPost__Info");
-            const ratingContainer =  sectionAllPost.querySelectorAll(".createPost__stars path");
+            const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
+            const createPostStars=  sectionAllPost.querySelectorAll(".createPost__stars path");
             const containerPostStars=  sectionAllPost.querySelector(".createPost__stars");
-            const btnToSaveThePublication = sectionAllPost.querySelector(".btnSave")
+            const btnSave = sectionAllPost.querySelector(".btnSave")
             const btnPostMessage = sectionAllPost.querySelector(".btnPost__message")
             const createPostFile = sectionAllPost.querySelector(".createPost__file input")
 
+            let sortTags=tagsPost.sort();
+            let allTagsItem = null;
             let passingScoreToPublish=0;
             let cardCreated = false
             let clickCounter =0
@@ -90,76 +92,58 @@ export const Timeline = () => {
 
             }
 
-            function addClassIfComplete(fieldToFillIn) {
-              if(fieldToFillIn.value){
-                fieldToFillIn.classList.add("completed")
-                fieldToFillIn.classList.remove("incomplete")
-              }else{
-                fieldToFillIn.classList.add("incomplete")
-                fieldToFillIn.classList.remove("completed")
-              }
-            }
+            function createsTheListOfItems(valueVar,array,containeList) {
 
-            function activateTheSubmitBtn() {
-              function areTheEntriesCompleted(fieldsToFillIn) {
-                return fieldsToFillIn.classList.contains("completed")
-              }
-              if( areTheEntriesCompleted(createPostPoint) &&
-                  areTheEntriesCompleted(formInformationInput) &&
-                  areTheEntriesCompleted(containerForAllLabels) &&
-                  areTheEntriesCompleted(containerPostStars)
-              ){
-                btnToSaveThePublication.classList.remove("btn--disebled")
-                btnToSaveThePublication.classList.add("btn--active")
-              }else{
-                btnToSaveThePublication.classList.add("btn--disebled")
-                btnToSaveThePublication.classList.remove("btn--active")
-              }
-            }
-            function showDefaultTags(defaultTagListData,defaultLabelListContainer) {
-              defaultTagListData.forEach((defaultTag)=>{
-
-                defaultLabelListContainer.classList.add("createTags__list--open")
+              for( valueVar of array){
+                containeList.classList.add("createTags__list--open")
                 let listItem=document.createElement("li")
                 listItem.classList.add("allTags__item")
-                listItem.innerText=defaultTag
-                defaultLabelListContainer.appendChild(listItem)
+                listItem.innerText=valueVar
+                containeList.appendChild(listItem)
+              }
 
-              })
             }
 
             function createTag(textvalue) {
 
               let tagsChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
-              let labelComparisons=[]
-              tagsChosen.forEach((tagSelect)=>{
-                tagSelect.innerText == textvalue ? labelComparisons.push(true) : labelComparisons.push(false)
-              })
+              console.log(tagsChosen)
+              if(tagsChosen.length !== 0){
+                let labelComparisons=[]
+                tagsChosen.forEach((tagSelect)=>{
+                  if(tagSelect.innerText==textvalue){
+                    labelComparisons.push(true)
+                  }else{
+                    labelComparisons.push(false)
+                  }
+                })
 
-              let noLabelCreatedResembles = labelComparisons.every((value) => value == false)
-              function showPublicationTags() {
-                if(noLabelCreatedResembles){
+                let evaluateIfTheLabelsAreSimilar = labelComparisons.every((value) => value == false)
+                // si es true imprimir
+                if(evaluateIfTheLabelsAreSimilar){
+
                   containerForAllLabels.innerHTML += publicationLabelTemplate( textvalue )
-                  inputTags.value = ""
+                  inputTags.value=""
                   textOfTheChosenLabels.push(textvalue)
-                }
-              }
-              showPublicationTags()
 
-              if(textOfTheChosenLabels == []){
-                containerForAllLabels.classList.add("incomplete")
-                containerForAllLabels.classList.remove("completed")
+                }else{
+
+                  inputTags.value=""
+
+                }
+
               }else{
-                containerForAllLabels.classList.add("completed")
-                containerForAllLabels.classList.remove("incomplete")
+                alltags.innerHTML += publicationLabelTemplate( textvalue )
+                textOfTheChosenLabels.push(textvalue)
+                inputTags.value=""
               }
-              activateTheSubmitBtn()
+
             }
 
             function closeThelistTags() {
-              defaultLabelListContainer.innerHTML=""
+              tagsList.innerHTML=""
               changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-              defaultLabelListContainer.classList.remove("createTags__list--open")
+              tagsList.classList.remove("createTags__list--open")
             }
 
             inputTags.addEventListener("focus",()=>{
@@ -167,132 +151,165 @@ export const Timeline = () => {
               function dimensionsTheWidthOfTheList() {
 
                 const widthContentTags=contentTags.clientWidth
-                defaultLabelListContainer.style.width=`${widthContentTags}px`
+                tagsList.style.width=`${widthContentTags}px`
 
               }
               dimensionsTheWidthOfTheList()
 
               function createsTheListInTheFirstApproachInInput() {
 
-                if(!inputTags.value){
+                if(inputTags.value == ""){
+                  let tag;
                   changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
-                  const sortTags = defaultLabelData.sort((a, b) => a.localeCompare(b));
-                  showDefaultTags(sortTags,defaultLabelListContainer)
+                  createsTheListOfItems(tag,sortTags,tagsList)
+                  allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+
                 }
 
               }
               createsTheListInTheFirstApproachInInput()
 
-            })
+              inputTags.addEventListener("keyup", ()=>{
 
-            inputTags.addEventListener("keyup", ()=>{
+                let matchingWords = []
+                let matchingValue=[]
 
-              let matchingWords = []
-              let matchingValues=[]
+                function filtersOutMatchingWords() {
 
-              function filtersOutMatchingWords() {
-                defaultLabelData.forEach((defaultTag)=>{
-                  const cutDefaultLabel = defaultTag.slice(0,inputTags.value.length)
-                  const evaluatesMatchingTags = cutDefaultLabel.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
-                  matchingValues.push(evaluatesMatchingTags)
-                  if(evaluatesMatchingTags){
-                    defaultLabelListContainer.classList.add("createTags__list--open")
-                    defaultLabelListContainer.innerHTML=""
-                    matchingWords.push(defaultTag)
-                  }
-                })
-              }
-              filtersOutMatchingWords()
+                  tagsPost.forEach((tag)=>{
+                    const cutTag = tag.slice(0,inputTags.value.length)
+                    const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
+                    matchingValue.push(evaluatesMatchingTags)
 
-              function deletesTheListBecauseItDoesNotMatch () {
-                const allDefaultLabelsDoNotMatch = matchingValues.every((value)=> value==false)
-                if(allDefaultLabelsDoNotMatch) closeThelistTags()
-              }
-              deletesTheListBecauseItDoesNotMatch()
-
-              function addsStylesWhenDeletingTheIputValue() {
-                if(!inputTags.value) changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
-              }
-              addsStylesWhenDeletingTheIputValue()
-
-              showDefaultTags(matchingWords,defaultLabelListContainer)
-
-            })
-
-            function identifyTheDefaultLabelList() {
-              const allTagsByDefauld = sectionAllPost.querySelectorAll(".allTags__item");
-
-              allTagsByDefauld.forEach((defaultTag)=>{
-                defaultTag.addEventListener("click",()=>{
-                  closeThelistTags()
-                  createTag(defaultTag.innerText)
-                })
-              })
-            }
-
-            defaultLabelListContainer.addEventListener("pointerover", identifyTheDefaultLabelList)
-
-            function createLabelsThroughInput() {
-              if(inputTags.value){
-                createTag(inputTags.value)
-              }
-            }
-
-            iconCreateTags.addEventListener("click",createLabelsThroughInput)
-
-            function identifyTheLabelArea() {
-              const defaultLabelListContainer = Object.values(containerForAllLabels.childNodes).filter((nodes,indexNodes)=>{return indexNodes % 2 !== 0})
-
-              defaultLabelListContainer.forEach((tag)=>{
-
-                function removeTags() {
-                  const tagIndex = textOfTheChosenLabels.findIndex(textTag=>textTag== tag.firstElementChild.innerText)
-                  textOfTheChosenLabels.splice(tagIndex,1)
-                  tag.remove()
-                  if(textOfTheChosenLabels.length==0){
-                    containerForAllLabels.classList.add("incomplete")
-                    containerForAllLabels.classList.remove("completed") 
-
-                  }else{
-                    containerForAllLabels.classList.add("completed")
-                    containerForAllLabels.classList.remove("incomplete")
-                  }
-                  activateTheSubmitBtn()
+                    if(evaluatesMatchingTags){
+                        tagsList.classList.add("createTags__list--open")
+                        tagsList.innerHTML=""
+                        matchingWords.push(tag)
+                    }
+                  })
                 }
+                filtersOutMatchingWords()
 
-                const removeIcon = tag.lastElementChild
-                if(removeIcon) removeIcon.addEventListener('click',removeTags)
+                function deletesTheListBecauseItDoesNotMatch () {
+
+                  if(matchingValue.every((value)=> value==false)){
+                    closeThelistTags()
+                  }
+
+                }
+                deletesTheListBecauseItDoesNotMatch ()
+
+                function addsStylesWhenDeletingTheIputValue() {
+                  if(inputTags.value == ""){
+
+                    changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+
+                  }
+                }
+                addsStylesWhenDeletingTheIputValue()
+
+                function createsAListOfMatchingWords() {
+
+                  let tag;
+                  createsTheListOfItems(tag,matchingWords,tagsList)
+
+                }
+                createsAListOfMatchingWords()
+
+                allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
 
               })
 
+            })
+
+/*             tagsList.addEventListener("pointerover",()=>{
+
+              allTagsItem.forEach((tag)=>{
+
+                tag.addEventListener("click",()=>{
+                  closeThelistTags()
+                  createTag(tag.innerText)
+                  cardCreated = true
+                  if(cardCreated){
+                    passingScoreToPublish++
+                    activateBtn(btnSave,3,passingScoreToPublish)
+                  }
+
+                })
+
+              })
+
+            }) */
+/*             console.log(iconCreateTags)
+            iconCreateTags.addEventListener("click",(e)=>{
+              console.log(e)
+              if(inputTags.value!==""){
+                createTag(inputTags.value)
+                cardCreated = true
+                if(cardCreated){
+                  passingScoreToPublish++
+                  activateBtn(btnSave,3,passingScoreToPublish)
+                }
+              }
+
+            }) */
+            function createLabelsThroughInput() {
+              if(inputTags.value!=="") createTag(inputTags.value)
             }
-            containerForAllLabels.addEventListener("pointerover", identifyTheLabelArea)
+            iconCreateTags.addEventListener("click",createLabelsThroughInput)
+/*             containerForAllLabels.addEventListener("pointerover",(e)=>{
+                console.log(e)
+                let tagCreated= containerForAllLabels.childNodes
+                tagCreated.forEach((tag)=>{
+
+                  if(tag.lastElementChild !== undefined){
+                    tag.lastElementChild.addEventListener('click',(e)=>{
+                      console.log(textOfTheChosenLabels);
+                      tag.remove()
+                    });
+                  }
+
+                })
+
+            }) */
+            containerForAllLabels.addEventListener("pointerover",(e)=>{
+                console.log(e)
+                let tagCreated= containerForAllLabels.childNodes
+                tagCreated.forEach((tag)=>{
+
+                  if(tag.lastElementChild !== undefined){
+                    tag.lastElementChild.addEventListener('click',(e)=>{
+                      console.log(textOfTheChosenLabels);
+                      tag.remove()
+                    });
+                  }
+
+                })
+
+            })
 
             function addTheValueToTheStars() {
-              ratingContainer.forEach((star,indexStart)=>{
 
-                function paintTheStars() {
+              containerPostStars.addEventListener("click",()=>{
+                clickCounter++
+                if(clickCounter==1){
+                  passingScoreToPublish++
+                  activateBtn(btnSave,3,passingScoreToPublish)
+                }
+              })
+
+              createPostStars.forEach((star,indexStart)=>{
+                star.addEventListener("click",()=>{
                   for(let i = 0; i <= indexStart; i++){
-                    ratingContainer[i].classList.add("puntuacion_escogida")
+                    createPostStars[i].classList.add("puntuacion_escogida")
                   }
 
-                  for(let i = indexStart+1; i<ratingContainer.length; i++){
-                    ratingContainer[i].classList.remove("puntuacion_escogida")
+                  for(let i = indexStart+1; i<createPostStars.length; i++){
+                    createPostStars[i].classList.remove("puntuacion_escogida")
                   }
 
                   pointScoring = indexStart + 1
-
-                  if(pointScoring){
-                    containerPostStars.classList.add("completed")
-                    containerPostStars.classList.remove("incomplete")
-                  }else{
-                    containerPostStars.classList.add("incomplete")
-                    containerPostStars.classList.remove("completed")
-                  }
-                  activateTheSubmitBtn()
-                }
-
-                star.addEventListener("click", paintTheStars)
+                })
               })
 
             }
@@ -301,20 +318,18 @@ export const Timeline = () => {
             createPostPoint.addEventListener("keyup",()=>{
               closeThelistTags()
               firstLetterCapitalized(createPostPoint)
-              addClassIfComplete(createPostPoint)
-              activateTheSubmitBtn()
+
+              if(createPostPoint.value.length==1){
+                passingScoreToPublish++
+                activateBtn(btnSave,3,passingScoreToPublish)
+              }
             })
 
             inputTags.addEventListener("keyup",()=>{
               firstLetterCapitalized(inputTags)
             })
 
-            formInformationInput.addEventListener("keyup",()=>{
-              addClassIfComplete(formInformationInput)
-              activateTheSubmitBtn()
-            })
-
-            formInformationInput.addEventListener("click",()=>{
+            createPostInfo.addEventListener("click",()=>{
               closeThelistTags()
               firstLetterCapitalized(createPostPoint)
             })
@@ -323,23 +338,26 @@ export const Timeline = () => {
               closeThelistTags()
             })
 
-            btnToSaveThePublication.addEventListener("click",(e)=>{
+            btnSave.addEventListener("click",(e)=>{
               e.preventDefault()
               closeThelistTags()
-              function areTheEntriesCompleted(createPostPoint) {
-                return createPostPoint.classList.contains("completed")
-              }
-              /* btnToSaveThePublication.classList.contains("btn--active") */
-              /* createPostPoint.classList.contains("completed") */
-              if( btnToSaveThePublication.classList.contains("btn--active") ){
+
+              if(passingScoreToPublish<3){
+
+                btnPostMessage.show()
+                setTimeout(() => {
+                  btnPostMessage.close()
+                }, 1500);
+
+              }else{
                 let ms = Date.parse(new Date())
                 console.log(ms)
                 async function getPublicationIdentifier(){
                   try{
-                      /*const ID_PUBLICATION = await createPost(
+                    const ID_PUBLICATION = await createPost(
                       userIdActive,
                       createPostPoint.value,
-                      formInformationInput.value,
+                      createPostInfo.value,
                       textOfTheChosenLabels,
                       pointScoring,
                       "",
@@ -347,21 +365,17 @@ export const Timeline = () => {
                       ms,
                       0,
                       []
-                    ) */
-                    /*updatePublicationID("user-publication",ID_PUBLICATION.id,{"id_post":ID_PUBLICATION.id})
-                    updateTheIdentifiersOfUserPublications("user-account", userIdActive, ID_PUBLICATION.id) */
+                    )
+                    updatePublicationID("user-publication",ID_PUBLICATION.id,{"id_post":ID_PUBLICATION.id})
+                    updateTheIdentifiersOfUserPublications("user-account", userIdActive, ID_PUBLICATION.id)
                   }catch(error){
                     console.log(error)
                   }
                 }
                 getPublicationIdentifier()
-              }else{
-                btnPostMessage.show()
-                setTimeout(() => {
-                  btnPostMessage.close()
-                }, 1500);
-              }
 
+
+              }
             })
 
           }else{

@@ -38,3 +38,4 @@ export const deletePost = (id) => {
   return deleteDoc(doc(db, 'post', id));
 };
 */
+

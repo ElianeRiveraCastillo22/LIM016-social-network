@@ -8,7 +8,7 @@ let registryData;
 let emailVerified;
 export const listensToTheActiveUser = (sectionLoader) => {
   return onAuthStateChanged(auth, async(user) => {
-
+    console.log(user)
     userActive= await user
     if (userActive !== undefined && user.emailVerified) {
 

@@ -34,7 +34,7 @@ export const addPointToFirestore = async (id,name,url_profile,email,psw,descript
 
 }
 
-export const createPost = async (id_user, name_point, description, attributes, rating, url_reference, id_post) => {
+export const createPost = async (id_user, name_point, description, attributes, rating, url_reference, id_post,timestamp,likes,usersWhoLiked) => {
 
     const docRef = await addDoc(collection(db, "user-publication"), {
         id_user,
@@ -43,14 +43,16 @@ export const createPost = async (id_user, name_point, description, attributes, r
         attributes,
         rating,
         url_reference,
-        id_post
-
+        id_post,
+        timestamp,
+        likes,
+        usersWhoLiked
     });
+    return docRef
 
-    console.log("Document written with ID: ", docRef.id);
 }
 
-export const createOffer = async (id_point, description, start_date, end_date, url_reference, id_offer) => {
+export const createOffer = async (id_point, description, start_date, end_date, url_reference, id_offer,timestamp) => {
 
     const docRef = await addDoc(collection(db, "point-publication"), {
         id_point,
@@ -58,7 +60,8 @@ export const createOffer = async (id_point, description, start_date, end_date, u
         start_date,
         end_date,
         url_reference,
-        id_offer
+        id_offer,
+        timestamp
     });
     console.log("Document written with ID: ", docRef.id);
 }

@@ -2,7 +2,7 @@ export const templatePublicationForm = (name,photo) =>{
     const timeline = `
         <section class="createPost--user boxProfile">
         <figure class="cretePost--photo boxProfilePhoto">
-            <img class="perfil" src=${photo} alt="">
+            <img class="perfil" src=${photo} alt="image profile">
         </figure>
         <p class="user--name">${name}</p>
         </section>

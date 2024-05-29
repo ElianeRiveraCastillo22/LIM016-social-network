@@ -10,6 +10,9 @@ export const mainTimelineStructure = () => {
       <dialog class="btnPost__message">
           <p>Agrega contenido a tu publicación por favor y vuelve a intentarlo</p>
       </dialog>
+      <dialog class="popup__dialog" >
+
+      </dialog>
     </div>
     `
     return timeline

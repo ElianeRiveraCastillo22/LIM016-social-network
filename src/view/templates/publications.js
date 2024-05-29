@@ -8,7 +8,7 @@ export const templatePublications = (data, otherUsers, userIdActive, publication
         <header class="boxProfile publicationPosts--profile">
             <div class="boxProfile--user">
                 <figure class="boxProfilePhoto publicationPosts--photo">
-                    <img class="perfil" src="${updatePhotoURL(otherUsers)}" alt="${otherUsers.name}">
+                    <img class="perfil" src="${updatePhotoURL(otherUsers)}" alt="image profile">
                 </figure>
                 <p class="user--name publicationPosts--name">${otherUsers.name}</p>
             </div>`
@@ -56,12 +56,12 @@ export const publicationConfigurationTemplate = ( data ) => {
     </figure>
     <dialog id="${data.id_post}" class="boxProfile__popupEditorDelate">
       <li class="popupEditorDelate__containerBox">
-          <ul class="popupEditorDelate__box popupEditorDelate__box--Edit">
+          <ul class="popupEditorDelate__box popupEditorDelate__box--Edit" >
             <img class="popupEditorDelate__icon" src="../img/iconos/edit.svg" alt="icono de editar"/>
             <p class="popupEditorDelate__txt">Editar</p>
           </ul>
-          <ul class="popupEditorDelate__box popupEditorDelate__box--delete">
-            <img class="popupEditorDelate__icon" src="../img/iconos/delate.svg" alt="icono de eliminar"/>
+          <ul class="popupEditorDelate__box popupEditorDelate__box--delete" >
+            <img class="popupEditorDelate__icon" src="../img/iconos/delate.svg" alt="icono de eliminar" />
             <p class="popupEditorDelate__txt">Eliminar</p>
           </ul>
       </li>
@@ -101,5 +101,17 @@ export const publicationLabelTemplate = ( identificationText ) => {
     </li>
     `
     return label
+}
+export const popupRemovePublication = () => {
+    const dialog = `
+    <div class="removePublication__box">
+      <p class="removePublication__txt">¿Seguro que quiere eliminar la publicación? 🤔</p>
+      <section class="removePublication__containerBtn">
+        <button class="removePublication__btn removePublication__btn--cancel btn--secondary" >Cancelar</button>
+        <button class="removePublication__btn removePublication__btn--delete btn--primary" >Eliminar</button>
+      </section>
+    </div>
+    `
+    return dialog
 }
 

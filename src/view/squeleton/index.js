@@ -66,3 +66,13 @@ export const skeletonPublications = () => {
     `
     return skeletonPublication
 }
+export function templateLoader(sectionContainer,msj) {
+    sectionContainer.innerHTML += `
+    <div class="popupLoader">
+      <div class="popupLoader__containerLoader">
+        <span class="loader"></span>
+        <p class="popupLoader__msj">${msj}</p>
+      </div>
+    </div>
+    `
+}

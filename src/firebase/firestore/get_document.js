@@ -1,6 +1,6 @@
 import { db, doc, getDoc, query, onSnapshot,collection,orderBy, getDocs} from "../configuraciones.js";
 
-export const getDocUser= async(idDoc) =>{
+export const getDocUser = async(idDoc) => {
     const docRef = await doc(db, "user-account", idDoc);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -10,7 +10,7 @@ export const getDocUser= async(idDoc) =>{
         return console.log("No such document!")
     }
 }
-export const getDocPoint= async(idDoc) =>{
+export const getDocPoint = async(idDoc) => {
     const docRef = await doc(db, "point-account", idDoc);
     const docSnap = await getDoc(docRef);
 
@@ -25,7 +25,7 @@ export const getUserPublications = async (callback) => {
     const q = query(collection(db, "user-publication"),orderBy('timestamp',"desc"))
     return onSnapshot(q, callback)
 }
-export const getPublished = async(idDoc) =>{
+export const getPublished = async(idDoc) => {
     const docRef = await doc(db, "user-publication", idDoc);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {

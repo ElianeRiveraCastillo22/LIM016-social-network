@@ -477,7 +477,7 @@ hgroup {
 }
 .box--posts {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -620,8 +620,8 @@ hgroup {
 }
 .createpost__tag{
   background: #64f08333;
-  padding: .125rem .5rem .125rem .75rem;
-  border-radius: .625rem;
+  padding: .25rem .5rem .25rem .75rem;
+  border-radius: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -657,7 +657,10 @@ hgroup {
 }
 .allTags__item{
   padding: 0rem .5rem;
-  color: var(--p-color-text-Input)
+  color: var(--p-color-text-Input);
+  min-height: 28px;
+  display: flex;
+  align-items: center;
 }
 .allTags__item:hover{
   background: #a081d920;
@@ -751,6 +754,10 @@ hgroup {
 }
 .btn--active{
   background-color:#8662C7;
+  cursor: pointer;
+}
+.btn--active:hover{
+  background-color:var(--i-color-bg--icon);
 }
 .boxProfilePhoto{
   display: flex;
@@ -770,6 +777,32 @@ hgroup {
   column-gap: 4%;
   align-items: center;
   justify-content: space-between;
+}
+.createPost__user--containerUser{
+  display: flex;
+  width: 85%;
+  column-gap: 4%;
+  align-items: center;
+}
+.createPost__iconClose {
+  min-height: 28px;
+  min-width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.createPost__iconClose path:hover {
+  fill: var(--i-color-bg--icon);
+}
+.createPost__iconClose--form {
+  cursor: pointer;
+}
+.createPost__iconClose--form path:hover {
+  fill: var(--i-color-bg--icon);
+}
+.createTags__aprove--boxsvg path:hover {
+  fill: var(--i-color-bg--icon);
 }
 .boxProfile--iconMore {
   min-height: 32px;
@@ -1381,6 +1414,18 @@ button#btnSignIn {
     background-position: -100% 0;
   }
 }
+.createPost--update{
+  background: white;
+  margin: .75rem 0rem;
+  width: 100%;
+  min-width: 9.375rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1.5rem 0rem;
+  border-radius: 1rem;
+}
 
 
 
@@ -1410,10 +1455,7 @@ button#btnSignIn {
   .logo--queerPlace, .signUp--title {
     padding-top: 2rem;
   }
-  .removePublication__box {
 
-    max-width: max-content;
-}
 
 }
 
@@ -1448,10 +1490,24 @@ button#btnSignIn {
   .createPost{
     border-radius: 2rem;
   }
-
-
+  .createPost--update {
+      width: 60%;
+  }
+  .removePublication__box {
+    max-width: max-content;
+  }
 }
 @media (width >= 64rem) {
+
+}
+/*laptop*/
+@media (width >= 1024px)and (height <= 1000px) {
+  .createPost--update {
+    width: 40%;
+  }
+}
+/*tableta*/
+@media (width >= 1024px)and (height > 1000px) {
 
 }
 @media (width >= 90rem) {

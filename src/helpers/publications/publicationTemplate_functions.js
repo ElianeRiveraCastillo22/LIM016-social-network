@@ -1,4 +1,4 @@
-import { likeIconsTemplate, publicationConfigurationTemplate, publicationLabelsTemplate, starTemplate } from "../view/templates/publications.js"
+import { likeIconsTemplate, publicationConfigurationTemplate, publicationLabelsTemplate, starTemplate } from "../../view/templates/publications.js"
 
 export const showPublicationSettings = ( data, userIdActive, publicationsContainer ) => {
     if(userIdActive==data.id_user)  publicationsContainer += publicationConfigurationTemplate(data)

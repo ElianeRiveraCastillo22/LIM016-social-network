@@ -28,8 +28,9 @@ export const Nav = () => {
   const navElemt = document.createElement('nav');
   navElemt.innerHTML = showNav;
   const navSection = navElemt.querySelectorAll(".nav--section")
+  const btnSingout = navElemt.querySelector("#signout")
 
-  navElemt.querySelector("#signout").addEventListener('click',(e)=>{
+  btnSingout.addEventListener('click',(e)=>{
     e.preventDefault()
     let userIdActive=localStorage.getItem('IdUsuario')
     let userNameRegister= localStorage.getItem('nameRegister')
@@ -46,9 +47,8 @@ export const Nav = () => {
   const {hash}= location
   const currentHash=hash.split("/")[1]
   let htmlHashCurrent=navElemt.querySelector("#"+ currentHash)
+  htmlHashCurrent.lastElementChild.classList.add("nav__location--txt")
 
-/*   htmlHashCurrent.classList.add("nav__select--hash")
-  console.log(navSection) */
   navSection.forEach((hashCurrent,indexCurrentHash) => {
     hashCurrent.addEventListener("click",()=>{
 

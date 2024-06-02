@@ -261,6 +261,62 @@ function paintTheStarsToEdit(rating,ratingContainer) {
     ratingContainer[i].classList.add("puntuacion_escogida")
   }
 }
+
+class PublicationFormValues {
+  constructor({
+    id_user = "",
+    name_point,
+    description,
+    rating,
+    url_reference = "",
+    id_post = "",
+    likes = 0,
+    usersWhoLiked = []
+  }={}){
+    this.id_user = id_user,
+    this.name_point = name_point,
+    this.description = description,
+    this.rating = rating,
+    this.url_reference = url_reference,
+    this.id_post = id_post,
+    this.likes = likes,
+    this.usersWhoLiked = usersWhoLiked
+  }
+  getWhencreated(){
+    let ms = Date.parse(new Date())
+    this.timestamp = ms
+  }
+  getPublicationTags(containerForAllLabels){
+    const allLabelElements = containerForAllLabels.querySelectorAll(".createpost__tag")
+    const defaultLabelListContainer = Object.values(allLabelElements)
+    const tagValues = defaultLabelListContainer.map((tag)=>tag.firstElementChild.innerText)
+    this.attributes = tagValues
+  }
+}
+function formValues(PublicationFormValues,containerForAllLabels) {
+  const publicationForm = new PublicationFormValues({
+    id_user: userIdActive,
+    name_point: createPostPoint.value,
+    description: formInformationInput.value,
+    rating: containerPostStars.dataset.pointscoring,
+  })
+  publicationForm.getWhencreated()
+  publicationForm.getPublicationTags(containerForAllLabels)
+
+  const objpublicationValues = {
+    id_user: publicationForm.id_user,
+    name_point: publicationForm.name_point,
+    description: publicationForm.description,
+    attributes: publicationForm.attributes,
+    rating: publicationForm.rating,
+    url_reference: publicationForm.url_reference,
+    id_post: publicationForm.id_post,
+    timestamp: publicationForm.timestamp,
+    likes: publicationForm.likes,
+    usersWhoLiked: publicationForm.usersWhoLiked
+  }
+  return objpublicationValues
+}
 export {
   updatePhotoURL,
   getElementsOfThePublicationForm,
@@ -279,5 +335,7 @@ export {
   createLabelsThroughInput,
   identifyTheLabelArea,
   addTheValueToTheStars,
-  paintTheStarsToEdit
+  paintTheStarsToEdit,
+  PublicationFormValues,
+  
 }

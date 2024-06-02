@@ -57,11 +57,11 @@ export const publicationConfigurationTemplate = ( data ) => {
     </figure>
     <dialog id="${data.id_post}" class="boxProfile__popupEditorDelate">
       <li class="popupEditorDelate__containerBox">
-          <ul class="popupEditorDelate__box popupEditorDelate__box--Edit" >
+          <ul class="popupEditorDelate__box popupEditorDelate__box--Edit" data-IDPublication="${data.id_post}">
             <img class="popupEditorDelate__icon" src="../img/iconos/edit.svg" alt="icono de editar"/>
             <p class="popupEditorDelate__txt">Editar</p>
           </ul>
-          <ul class="popupEditorDelate__box popupEditorDelate__box--delete" >
+          <ul class="popupEditorDelate__box popupEditorDelate__box--delete" data-IDPublication="${data.id_post}">
             <img class="popupEditorDelate__icon" src="../img/iconos/delate.svg" alt="icono de eliminar" />
             <p class="popupEditorDelate__txt">Eliminar</p>
           </ul>

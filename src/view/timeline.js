@@ -1,12 +1,12 @@
 import { getDocUser, getPublished, getUserPublications } from "../firebase/firestore/get_document.js";
 import { createPost } from "../firebase/firestore/add_document.js";
-import { updateLikesValues, updatePublicationID, updateTheIdentifiersOfUserPublications, updateWhoDeletedLike, updatesUsersWhoLike } from "../firebase/firestore/update_document.js";
+import { updateLikesValues, updatePublicationDocument, updatePublicationID, updateTheIdentifiersOfUserPublications, updateWhoDeletedLike, updatesUsersWhoLike } from "../firebase/firestore/update_document.js";
 import { skeletonPublicationForm, skeletonPublications, templateLoader } from "./squeleton/index.js";
 import { mainTimelineStructure } from "./templates/timeline.js";
 import { templatePublicationForm } from "./templates/templatePublicationForm.js";
 import { popupRemovePublication, publicationLabelTemplate, templatePublications } from "./templates/publications.js";
 import { deletePublicationDocument } from "../firebase/firestore/delete_document.js";
-import { updatePhotoURL, getElementsOfThePublicationForm, closeThelistTags, paintTheStarsToEdit} from "../helpers/publicationsForm/publicationForm_fuctions.js";
+import { updatePhotoURL, getElementsOfThePublicationForm, closeThelistTags, paintTheStarsToEdit, PublicationFormValues} from "../helpers/publicationsForm/publicationForm_fuctions.js";
 import { publicationFormFunctions } from "../helpers/publicationsForm/publicationsForm_event.js";
 
 export const Timeline = () => {
@@ -16,8 +16,7 @@ export const Timeline = () => {
   const heightHead=document.querySelector("#navegador");
 
   function resizeSpaceBetweenHeaderAndMain() {
-    let missingValue = 65 - heightHead.clientHeight;
-    sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`;
+    sectionAllPost.style.top=`${heightHead.clientHeight }px`;
   }
   resizeSpaceBetweenHeaderAndMain()
 
@@ -30,7 +29,7 @@ export const Timeline = () => {
   const boxPosts = sectionAllPost.querySelector(".box--posts")
   const postLoader = sectionAllPost.querySelector(".loader")
   const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
-
+  const loaderPublications = document.querySelector(".box__posts--boxloader")
   function showSkeletonHome() {
     boxCreatePost.innerHTML = skeletonPublicationForm()
     publicationPosts.innerHTML = skeletonPublications();
@@ -109,23 +108,35 @@ export const Timeline = () => {
                 const allLabelElements = containerForAllLabels.querySelectorAll(".createpost__tag")
                 const defaultLabelListContainer = Object.values(allLabelElements)
                 const tagValues = defaultLabelListContainer.map((tag)=>tag.firstElementChild.innerText)
-                async function getPublicationIdentifier(){
+
+ 
+                const publicationForm = new PublicationFormValues({
+                  id_user: userIdActive,
+                  name_point: createPostPoint.value,
+                  description: formInformationInput.value,
+                  rating: containerPostStars.dataset.pointscoring,
+                })
+                publicationForm.getWhencreated()
+                publicationForm.getPublicationTags(containerForAllLabels)
+
+                const objpublicationValues = {
+                  id_user: publicationForm.id_user,
+                  name_point: publicationForm.name_point,
+                  description: publicationForm.description,
+                  attributes: publicationForm.attributes,
+                  rating: publicationForm.rating,
+                  url_reference: publicationForm.url_reference,
+                  id_post: publicationForm.id_post,
+                  timestamp: publicationForm.timestamp,
+                  likes: publicationForm.likes,
+                  usersWhoLiked: publicationForm.usersWhoLiked
+                }
+
+                async function createPublicationDocument(){
 
                   try{
 
-                      const ID_PUBLICATION = await createPost(
-                      userIdActive,
-                      createPostPoint.value,
-                      formInformationInput.value,
-                      tagValues,
-                      containerPostStars.dataset.pointscoring,
-                      "",
-                      "",
-                      ms,
-                      0,
-                      []
-                    )
-
+                    const ID_PUBLICATION = await createPost(objpublicationValues)
                     updatePublicationID("user-publication",ID_PUBLICATION.id,{"id_post":ID_PUBLICATION.id})
                     updateTheIdentifiersOfUserPublications("user-account", userIdActive, ID_PUBLICATION.id)
 
@@ -159,11 +170,10 @@ export const Timeline = () => {
                     }
 
                     clearTheFieldsOfThePublicationForm()
-
                   }
                 }
+                createPublicationDocument()
 
-                getPublicationIdentifier()
                 btnToSaveThePublication.classList.remove("btn--active")
                 btnToSaveThePublication.classList.add("btn--disebled")
 
@@ -190,12 +200,12 @@ export const Timeline = () => {
       async function showPublications() {
 
         try {
-          const prueba = await getUserPublications()
-
+          /* await getUserPublications((post)=>{
+            console.log(post)
+          }) */
           await getUserPublications((posts)=>{
 
             let allPostHome = ''
-
             posts.forEach((post)=>{
 
               async function getUsersFromPublications() {
@@ -203,7 +213,7 @@ export const Timeline = () => {
                 try {
 
                   const otherUsers = await getUser(post.data().id_user)
-                  allPostHome = templatePublications(post.data(), otherUsers, userIdActive, allPostHome)
+                  allPostHome = templatePublications(post.data(), otherUsers, userIdActive, allPostHome,post.data().id_post)
                   publicationPosts.innerHTML = allPostHome
 
                   const iconsLike = sectionAllPost.querySelectorAll(".publicationReview--iconLike")
@@ -214,7 +224,7 @@ export const Timeline = () => {
 
                   iconsLike.forEach((iconLike)=>{
                     iconLike.addEventListener("click",(e)=>{
-
+                      e.preventDefault()
                       const ID_POST = iconLike.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.idpublication;
 
                       async function getUsersWhoLikedIt() {
@@ -302,14 +312,12 @@ export const Timeline = () => {
                   btnsEdit.forEach((btnEdit)=>{
 
                     btnEdit.addEventListener("click", (e)=>{
-
-                      const ID_POST = btnEdit.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.idpublication
-
+                      const ID_POST = btnEdit.dataset.idpublication
                       const popupEdit = sectionAllPost.querySelector(".popup__dialog")
                       const boxPopupEdit = document.createElement("div")
                       boxPopupEdit.classList.add("createPost--update")
 
-                      boxPopupEdit.innerHTML = templatePublicationForm(localStorage.getItem("nameUser"),localStorage.getItem("profilePicture"), "Actualizar", "completed", "btn--active")
+                      boxPopupEdit.innerHTML = templatePublicationForm(localStorage.getItem("nameUser"),localStorage.getItem("profilePicture"), "Actualizar", "completed", "btn--active","",ID_POST)
                       popupEdit.appendChild(boxPopupEdit)
 
                       popupEdit.show()
@@ -353,28 +361,34 @@ export const Timeline = () => {
                         const rating = publicationToEdit.querySelector(".createPost__stars").dataset.rating
                         const description = publicationToEdit.querySelector(".publicationReview--post p").innerText
                         const elemntAttributes = publicationToEdit.querySelectorAll(".publicationReview--tag")
-                        const txtLabelsChosen = Object.values(elemntAttributes).map((tag)=>{return tag.innerText})
+                        const attributes = Object.values(elemntAttributes).map((tag)=>{return tag.innerText})
 
                         return {
+                          attributes,
+                          description,
                           name_point,
                           rating,
-                          description,
-                          txtLabelsChosen
                         }
                       }
                       getPublicationValues()
 
-                      let { name_point,rating,description,txtLabelsChosen } = getPublicationValues()
-                      createPostPoint.value = name_point;
-                      formInformationInput.value = description;
+                      let { name_point, rating, description, attributes } = getPublicationValues()
 
-                      paintTheStarsToEdit(rating,ratingContainer)
+                      function showsTheValuesOfThePublicationInTheForm() {
+
+                        createPostPoint.value = name_point;
+                        formInformationInput.value = description;
+                        containerPostStars.dataset.pointscoring = rating
+                        paintTheStarsToEdit(rating,ratingContainer)
+
+                      }
+                      showsTheValuesOfThePublicationInTheForm()
 
                       function showPublicationTags(containerForAllLabels,textvalue) {
                           containerForAllLabels.innerHTML += publicationLabelTemplate( textvalue )
                       }
 
-                      txtLabelsChosen.forEach((tag)=>{
+                      attributes.forEach((tag)=>{
                         showPublicationTags(containerForAllLabels,tag)
                       })
 
@@ -383,6 +397,74 @@ export const Timeline = () => {
                         closePopup(popupEdit)
                       })
 
+                      const btnUpdate = boxPopupEdit.querySelector(".createPost__iconClose")
+                      btnToSaveThePublication.addEventListener("click", (e)=>{
+                        e.preventDefault()
+
+                        const publicationForm = new PublicationFormValues({
+                          name_point: createPostPoint.value,
+                          description: formInformationInput.value,
+                          rating: containerPostStars.dataset.pointscoring,
+                        })
+                        publicationForm.getPublicationTags(containerForAllLabels)
+
+                        const objpublicationValues = {
+                          attributes: publicationForm.attributes,
+                          description: publicationForm.description,
+                          name_point: publicationForm.name_point,
+                          rating: publicationForm.rating,
+                        }
+
+                        const keys_currentPublication = Object.entries(objpublicationValues)
+                        const keys_previousPublication = Object.entries(getPublicationValues())
+
+                        function compareValuesForUpdate(objNewValues, field, fieldIndex) {
+
+                          const publicationFields = field[0]
+
+                          if((typeof field[1]) == "object"){
+
+                            const tagsArray = keys_previousPublication[fieldIndex][1]
+                            const newTags = tagsArray.every((tag, tagIndex) => tag == keys_currentPublication[fieldIndex][1][tagIndex])
+
+                            if(!newTags){
+                              objNewValues[publicationFields] = keys_currentPublication[fieldIndex][1]
+                            }
+
+                          }else{
+
+                            if(!(field[1] === keys_previousPublication[fieldIndex][1])){
+                              objNewValues[publicationFields] = field[1]
+                            }
+                          }
+                          return objNewValues
+
+                        }
+
+                        const updatedValuesForPublication = keys_currentPublication.reduce(compareValuesForUpdate,{})
+
+                        if(!(Object.keys(updatedValuesForPublication).length == 0)){
+                          const ID_POST = btnEdit.dataset.idpublication
+
+                          templateLoader(publicationPosts,"Actulizando...")
+                          const popupLoader = sectionAllPost.querySelector(".popupLoader")
+                          const msjLoader = sectionAllPost.querySelector(".popupLoader__msj")
+
+                          async function updatePublication() {
+                            try{
+                              await updatePublicationDocument(ID_POST, "user-publication",updatedValuesForPublication)
+                            }catch(error){
+                              console.log(error)
+                            }finally{
+                              msjLoader.innerText ="Actualizado ✔"
+                              popupLoader.remove()
+                            }
+                          }
+                          updatePublication()
+
+                        }
+                        closePopup(popupEdit)
+                      })
                     })
                   })
 
@@ -390,7 +472,7 @@ export const Timeline = () => {
                     btnDelete.addEventListener("click",(e)=>{
 
                       e.preventDefault()
-                      const ID_POST =btnDelete.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.idpublication
+                      const ID_POST = btnDelete.dataset.idpublication
                       const popupRemove = sectionAllPost.querySelector(".popup__dialog")
 
                       popupRemove.innerHTML = popupRemovePublication()
@@ -418,7 +500,7 @@ export const Timeline = () => {
 
                           }finally{
 
-                            closePopup(popupRemove)
+                            
                             msjLoader.innerText ="Eliminado ✔"
                             popupLoader.remove()
                             console.log("eliminado")
@@ -426,7 +508,7 @@ export const Timeline = () => {
                           }
                         }
                         removePublication()
-
+                        closePopup(popupRemove)
                       })
 
                       btnCancel.addEventListener("click", ()=>{
@@ -442,14 +524,15 @@ export const Timeline = () => {
                 } catch (error) {
                   console.log(error)
                 }
-
+                return allPostHome
               }
 
               getUsersFromPublications()
 
+              /* console.log(allPostHome) */
             })
             if (postLoader) boxPosts.removeChild(postLoader)
-
+              return allPostHome
           })
 
         } catch (error) {
@@ -459,10 +542,29 @@ export const Timeline = () => {
         }
 
       }
+      showPublications()
 
-    showPublications()
+  }
 
-  }/* else if(userNameRegister == "point-account"){
+  boxCreatePost.addEventListener("touchstart", (eventStart)=>{
+    function moveAt(pageY) {
+      if(pageY - eventStart.targetTouches[0].pageY <= 90){
+        loaderPublications.style.top = pageY - eventStart.targetTouches[0].pageY + 'px'
+        loaderPublications.firstElementChild.style.transform =`rotate(${(pageY - eventStart.targetTouches[0].pageY)*4}deg)`
+      }else{
+        loaderPublications.style.top="-32px";
+      document.location.reload()
+      }
+    }
+    function onTouchMove(eventMove) {
+      moveAt(eventMove.targetTouches[0].pageY);
+    }
+    document.addEventListener('touchmove', onTouchMove);
+    document.addEventListener("touchend",()=>{
+      loaderPublications.style.top="-32px";
+    })
+  })
+  /* else if(userNameRegister == "point-account"){
     getDocPoint(userIdActive).then((response)=>{
       createPost.classList.add("createPost--space")
       if(response !== undefined && response.active_session == true){

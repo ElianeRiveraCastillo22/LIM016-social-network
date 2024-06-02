@@ -34,20 +34,9 @@ export const addPointToFirestore = async (id,name,url_profile,email,psw,descript
 
 }
 
-export const createPost = async (id_user, name_point, description, attributes, rating, url_reference, id_post,timestamp,likes,usersWhoLiked) => {
+export const createPost = async (objData) => {
 
-    const docRef = await addDoc(collection(db, "user-publication"), {
-        id_user,
-        name_point,
-        description,
-        attributes,
-        rating,
-        url_reference,
-        id_post,
-        timestamp,
-        likes,
-        usersWhoLiked
-    });
+    const docRef = await addDoc(collection(db, "user-publication"), objData)
     return docRef
 
 }

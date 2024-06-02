@@ -1,6 +1,6 @@
 import { showIconClose } from "../../helpers/publicationsForm/publicationFormTemplate_functions.js";
 
-export const templatePublicationForm = (name, photo, textBtnSave, filledValue="",statebtn) =>{
+export const templatePublicationForm = (name, photo, textBtnSave, filledValue="",statebtn,scoring=0, id_post="") =>{
     let timeline =""
      timeline += `
         <header class="createPost--user boxProfile">
@@ -36,7 +36,7 @@ export const templatePublicationForm = (name, photo, textBtnSave, filledValue=""
                 <section class="createPost__containerRating">
                     <section class="createPost__rating">
                         <p>¿Cómo lo calificas?</p>
-                        <div class="createPost__stars ${filledValue}" data-pointScoring="0">
+                        <div class="createPost__stars ${filledValue}" data-pointScoring="${scoring}">
                             <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="white" d="M4.95242 5.55686L6.51094 2.25231C6.71098 1.82809 7.28902 1.82809 7.48906 2.25231L9.04756 5.55686L12.5329 6.09004C12.9801 6.15845 13.1583 6.73377 12.8346 7.06377L10.313 9.63423L10.9081 13.2656C10.9845 13.7319 10.5168 14.0875 10.1167 13.8673L7 12.1518L3.88328 13.8673C3.48316 14.0875 3.01545 13.7319 3.09187 13.2656L3.68695 9.63423L1.16545 7.06377C0.841703 6.73377 1.01993 6.15845 1.46711 6.09004L4.95242 5.55686Z" stroke="#F6AF00" stroke-opacity="0.74" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -62,7 +62,7 @@ export const templatePublicationForm = (name, photo, textBtnSave, filledValue=""
             </div>
 
             <div class="btnPost">
-                <input type="submit" value="${textBtnSave}" id="btnSave" class="btnSave ${statebtn}"/>
+                <input type="submit" value="${textBtnSave}" id="btnSave" class="btnSave ${statebtn}" data-IDPublication="${id_post}"/>
             </div>
         </form>
     `;

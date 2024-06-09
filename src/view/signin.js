@@ -1,53 +1,142 @@
 import {googleAuth} from '../firebase/auth/auth_google_signin_popup.js';
 import { verifyWithEmailAndPassword } from '../firebase/auth/auth_signin_password.js';
-
-import { locationSignUp } from '../helpers/locations.js';
-import { mailValidator } from '../helpers/mailValidator.js';
-import { setErrorInput } from '../helpers/setErrorInput.js';
-import { validateseEmptyInputs } from '../helpers/validateseEmptyInputs.js';
+import { locationHome, locationSignUp, locationUpdateUser } from '../helpers/locations.js';
+import { emailValidator } from '../helpers/emailValidator.js';
 import { showSignIn } from './templates/signIn.js';
-
-let emailValue;
-let passwordValue;
+import { getPublished, getRegistrationDocument } from '../firebase/firestore/get_document.js';
+import { threePointTemplates } from './squeleton/index.js';
+import { validatePassword } from '../helpers/validatePassword.js';
+import { signInPopUp } from '../helpers/signInPopUp.js';
+import { updatePhotoURL } from '../helpers/updatePhotoURL.js';
+import { updateRegistration } from '../firebase/firestore/update_document.js';
 
 export const SignIn = () => {
 
-  const sectionSignIn = document.createElement('div');
-  sectionSignIn.setAttribute('class', 'section--signup');
-  sectionSignIn.innerHTML = showSignIn;
+	const sectionSignIn = document.createElement('div');
+	sectionSignIn.setAttribute('class', 'section--signup');
+	sectionSignIn.innerHTML = showSignIn;
 
-  const btnGoogle=sectionSignIn.querySelector('#google')
-  const loginInGoogle= sectionSignIn.querySelector('.loginInGoogle')
-  const btnSignIn=sectionSignIn.querySelector('#btnSignIn')
-  const btnGoToOption=sectionSignIn.querySelector('.goToOption')
+	const btnGoogle=sectionSignIn.querySelector('#google')
+	const googleLoginBtn= sectionSignIn.querySelector('.loginInGoogle')
+	const btnSignIn=sectionSignIn.querySelector('#btnSignIn')
+	const btnToSignup=sectionSignIn.querySelector('.goToOption')
+	const loginInGoogleLoader = sectionSignIn.querySelector(".loginInGoogle__loader")
+	const inputEmail =sectionSignIn.querySelector('#email')
+	const inputPassword =sectionSignIn.querySelector('#password')
 
-  btnGoogle.addEventListener('click',()=>{
-    googleAuth(loginInGoogle)
-  });
-  btnGoToOption.addEventListener('click', locationSignUp);
-  btnSignIn.addEventListener('click', (e)=>{
+	async function showGooglePopup() {
+		try{
+			loginInGoogleLoader.innerHTML = threePointTemplates("btnloader__dot--btnGoogle")
+			googleLoginBtn.classList.add("loginInGoogle--showloader")
+			const registrationData = await googleAuth()
 
-    e.preventDefault()
+			async function getFirebaseRegistration() {
+				try{
+					const documentExists = await getPublished(registrationData.user.uid, "user-account")
+					if(documentExists){
+						localStorage.setItem("photoURLUser", documentExists.photoURLUser)
+						localStorage.setItem("uidUser", documentExists.uid)
+						localStorage.setItem("displayName", documentExists.displayName)
+						localStorage.setItem("typeRegister", documentExists.typeRegister)
+						localStorage.setItem("activeSession", true)
+						locationHome()
+					}else{
+						localStorage.setItem("providerId", registrationData.providerId)
+						locationUpdateUser()
+					}
+				}catch(error){
+					console.log(error)
+				}
+			}
+			getFirebaseRegistration()
 
-    emailValue = sectionSignIn.querySelector('#email').value;
-    passwordValue = sectionSignIn.querySelector('#password').value;
-    const inputEmail =sectionSignIn.querySelector('#email')
-    const inputPassword =sectionSignIn.querySelector('#password')
+		}catch(error){
+			console.log(error)
+		}finally{
+			googleLoginBtn.classList.remove("loginInGoogle--showloader")
+			loginInGoogleLoader.innerHTML= ""
+		}
+	}
 
-    if (mailValidator(emailValue)) {
+	btnGoogle.addEventListener('click',showGooglePopup);
+	btnToSignup.addEventListener('click', locationSignUp);
+	btnSignIn.addEventListener('click', (e)=>{
 
-      verifyWithEmailAndPassword(emailValue, passwordValue,inputEmail,inputPassword,btnSignIn);
-      // optener el usuario para dirigirlo al home o editar su perfil
-    } else{
+		e.preventDefault()
+		btnSignIn.innerHTML += threePointTemplates("btnloader__dot--btnSignin")
+		let fieldsToFillIn = [inputEmail, inputPassword]
 
-      validateseEmptyInputs(emailValue,passwordValue,inputEmail,inputPassword)
-      setErrorInput(inputEmail, 'Correo electrónico invalido');
+		emailValidator(inputEmail)
+		validatePassword(inputPassword)
 
-    }
+		function login() {
+			const allFieldsAreComplete = fieldsToFillIn.every(fields => fields.classList.contains("completed"))
+			if(allFieldsAreComplete){
+				const accountData = {
+					email: inputEmail,
+					password: inputPassword
+				}
 
-  });
+				async function createAccount() {
+					try{
 
-  return sectionSignIn;
+						const userCredential = await verifyWithEmailAndPassword(accountData)
 
+						if(userCredential.user.emailVerified){
+
+							const userRegistrationDocument = await getRegistrationDocument("user-account", userCredential.user.uid)
+							const pointRegistrationDocument = await getRegistrationDocument("point-account", userCredential.user.uid)
+
+							function savesTheRegistrationAccountType() {
+								function saveUserDataInStorage(RegistrationDocument) {
+
+									localStorage.setItem("photoURLUser", RegistrationDocument.photoURLUser)
+									localStorage.setItem("uidUser", RegistrationDocument.uid)
+									localStorage.setItem("displayName", RegistrationDocument.displayName)
+									localStorage.setItem("activeSession", true)
+
+									updateRegistration(RegistrationDocument.uid, RegistrationDocument.typeRegister, {
+										activeSession:true
+									})
+								}
+								if(userRegistrationDocument){
+									localStorage.setItem("typeRegister", userRegistrationDocument.typeRegister)
+									if(userRegistrationDocument.displayName) saveUserDataInStorage(userRegistrationDocument)
+								}
+								if(pointRegistrationDocument){
+									localStorage.setItem("typeRegister", pointRegistrationDocument.typeRegister)
+									if(pointRegistrationDocument.displayName) saveUserDataInStorage(pointRegistrationDocument)
+								}
+							}
+							savesTheRegistrationAccountType()
+
+							if(userCredential.user.displayName == null){
+
+								localStorage.setItem("photoURLUser", updatePhotoURL(userCredential.user.photoURL))
+								localStorage.setItem("email", userCredential.user.email)
+								localStorage.setItem("uidUser", userCredential.user.uid)
+								localStorage.setItem("providerId", "emailAndPassword")
+								locationUpdateUser()
+
+							} else locationHome()
+
+
+						} else signInPopUp(sectionSignIn)
+
+					} catch(error){
+						console.log(error)
+					} finally{
+						// aqui aplicar la recarga
+						const btnLoader = sectionSignIn.querySelector(".btn__loader")
+						btnLoader.remove()
+					}
+
+				}
+				createAccount()
+			}
+		}
+		login()
+	});
+	return sectionSignIn;
 };
 

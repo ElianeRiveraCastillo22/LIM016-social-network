@@ -1,9 +1,9 @@
-export const tagsPost = [
+export const defaultLabelData = [
     "LGTBQ+",
     "Mascotas",
     "Sordos",
-    "invidente",
+    "Invidente",
     "Mudos",
-    "discapacidad motriz",
+    "Discapacidad motriz",
     "Cultural"
 ]

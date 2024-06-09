@@ -1,384 +1,523 @@
-import { tagsPost } from "../data/tags-post.js";
-import { firstLetterCapitalized } from "../helpers/firstLetterCapitalized.js";
-import { activateBtn } from "../helpers/activeBtn.js";
-import { getDocPoint, getDocUser } from "../firebase/firestore/get_document.js";
-import { publicationPostsPoint, publicationPostsUser } from "./templates/createPost.js";
+import { getPublished, getUserPublications } from "../firebase/firestore/get_document.js";
+import { createPost } from "../firebase/firestore/add_document.js";
+import { updateLikesValues, updatePublicationDocument, updatePublicationID, updateTheIdentifiersOfUserPublications, updateWhoDeletedLike, updatesUsersWhoLike } from "../firebase/firestore/update_document.js";
+import { skeletonPublicationForm, skeletonPublications, templateLoader } from "./squeleton/index.js";
+import { mainTimelineStructure } from "./templates/timeline.js";
+import { templatePublicationForm } from "./templates/templatePublicationForm.js";
+import { popupRemovePublication, publicationLabelTemplate, templatePublications } from "./templates/publications.js";
+import { deletePublicationDocument } from "../firebase/firestore/delete_document.js";
+import { getElementsOfThePublicationForm, closeThelistTags, paintTheStarsToEdit, PublicationFormValues} from "../helpers/publicationsForm/publicationForm_fuctions.js";
+import { publicationFormFunctions } from "../helpers/publicationsForm/publicationsForm_event.js";
+import { Account } from "../helpers/constructores/index.js";
+import { updatePhotoURL } from "../helpers/updatePhotoURL.js";
+import { locationSignIn } from "../helpers/locations.js";
 
 export const Timeline = () => {
+	const sectionAllPost = document.createElement('section');
+	sectionAllPost.setAttribute('class', 'section--posts');
+
+	const heightHead=document.querySelector("#navegador");
+
+	function resizeSpaceBetweenHeaderAndMain() {
+		sectionAllPost.style.top=`${heightHead.clientHeight }px`;
+	} resizeSpaceBetweenHeaderAndMain()
+
+	sectionAllPost.innerHTML = mainTimelineStructure();
+
+	const boxCreatePost = sectionAllPost.querySelector(".box__createPost")
+	const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
+	const loaderPublications = document.querySelector(".box__posts--boxloader")
+
+	function showSkeletonHome() {
+		boxCreatePost.innerHTML = skeletonPublicationForm()
+		publicationPosts.innerHTML = skeletonPublications();
+	} showSkeletonHome()
+
+	const userAccount = new Account({
+		displayName: localStorage.getItem("displayName"),
+		typeRegister: localStorage.getItem("typeRegister"),
+		photoURLUser: localStorage.getItem("photoURLUser"),
+		uid: localStorage.getItem("uidUser"),
+		activeSession: localStorage.getItem("activeSession")
+	})
+
+	if(userAccount.typeRegister == "user-account"){
+
+		boxCreatePost.classList.add("createPost--space")
+
+		function showPublicationForm() {
+
+			if(userAccount.activeSession){
+
+				function showPublicationForm() {
+					boxCreatePost.innerHTML = templatePublicationForm(userAccount.displayName, updatePhotoURL(userAccount.photoURLUser),"Publicar","incomplete","btn--disebled")
+				} showPublicationForm()
+
+				let {
+					contentTags,
+					inputTags,
+					iconCreateTags,
+					defaultLabelListContainer,
+					containerForAllLabels,
+					createPostPoint,
+					formInformationInput,
+					ratingContainer,
+					containerPostStars,
+					btnToSaveThePublication,
+					btnPostMessage
+				} = getElementsOfThePublicationForm(sectionAllPost)
+
+				let textOfTheChosenLabels=[]
+
+				publicationFormFunctions(
+					contentTags,
+					inputTags,
+					iconCreateTags,
+					defaultLabelListContainer,
+					containerForAllLabels,
+					createPostPoint,
+					formInformationInput,
+					ratingContainer,
+					containerPostStars,
+					btnToSaveThePublication,
+					btnPostMessage,
+					sectionAllPost
+				)
+
+				publicationPosts.addEventListener("click",()=>{
+					closeThelistTags(defaultLabelListContainer,inputTags,iconCreateTags)
+				})
+
+				btnToSaveThePublication.addEventListener("click",(e)=>{
+					e.preventDefault()
+					closeThelistTags(defaultLabelListContainer,inputTags,iconCreateTags)
+
+					if( btnToSaveThePublication.classList.contains("btn--active") ){
+						const publicationForm = new PublicationFormValues({
+							id_user: userAccount.uid,
+							name_point: createPostPoint.value,
+							description: formInformationInput.value,
+							rating: containerPostStars.dataset.pointscoring,
+							publicationOwner: userAccount.displayName,
+							photoOfPublicationOwner: userAccount.photoURLUser
+						})
+						publicationForm.getWhencreated()
+						publicationForm.getPublicationTags(containerForAllLabels)
+
+						const objpublicationValues = {
+							id_user: publicationForm.id_user,
+							name_point: publicationForm.name_point,
+							description: publicationForm.description,
+							attributes: publicationForm.attributes,
+							rating: publicationForm.rating,
+							url_reference: publicationForm.url_reference,
+							id_post: publicationForm.id_post,
+							timestamp: publicationForm.timestamp,
+							likes: publicationForm.likes,
+							usersWhoLiked: publicationForm.usersWhoLiked,
+							publicationOwner: publicationForm.publicationOwner,
+							photoOfPublicationOwner: publicationForm.photoOfPublicationOwner
+						}
 
-  const sectionAllPost = document.createElement('section');
-  sectionAllPost.setAttribute('class', 'section--posts');
-
-  const heightHead=document.querySelector("#navegador");
-
-  function resizeSpaceBetweenHeaderAndMain() {
-
-    let missingValue = 65 - heightHead.clientHeight;
-    sectionAllPost.style.top=`${heightHead.clientHeight+ missingValue +16}px`;
-
-  }
-  resizeSpaceBetweenHeaderAndMain()
-
-  let userIdActive=localStorage.getItem('IdUsuario')
-  let userNameRegiste= localStorage.getItem('nameRegister')
+						async function createPublicationDocument(){
 
-  sectionAllPost.innerHTML =`
-    <div class="box--posts">
-      <span class="loader"></span>
-    </div>
-  `
+							try{
 
-  if(userNameRegiste=="user-account"){
-    getDocUser(userIdActive).then((response)=>{
+								const ID_PUBLICATION = await createPost(objpublicationValues)
+								updatePublicationID("user-publication",ID_PUBLICATION.id,{"id_post":ID_PUBLICATION.id})
+								updateTheIdentifiersOfUserPublications("user-account", userAccount.uid, ID_PUBLICATION.id)
 
-      if(response !== undefined && response.active_session == true){
-        console.log(response)
-        let pathImgPorfile = response.url_profile;
-        if (response.url_profile == ""){
-          pathImgPorfile = "../img/avatar.png"
-        }
+							}catch(error){
+								console.log(error)
+							}finally{
 
-        sectionAllPost.innerHTML = publicationPostsUser(response.name, pathImgPorfile)
+								function changeClassesToDisableSaveBtn(sectionToDeactivate) {
+									sectionToDeactivate.classList.add("incomplete")
+									sectionToDeactivate.classList.remove("completed")
+								}
 
-        const contentTags = sectionAllPost.querySelector(".createTags");
-        const inputTags = sectionAllPost.querySelector(".createTags__input");
-        const iconCreateTags = sectionAllPost.querySelector(".createTags__aprove");
-        const tagsList = sectionAllPost.querySelector(".createTags__list");
-        const alltags = sectionAllPost.querySelector(".createpost__alltags");
-        const createPostPoint = sectionAllPost.querySelector(".createPost__point");
-        const createPostInfo = sectionAllPost.querySelector(".createPost__Info");
-        const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
-        const createPostStars=  sectionAllPost.querySelectorAll(".createPost__stars img");
-        const containerPostStars=  sectionAllPost.querySelector(".createPost__stars");
-        const btnSave = sectionAllPost.querySelector(".btnSave")
-        const btnPostMessage = sectionAllPost.querySelector(".btnPost__message")
-        const createPostFile = sectionAllPost.querySelector(".createPost__file input")
+								function clearTheFieldsOfThePublicationForm() {
 
-        let sortTags=tagsPost.sort();
-        let allTagsItem = null;
-        let passingScoreToPublish=0;
-        let cardCreated = false
-        let clickCounter =0
+									createPostPoint.value = ""
+									changeClassesToDisableSaveBtn(createPostPoint)
 
-        console.log(inputTags);
-        function changeClasses(elem1,elem2,elem1remove,elem1add,elem2remove,elem2add) {
+									formInformationInput.value = ""
+									changeClassesToDisableSaveBtn(formInformationInput)
 
-          elem1.classList.remove(elem1remove)
-          elem1.classList.add(elem1add)
+									containerForAllLabels.innerHTML = ""
+									changeClassesToDisableSaveBtn(containerForAllLabels)
 
-          elem2.classList.remove(elem2remove)
-          elem2.classList.add(elem2add)
+									textOfTheChosenLabels.length = 0
 
-        }
+									ratingContainer.forEach((star)=>{
+										star.classList.remove("puntuacion_escogida")
+									})
+									changeClassesToDisableSaveBtn(containerPostStars)
 
-        function createsTheListOfItems(valueVar,array,containeList) {
+								}
 
-          for( valueVar of array){
+								clearTheFieldsOfThePublicationForm()
+							}
+						} createPublicationDocument()
 
-            containeList.classList.add("createTags__list--open")
-            let listItem=document.createElement("li")
-            listItem.classList.add("allTags__item")
-            listItem.innerText=valueVar
-            containeList.appendChild(listItem)
+						btnToSaveThePublication.classList.remove("btn--active")
+						btnToSaveThePublication.classList.add("btn--disebled")
 
-          }
+					}else{
 
-        }
+						btnPostMessage.show()
+						setTimeout(() => {
+							btnPostMessage.close()
+						}, 1500);
 
-        function createTag(textvalue) {
+					}
 
-          let tagChosen= sectionAllPost.querySelectorAll(".createpost__alltags li")
+				})
 
-          function createElementTag(text) {
-            const contentTag= `
-            <li class="createpost__tag">
-                <p class="createpost__txt" >${text}</p>
-                <figure class="createpost__figure">
-                  <img class="createpost__img" src="../../img/iconos/close-post.svg" />
-                </figure>
-            </li>
-            `
-            return contentTag
-          }
+			}else{
+				alert("Por favor inicia sesión")
+				locationSignIn()
+			}
 
-          if(tagChosen.length !== 0){
-            let labelComparisons=[]
-            tagChosen.forEach((tagSelect)=>{
-              if(tagSelect.innerText==textvalue){
-                labelComparisons.push(true)
-              }else{
-                labelComparisons.push(false)
-              }
-            })
+		} showPublicationForm()
+		
 
-            let evaluateIfTheLabelsAreSimilar = labelComparisons.every((value) => value == false)
-            // si es true imprimir
-            if(evaluateIfTheLabelsAreSimilar){
+		async function showPublications() {
 
-              alltags.innerHTML += createElementTag(textvalue)
-              inputTags.value=""
+			try{
 
-            }else{
+				await getUserPublications( (response)=>{
 
-              inputTags.value=""
+					let prueba = response.docs.map((doc) => {
+						return { ...doc.data() };
+					})
 
-            }
+					const templateAllPublications = prueba.reduce((acctemplate, publication)=>{
+						return acctemplate + templatePublications(publication, userAccount.uid)
+					},"")
 
-          }else{
-            alltags.innerHTML += createElementTag(textvalue)
-            inputTags.value=""
-          }
+					publicationPosts.innerHTML = templateAllPublications
 
-        }
+					const iconsLike = sectionAllPost.querySelectorAll(".publicationReview--iconLike")
+					const iconsMore = sectionAllPost.querySelectorAll(".boxProfile--iconMore")
+					const publicationConfigurationoptions  = sectionAllPost.querySelectorAll(".boxProfile__popupEditorDelate")
+					const btnsEdit = sectionAllPost.querySelectorAll(".popupEditorDelate__box--Edit")
+					const btnsDelete = sectionAllPost.querySelectorAll(".popupEditorDelate__box--delete")
 
-        function closeThelistTags() {
-          tagsList.innerHTML=""
-          changeClasses(inputTags,iconCreateTags,"createTags__input--focus","createTags__input--onFocus","createTags__aprove--focus","createTags__aprove--onFocus")
-          tagsList.classList.remove("createTags__list--open")
-        }
+					iconsLike.forEach((iconLike)=>{
+						iconLike.addEventListener("click",(e)=>{
+							e.preventDefault()
+							const ID_POST = iconLike.dataset.idpublication;
+							async function getUsersWhoLikedIt() {
 
-        inputTags.addEventListener("focus",()=>{
+								try{
+									const usersWhoLikeThePublication = await getPublished(ID_POST, "user-publication")
+									const userLiked = usersWhoLikeThePublication.usersWhoLiked.some((userLike) => userLike == userAccount.uid)
 
-          function dimensionsTheWidthOfTheList() {
+									if(userLiked){
+										if(iconLike.classList.contains("liked") && (usersWhoLikeThePublication.likes !== 0)){
+											updateLikesValues("user-publication", ID_POST,-1)
+											updateWhoDeletedLike("user-publication", ID_POST,userAccount.uid)
+											iconLike.classList.remove("liked")
+											iconLike.classList.add("noLike")
+										}
+									}
 
-            const widthContentTags=contentTags.clientWidth
-            tagsList.style.width=`${widthContentTags}px`
+									if(!userLiked){
+										if(iconLike.classList.contains("noLike")){
+											updateLikesValues("user-publication", ID_POST,1)
+											updatesUsersWhoLike("user-publication", ID_POST,userAccount.uid)
+											iconLike.classList.remove("noLike")
+											iconLike.classList.add("liked")
+										}
+									}
 
-          }
-          dimensionsTheWidthOfTheList()
+								}catch(error){
+									console.log(error)
+								}
 
-          function createsTheListInTheFirstApproachInInput() {
+							} getUsersWhoLikedIt()
+						})
+					})
 
-            if(inputTags.value == ""){
-              let tag;
-              changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
-              createsTheListOfItems(tag,sortTags,tagsList)
-              allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+					function showConfigurationOptions(configurationOptions) {
 
-            }
+						if(configurationOptions.classList.contains("open")){
+							configurationOptions.close()
+							configurationOptions.classList.remove("open")
+						}else{
+							configurationOptions.show()
+							configurationOptions.classList.add("open")
+						}
 
-          }
-          createsTheListInTheFirstApproachInInput()
+					}
 
-          inputTags.addEventListener("keyup", ()=>{
+					iconsMore.forEach((iconMore, iconMoreIndex)=>{
+						iconMore.addEventListener("click",()=>{
 
-            let matchingWords = []
-            let matchingValue=[]
+							showConfigurationOptions(publicationConfigurationoptions[iconMoreIndex])
 
-            function filtersOutMatchingWords() {
+							Object.values(publicationConfigurationoptions).filter((configurationOption)=>{
 
-              tagsPost.forEach((tag)=>{
-                const cutTag = tag.slice(0,inputTags.value.length)
-                const evaluatesMatchingTags = cutTag.toLocaleLowerCase().includes(inputTags.value.toLocaleLowerCase());
-                matchingValue.push(evaluatesMatchingTags)
+								if(Object.values(publicationConfigurationoptions)[iconMoreIndex]!==configurationOption){
+									if(configurationOption.classList.contains("open")){
+										configurationOption.close()
+										configurationOption.classList.remove("open")
+									}
+								}
 
-                if(evaluatesMatchingTags){
-                    tagsList.classList.add("createTags__list--open")
-                    tagsList.innerHTML=""
-                    matchingWords.push(tag)
-                }
-              })
-            }
-            filtersOutMatchingWords()
+							})
+
+						})
+					})
+
+					publicationConfigurationoptions.forEach((configurationOption)=>{
+						configurationOption.addEventListener("click",()=>{
 
-            function deletesTheListBecauseItDoesNotMatch () {
+							showConfigurationOptions(configurationOption)
+
+						})
+					})
+
+					function closePopup(popupToClose) {
+
+						popupToClose.classList.remove("popup__dialog--center")
+						popupToClose.close()
+						popupToClose.innerHTML = ''
+
+					}
+
+					btnsEdit.forEach((btnEdit)=>{
+
+						btnEdit.addEventListener("click", (e)=>{
+							const ID_POST = btnEdit.dataset.idpublication
+							const popupEdit = sectionAllPost.querySelector(".popup__dialog")
+							const boxPopupEdit = document.createElement("div")
+							boxPopupEdit.classList.add("createPost--update")
+
+							boxPopupEdit.innerHTML = templatePublicationForm(userAccount.displayName, updatePhotoURL(userAccount.photoURLUser), "Actualizar", "completed", "btn--active","",ID_POST)
+							popupEdit.appendChild(boxPopupEdit)
+
+							popupEdit.show()
+							popupEdit.classList.add("popup__dialog--center")
+
+							const elementPublications = sectionAllPost.querySelectorAll(".publicationPosts__publication")
+							const publicationToEdit = Object.values(elementPublications).find(elementPublication=>elementPublication.dataset.idpublication == ID_POST)
+
+							let {
+								contentTags,
+								inputTags,
+								iconCreateTags,
+								defaultLabelListContainer,
+								containerForAllLabels,
+								createPostPoint,
+								formInformationInput,
+								ratingContainer,
+								containerPostStars,
+								btnToSaveThePublication,
+								btnPostMessage
+							} = getElementsOfThePublicationForm(boxPopupEdit)
 
-              if(matchingValue.every((value)=> value==false)){
-                closeThelistTags()
-              }
+							publicationFormFunctions(
+								contentTags,
+								inputTags,
+								iconCreateTags,
+								defaultLabelListContainer,
+								containerForAllLabels,
+								createPostPoint,
+								formInformationInput,
+								ratingContainer,
+								containerPostStars,
+								btnToSaveThePublication,
+								btnPostMessage,
+								boxPopupEdit
+							)
 
-            }
-            deletesTheListBecauseItDoesNotMatch ()
+							function getPublicationValues() {
+
+								const name_point = publicationToEdit.querySelector(".publicationReview--namePoint").innerText
+								const rating = publicationToEdit.querySelector(".createPost__stars").dataset.rating
+								const description = publicationToEdit.querySelector(".publicationReview--post p").innerText
+								const elemntAttributes = publicationToEdit.querySelectorAll(".publicationReview--tag")
+								const attributes = Object.values(elemntAttributes).map((tag)=>{return tag.innerText})
+
+								return {
+									attributes,
+									description,
+									name_point,
+									rating,
+								}
+							} getPublicationValues()
+
+							let { name_point, rating, description, attributes } = getPublicationValues()
+
+							function showsTheValuesOfThePublicationInTheForm() {
+
+								createPostPoint.value = name_point;
+								formInformationInput.value = description;
+								containerPostStars.dataset.pointscoring = rating
+								paintTheStarsToEdit(rating,ratingContainer)
 
-            function addsStylesWhenDeletingTheIputValue() {
-              if(inputTags.value == ""){
+							} showsTheValuesOfThePublicationInTheForm()
 
-                changeClasses(inputTags,iconCreateTags,"createTags__input--onFocus","createTags__input--focus","createTags__aprove--onFocus","createTags__aprove--focus")
+							function showPublicationTags(containerForAllLabels,textvalue) {
+								containerForAllLabels.innerHTML += publicationLabelTemplate( textvalue )
+							}
+							
+							attributes.forEach((tag)=>{
+								showPublicationTags(containerForAllLabels,tag)
+							})
 
-              }
-            }
-            addsStylesWhenDeletingTheIputValue()
+							const btnClose = boxPopupEdit.querySelector(".createPost__iconClose")
+							btnClose.addEventListener("click", ()=>{
+								closePopup(popupEdit)
+							})
 
-            function createsAListOfMatchingWords() {
+							btnToSaveThePublication.addEventListener("click", (e)=>{
+								e.preventDefault()
 
-              let tag;
-              createsTheListOfItems(tag,matchingWords,tagsList)
+								const publicationForm = new PublicationFormValues({
+									name_point: createPostPoint.value,
+									description: formInformationInput.value,
+									rating: containerPostStars.dataset.pointscoring,
+								})
+								publicationForm.getPublicationTags(containerForAllLabels)
+								const objpublicationValues = {
+									attributes: publicationForm.attributes,
+									description: publicationForm.description,
+									name_point: publicationForm.name_point,
+									rating: publicationForm.rating,
+								}
 
-            }
-            createsAListOfMatchingWords()
+								const keys_currentPublication = Object.entries(objpublicationValues)
+								const keys_previousPublication = Object.entries(getPublicationValues())
 
-            allTagsItem=sectionAllPost.querySelectorAll(".allTags__item")
+								function compareValuesForUpdate(objNewValues, publicationField, publicationFieldIndex) {
 
-          })
+									const publicationFields = publicationField[0]
 
-        })
+									if((typeof publicationField[1]) == "object"){
 
-        tagsList.addEventListener("pointerover",()=>{
+										const previoustagsArray = keys_previousPublication[publicationFieldIndex][1]
+										const currentTagsArray = keys_currentPublication[publicationFieldIndex][1]
+										if(previoustagsArray.length == currentTagsArray.length){
+											const newTags = previoustagsArray.every((tag, tagIndex) => tag == currentTagsArray[tagIndex])
+											if(!newTags) objNewValues[publicationFields] = keys_currentPublication[publicationFieldIndex][1]
+										} else{
+											objNewValues[publicationFields] = keys_currentPublication[publicationFieldIndex][1]
+										}
 
-          allTagsItem.forEach((tag)=>{
+									} else{
 
-            tag.addEventListener("click",()=>{
-              closeThelistTags()
-              createTag(tag.innerText)
-              cardCreated = true
-              if(cardCreated){
-                passingScoreToPublish++
-
-                activateBtn(btnSave,3,passingScoreToPublish)
-              }
-            })
-
-          })
-
-        })
-
-        iconCreateTags.addEventListener("click",()=>{
-
-          if(inputTags.value!==""){
-            createTag(inputTags.value)
-            cardCreated = true
-            if(cardCreated){
-              passingScoreToPublish++
-              activateBtn(btnSave,3,passingScoreToPublish)
-            }
-          }
-
-        })
-
-        alltags.addEventListener("pointerover",()=>{
-
-            let tagCreated= alltags.childNodes
-            tagCreated.forEach((tag)=>{
-
-              if(tag.lastElementChild !== undefined){
-                tag.lastElementChild.addEventListener('click',(e)=>{
-                  tag.remove()
-                });
-              }
-
-            })
-
-        })
-
-        // Create add the value of stars
-        let pointScoring;
-
-        function addTheValueToTheStars() {
-
-          containerPostStars.addEventListener("click",()=>{
-            clickCounter++
-            if(clickCounter==1){
-              passingScoreToPublish++
-              activateBtn(btnSave,3,passingScoreToPublish)
-            }
-          })
-
-          createPostStars.forEach((star,indexStart)=>{
-            star.addEventListener("click",()=>{
-              for(let i = 0; i <= indexStart; i++){
-                createPostStars[i].classList.add("puntuacion_escogida")
-              }
-
-              for(let i = indexStart+1; i<createPostStars.length; i++){
-                createPostStars[i].classList.remove("puntuacion_escogida")
-              }
-
-              pointScoring = indexStart + 1
-            })
-          })
-
-        }
-        addTheValueToTheStars()
-
-        createPostPoint.addEventListener("keyup",()=>{
-          closeThelistTags()
-          firstLetterCapitalized(createPostPoint)
-
-          if(createPostPoint.value.length==1){
-            passingScoreToPublish++
-            activateBtn(btnSave,3,passingScoreToPublish)
-          }
-        })
-
-        inputTags.addEventListener("keyup",()=>{
-          firstLetterCapitalized(inputTags)
-        })
-
-        createPostInfo.addEventListener("click",()=>{
-          closeThelistTags()
-          firstLetterCapitalized(createPostPoint)
-        })
-
-        publicationPosts.addEventListener("click",()=>{
-          closeThelistTags()
-        })
-
-        btnSave.addEventListener("click",(e)=>{
-          e.preventDefault()
-          closeThelistTags()
-
-          if(passingScoreToPublish<3){
-
-            btnPostMessage.show()
-            setTimeout(() => {
-              btnPostMessage.close()
-            }, 1500);
-
-          }else{
-
-            passingScoreToPublish=0
-
-            const createpostTag=document.querySelectorAll(".createpost__tag")
-            let textOfTheChosenLabels = []
-            createpostTag.forEach((tag)=>{
-              textOfTheChosenLabels.push(tag.innerText)
-            })
-
-            console.log(textOfTheChosenLabels)
-            console.log(createPostPoint.value);
-            console.log(createPostInfo.value);
-            console.log(pointScoring);
-            console.log(createPostFile.value);
-          }
-        })
-
-      }
-
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-  }else if(userNameRegiste == "point-account"){
-    getDocPoint(userIdActive).then((response)=>{
-
-      if(response !== undefined && response.active_session == true){
-        let pathImgPorfile = response.url_profile;
-        if (response.url_profile == ""){
-          pathImgPorfile = "../img/avatar.png"
-        }
-        sectionAllPost.innerHTML = publicationPostsPoint(response.name, pathImgPorfile)
-        const descriptionOffer= sectionAllPost.querySelector(".createPost__Info")
-        const dateStart= sectionAllPost.querySelector(".validUntil--start")
-        const dateEnd= sectionAllPost.querySelector(".validUntil--end")
-        const btnSave = sectionAllPost.querySelector(".btnSave")
-        console.log(btnSave);
-        descriptionOffer.addEventListener("keyup",()=>{
-          firstLetterCapitalized(descriptionOffer)
-        })
-        btnSave.addEventListener("click",(e)=>{
-          e.preventDefault()
-          console.log(dateStart.value);
-          console.log(dateEnd.value);
-
-        })
-      }
-
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-  }
-
+										if(!(publicationField[1] === keys_previousPublication[publicationFieldIndex][1])) objNewValues[publicationFields] = publicationField[1]
+
+									}
+
+									return objNewValues
+
+								}
+
+								const updatedValuesForPublication = keys_currentPublication.reduce(compareValuesForUpdate,{})
+
+								if(!(Object.keys(updatedValuesForPublication).length == 0)){
+									const ID_POST = btnEdit.dataset.idpublication
+
+									templateLoader(publicationPosts,"Actulizando...")
+									const popupLoader = sectionAllPost.querySelector(".popupLoader")
+									const msjLoader = sectionAllPost.querySelector(".popupLoader__msj")
+
+									async function updatePublication() {
+										try{
+											await updatePublicationDocument(ID_POST, "user-publication",updatedValuesForPublication)
+										}catch(error){
+											console.log(error)
+										}finally{
+											msjLoader.innerText ="Actualizado ✔"
+											popupLoader.remove()
+										}
+									} updatePublication()
+
+								}
+								closePopup(popupEdit)
+							})
+						})
+					})
+
+					btnsDelete.forEach((btnDelete)=>{
+						btnDelete.addEventListener("click",(e)=>{
+
+							e.preventDefault()
+							const ID_POST = btnDelete.dataset.idpublication
+							const popupRemove = sectionAllPost.querySelector(".popup__dialog")
+
+							popupRemove.innerHTML = popupRemovePublication()
+							popupRemove.show()
+							popupRemove.classList.add("popup__dialog--center")
+
+							const btnRemove = popupRemove.querySelector(".removePublication__btn--delete")
+							const btnCancel = popupRemove.querySelector(".removePublication__btn--cancel")
+
+							btnRemove.addEventListener("click", ()=>{
+
+								templateLoader(publicationPosts,"Eliminando..")
+								const popupLoader = sectionAllPost.querySelector(".popupLoader")
+								const msjLoader = sectionAllPost.querySelector(".popupLoader__msj")
+
+								async function removePublication() {
+
+									try{
+
+										await deletePublicationDocument(ID_POST)
+
+									}catch(error){
+
+										console.log(error)
+
+									}finally{
+
+										msjLoader.innerText ="Eliminado ✔"
+										popupLoader.remove()
+
+									}
+								}
+								removePublication()
+								closePopup(popupRemove)
+							})
+
+							btnCancel.addEventListener("click", ()=>{
+								closePopup(popupRemove)
+							})
+						})
+					})
+				})
+			}catch(error){
+				console.log(error)
+			}finally{
+				console.log("respuesta finalizada")
+			}
+
+		} showPublications()
+
+	}
+
+	boxCreatePost.addEventListener("touchstart", (eventStart)=>{
+		function moveAt(pageY) {
+			if(pageY - eventStart.targetTouches[0].pageY <= 90){
+				loaderPublications.style.top = pageY - eventStart.targetTouches[0].pageY + 'px'
+				loaderPublications.firstElementChild.style.transform =`rotate(${(pageY - eventStart.targetTouches[0].pageY)*4}deg)`
+			}else{
+				loaderPublications.style.top="-32px";
+				document.location.reload()
+			}
+		}
+		function onTouchMove(eventMove) {
+			moveAt(eventMove.targetTouches[0].pageY);
+		}
+		boxCreatePost.addEventListener('touchmove', onTouchMove);
+		boxCreatePost.addEventListener("touchend",()=>{
+			loaderPublications.style.top="-32px";
+		})
+	})
 
   return sectionAllPost;
 };

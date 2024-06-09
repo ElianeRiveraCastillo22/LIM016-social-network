@@ -12,9 +12,9 @@ export const signInPopUp = (sectionSignUp)=>{
 
     btnpopup.addEventListener("click",()=>{
 
-      signUpPopup.close();
-      signUpPopup.classList.remove("signUp__popup--open");
-      signUpPopup.classList.add("signUp__popup--close");
+		signUpPopup.close();
+		signUpPopup.classList.remove("signUp__popup--open");
+		signUpPopup.classList.add("signUp__popup--close");
 
     })
 

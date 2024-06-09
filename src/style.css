@@ -1692,6 +1692,33 @@ p.popupLoader__msj {
 	justify-content: center;
 }
 
+.popupBox__content {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    color: var(--color-text-title);
+    background: #fff;
+    border-radius: .625rem;
+    padding: 1.5rem;
+    font-size: .875rem;
+    display: flex;
+    row-gap: .625rem;
+    flex-direction: column;
+    max-width: 15.625rem;
+}
+.popupBox__content--edit {
+	position: absolute;
+    z-index: 2;
+}
+.popupBox__containerBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+	gap: .75rem;
+}
+.popupBox__btn {
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
 .popup__boxPopupEdit {
 	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 	color: var(--color-text-title);
@@ -1755,6 +1782,9 @@ NaNpxovePublication__btn:focus-visible {
 .btn--secondary {
 	color: var(--color-btn-primary, #8662c7);
 	border: solid 0.0625rem var(--color-btn-primary);
+}
+.btn--secondary:focus-visible {
+	outline: -webkit-focus-ring-color auto 0px;
 }
 
 .btn--secondary:hover {

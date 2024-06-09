@@ -105,13 +105,13 @@ export const publicationLabelTemplate = ( identificationText ) => {
     `
     return label
 }
-export const popupRemovePublication = () => {
+export const popupPublication = (messaje, btnName, classEdit="") => {
     const dialog = /*html*/ `
-    <div class="removePublication__box">
-        <p class="removePublication__txt">¿Seguro que quiere eliminar la publicación? 🤔</p>
-        <section class="removePublication__containerBtn">
-            <button class="removePublication__btn removePublication__btn--cancel btn--secondary" >Cancelar</button>
-            <button class="removePublication__btn removePublication__btn--delete btn--primary" >Eliminar</button>
+    <div class="popupBox__content ${classEdit}">
+        <p class=" popupBox__messsaje">${messaje}</p>
+        <section class="popupBox__containerBtn">
+            <button class="popupBox__btn popupBox__btn--cancel btn--secondary" >Cancelar</button>
+            <button class="popupBox__btn popupBox__btn--${btnName} btn--primary" >${btnName}</button>
         </section>
     </div>
     `

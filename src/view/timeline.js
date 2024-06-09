@@ -4,7 +4,7 @@ import { updateLikesValues, updatePublicationDocument, updatePublicationID, upda
 import { skeletonPublicationForm, skeletonPublications, templateLoader } from "./squeleton/index.js";
 import { mainTimelineStructure } from "./templates/timeline.js";
 import { templatePublicationForm } from "./templates/templatePublicationForm.js";
-import { popupRemovePublication, publicationLabelTemplate, templatePublications } from "./templates/publications.js";
+import { popupPublication, publicationLabelTemplate, templatePublications } from "./templates/publications.js";
 import { deletePublicationDocument } from "../firebase/firestore/delete_document.js";
 import { getElementsOfThePublicationForm, closeThelistTags, paintTheStarsToEdit, PublicationFormValues} from "../helpers/publicationsForm/publicationForm_fuctions.js";
 import { publicationFormFunctions } from "../helpers/publicationsForm/publicationsForm_event.js";
@@ -363,7 +363,7 @@ export const Timeline = () => {
 							function showPublicationTags(containerForAllLabels,textvalue) {
 								containerForAllLabels.innerHTML += publicationLabelTemplate( textvalue )
 							}
-							
+
 							attributes.forEach((tag)=>{
 								showPublicationTags(containerForAllLabels,tag)
 							})
@@ -419,26 +419,50 @@ export const Timeline = () => {
 
 								const updatedValuesForPublication = keys_currentPublication.reduce(compareValuesForUpdate,{})
 
+								popupEdit.innerHTML += popupPublication("¿Seguro que quiere eliminar la publicación? 🤔", "Editar","popupBox__content--edit")
+								popupEdit.show()
+								popupEdit.classList.add("popup__dialog--center")
+
 								if(!(Object.keys(updatedValuesForPublication).length == 0)){
 									const ID_POST = btnEdit.dataset.idpublication
 
-									templateLoader(publicationPosts,"Actulizando...")
-									const popupLoader = sectionAllPost.querySelector(".popupLoader")
-									const msjLoader = sectionAllPost.querySelector(".popupLoader__msj")
+									const msjbtnEdit = popupEdit.querySelector(".popupBox__btn--Editar")
+									const btnCancel = popupEdit.querySelector(".popupBox__btn--cancel")
+									const popupform = popupEdit.querySelector(".createPost--update")
+									popupform.remove()
 
-									async function updatePublication() {
-										try{
-											await updatePublicationDocument(ID_POST, "user-publication",updatedValuesForPublication)
-										}catch(error){
-											console.log(error)
-										}finally{
-											msjLoader.innerText ="Actualizado ✔"
-											popupLoader.remove()
-										}
-									} updatePublication()
+									msjbtnEdit.addEventListener("click",()=>{
 
+										templateLoader(publicationPosts,"Actulizando...")
+										const popupLoader = sectionAllPost.querySelector(".popupLoader")
+										const msjLoader = sectionAllPost.querySelector(".popupLoader__msj")
+
+										async function updatePublication() {
+											try{
+
+												await updatePublicationDocument(ID_POST, "user-publication",updatedValuesForPublication)
+
+											}catch(error){
+
+												console.log(error)
+
+											}finally{
+
+												msjLoader.innerText ="Actualizado ✔"
+												popupLoader.remove()
+											}
+
+										} updatePublication()
+										closePopup(popupEdit)
+									})
+
+									btnCancel.addEventListener("click", ()=>{
+										closePopup(popupEdit)
+									})
+
+								}else{
+									closePopup(popupEdit)
 								}
-								closePopup(popupEdit)
 							})
 						})
 					})
@@ -450,12 +474,12 @@ export const Timeline = () => {
 							const ID_POST = btnDelete.dataset.idpublication
 							const popupRemove = sectionAllPost.querySelector(".popup__dialog")
 
-							popupRemove.innerHTML = popupRemovePublication()
+							popupRemove.innerHTML = popupPublication("¿Seguro que quiere eliminar la publicación? 🤔", "Eliminar")
 							popupRemove.show()
 							popupRemove.classList.add("popup__dialog--center")
 
-							const btnRemove = popupRemove.querySelector(".removePublication__btn--delete")
-							const btnCancel = popupRemove.querySelector(".removePublication__btn--cancel")
+							const btnRemove = popupRemove.querySelector(".popupBox__btn--Eliminar")
+							const btnCancel = popupRemove.querySelector(".popupBox__btn--cancel")
 
 							btnRemove.addEventListener("click", ()=>{
 

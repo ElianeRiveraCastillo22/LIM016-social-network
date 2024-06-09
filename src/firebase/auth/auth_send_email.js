@@ -1,4 +1,5 @@
-import { auth,sendEmailVerification } from "../configuraciones.js";
+import { auth, sendEmailVerification } from "../configuraciones.js";
+
 export const sendEmail = () => {
 
     sendEmailVerification(auth.currentUser)

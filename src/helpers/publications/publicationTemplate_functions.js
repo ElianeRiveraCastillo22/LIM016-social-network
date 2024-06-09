@@ -1,7 +1,7 @@
 import { likeIconsTemplate, publicationConfigurationTemplate, publicationLabelsTemplate, starTemplate } from "../../view/templates/publications.js"
 
 export const showPublicationSettings = ( data, userIdActive, publicationsContainer ) => {
-    if(userIdActive==data.id_user)  publicationsContainer += publicationConfigurationTemplate(data)
+    if( userIdActive == data.id_user )  publicationsContainer += publicationConfigurationTemplate(  data)
     return publicationsContainer
 }
 
@@ -24,7 +24,7 @@ export const showPublicationTags = ( data, publicationsContainer ) => {
 }
 
 export const showLikeIcon = ( data, userIdActive, publicationsContainer ) => {
-    const activeUserLiked = data.usersWhoLiked.some( ( userLike )=> userLike == userIdActive )
-    activeUserLiked ? publicationsContainer += likeIconsTemplate("liked") : publicationsContainer += likeIconsTemplate("noLike");
+    const activeUserLiked = data.usersWhoLiked.some(( userLike ) => userLike == userIdActive)
+    activeUserLiked ? publicationsContainer += likeIconsTemplate(data.id_post,"liked") : publicationsContainer += likeIconsTemplate(data.id_post,"noLike");
     return publicationsContainer
 }

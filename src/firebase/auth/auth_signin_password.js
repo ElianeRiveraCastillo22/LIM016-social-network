@@ -1,15 +1,18 @@
-import {auth, signInWithEmailAndPassword} from '../configuraciones.js';
-import { listensToTheActiveUser } from './auth_state_listener.js';
+import { auth, signInWithEmailAndPassword } from '../configuraciones.js';
 import { showErrorSignIn } from '../../helpers/showErrorSignIn.js';
 
-export const verifyWithEmailAndPassword = (email, password,inputEmail,inputPassword,btnSignIn) => {
-  return signInWithEmailAndPassword(auth, email, password)
+export const verifyWithEmailAndPassword = async(accountData) => {
+    let userCredential
+    const { email, password } = accountData
 
-  .then((userCredential) => {
-    listensToTheActiveUser(btnSignIn)
-  })
-  .catch((error) => {
-    showErrorSignIn(error.code,inputEmail,inputPassword)
-  });
+    try{
+        userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+        return userCredential
+    }catch(error){
+        showErrorSignIn(error.code, email, password)
+    }finally{
+        console.log("cuenta verificada")
+    }
 
+    return userCredential
 };

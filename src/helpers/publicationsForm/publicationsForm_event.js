@@ -1,6 +1,5 @@
 import { firstLetterCapitalized } from "../firstLetterCapitalized.js";
 import { 
-    updatePhotoURL,
     getElementsOfThePublicationForm,
     changeClasses,
     addClassIfComplete,

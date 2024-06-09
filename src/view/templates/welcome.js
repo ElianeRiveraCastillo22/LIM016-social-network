@@ -1,10 +1,10 @@
-export const viewWelcome = `
-<div class="box--welcome">
-  <hgroup>
-    <h1 class="logo--queerPlace">Queer Place</h1>
-    <p class="welcome-text">Somos una comunidad inclusiva donde podrás encontrar lugares seguros libres de discriminación.</p>
-  </hgroup>
-  <img class="welcome__img" src="./img/the-movement-together.png" alt="img Welcome">
-  <div class="welcome__span"></div>
-</div>
+export const viewWelcome = /*html*/ `
+	<div class="box--welcome">
+		<hgroup>
+			<h1 class="logo--queerPlace">Queer Place</h1>
+			<p class="welcome-text">Somos una comunidad inclusiva donde podrás encontrar lugares seguros libres de discriminación.</p>
+		</hgroup>
+		<img class="welcome__img" src="./img/the-movement-together.png" alt="img Welcome">
+		<div class="welcome__span"></div>
+	</div>
 `;

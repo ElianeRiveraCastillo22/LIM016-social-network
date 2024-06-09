@@ -1,5 +1,5 @@
 
-export const updateProfile =`
+export const updateProfile = /*html*/ `
 <div class="box--updateProfile">
     <section class="updateProfile__containerImg">
         <div class="updateProfile__imgUser">

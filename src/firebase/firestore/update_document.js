@@ -1,14 +1,16 @@
 import { db, doc, updateDoc ,arrayUnion, increment,arrayRemove} from "../configuraciones.js";
 
+export const updateRegistration = async(idUser, typeAccount, dataUpdate)=> {
+    const userData = doc(db, typeAccount, idUser);
+    await updateDoc(userData, dataUpdate)
+}
 
-export const updateRegistration = async(idUserobject, object,typeAccount)=> {
-    const userData = doc(db, typeAccount, idUserobject);
-    await updateDoc(userData, object)
+export const updatePublicationDocument = async(idPublication,typeAccount, datatoUpdate)=> {
+    const userData = doc(db, typeAccount, idPublication);
+    await updateDoc(userData, datatoUpdate)
 }
-export const updatePublicationDocument = async(idUserobject,typeAccount, object)=> {
-    const userData = doc(db, typeAccount, idUserobject);
-    await updateDoc(userData, object)
-}
+
+
 
 export async function updatePublicationID (collection, idDoc, objCurrentSettings){
     const docCollection = doc(db, collection, idDoc);

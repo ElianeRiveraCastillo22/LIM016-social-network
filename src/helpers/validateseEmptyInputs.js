@@ -2,18 +2,18 @@ import { setErrorInput } from "./setErrorInput.js";
 
 export const validateseEmptyInputs = (emailValue,passwordValue,inputEmail,inputPassword) => {
 
-    if(emailValue == '' && passwordValue == ''){
+    if(!emailValue && !passwordValue){
 
-      setErrorInput(inputEmail, 'Ingresa tu correo electronico');
-      setErrorInput(inputPassword, 'Ingresa tu contraseña');
+		setErrorInput(inputEmail, 'Ingresa tu correo electronico');
+		setErrorInput(inputPassword, 'Ingresa tu contraseña');
 
-    }else if (emailValue == ''){
+    }else if (!emailValue){
 
-      setErrorInput(inputEmail, 'Ingresa tu correo electronico');
+      	setErrorInput(inputEmail, 'Ingresa tu correo electronico');
 
-    }else if(passwordValue == ''){
+    }else if(!passwordValue){
 
-      setErrorInput(inputPassword, 'Ingresa tu contraseña');
+      	setErrorInput(inputPassword, 'Ingresa tu contraseña');
     }
 
 }

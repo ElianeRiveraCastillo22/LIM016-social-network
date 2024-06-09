@@ -1,3 +1,3 @@
-export const showProfile =`
+export const showProfile = /*html*/ `
     <p>perfil</p>
 `

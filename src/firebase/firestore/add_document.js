@@ -15,6 +15,15 @@ export const addUserToFirestore = async (email,id,name,psw,publications_made,url
     } );
 
 }
+export const addRecordToFirestore = async ( typeRegister, id, registrationData) =>{
+    try{
+        await setDoc(doc(db, typeRegister, id), registrationData);
+    }catch(error){
+        console.log(error)
+    }finally{
+        console.log("se envio registro a firestore")
+    }
+}
 
 export const addPointToFirestore = async (id,name,url_profile,email,psw,description,publications_received,published_offers,typeOfRegistration,active_session) =>{
 

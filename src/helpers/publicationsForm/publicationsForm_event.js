@@ -34,12 +34,11 @@ export function publicationFormFunctions(
     formContainer
 ) {
     let textOfTheChosenLabels=[]
-    let pointScoring;
 
     inputTags.addEventListener("focus",()=>{
 
         dimensionsTheWidthOfTheList(contentTags,defaultLabelListContainer)
-        createsTheListInTheFirstApproachInInput({inputTags,iconCreateTags,defaultLabelData,defaultLabelListContainer})
+        createsTheListInTheFirstApproachInInput(inputTags,iconCreateTags,defaultLabelData,defaultLabelListContainer)
 
     })
 

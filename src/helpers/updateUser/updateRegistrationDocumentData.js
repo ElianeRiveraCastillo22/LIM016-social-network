@@ -5,4 +5,5 @@ export async function updateRegistrationDocumentData(name) {
     await updateIdentificationDocument({
       	displayName: name
     })
+
 }

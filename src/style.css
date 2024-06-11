@@ -18,8 +18,6 @@
 	--color-text-description: rgba(39, 36, 29, 0.9);
 	--color-text-input: rgba(39, 36, 29, 0.5);
 
-	
-	
 	/*fonts*/
 	--font-poppins: "Poppins", sans-serif;
 	--font-rubik: "Rubik", sans-serif;
@@ -592,7 +590,7 @@ hgroup {
 	max-width: 28px;
 }
 
-.section--posts {
+.section--posts, .section--profile {
 	background: #eae7eb;
 	border: solid 0.1008px #c8d2d9;
 	width: 100%;
@@ -625,7 +623,7 @@ img.box__post--iconloader {
 }
 
 /*AQUIII*/
-.box--posts {
+.box--publications, .box__profile  {
 	width: 100%;
 	/* height: 100%; */
 	display: flex;
@@ -634,7 +632,8 @@ img.box__post--iconloader {
 }
 
 .createPost,
-.box--publicationPosts {
+.box--publicationPosts,
+.profile__createPublications--box {
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	background: white;
 	margin: 12px 0px;
@@ -646,7 +645,7 @@ img.box__post--iconloader {
 	flex-direction: column;
 }
 
-.publicationPosts {
+.publicationPosts, .profile__publications--box {
 	width: 100%;
 	min-width: 150px;
 }
@@ -1167,18 +1166,13 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 	row-gap: 30px;
 }
 
-.updatePorfile__iconChange label img {
-	max-width: 2.25rem;
-	max-height: 2.25rem;
-}
-
 .updateProfile__imgUser {
 	position: relative;
 	width: 56%;
 	height: 100%;
 }
 
-.updatePorfile__imgUser {
+.updateProfile__imgUser img {
 	width: 100%;
 	clip-path: circle(40%);
 	margin-left: -12%;
@@ -1190,40 +1184,12 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 }
 
 .updateProfile__containerImg {
-	display: flex;
-	position: relative;
-	align-items: center;
-	justify-content: flex-start;
-	width: 100%;
-	padding-bottom: 1.75rem;
-}
-
-.updatePorfile__iconChange {
-	position: relative;
-	width: 100%;
-	display: flex;
-	justify-content: flex-end;
-	position: absolute;
-	z-index: 1;
-	bottom: 0%;
-	padding-right: 20%;
-}
-
-.updatePorfile__iconChange>label {
-	cursor: pointer;
-	padding: 4.8px 8px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.updatePorfile__iconChange>input {
-	width: 1px;
-	height: 1px;
-	opacity: 0;
-	position: absolute;
-	z-index: -1;
-	top: 50%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding-bottom: 1.75rem;
 }
 
 .updateProfile__description {
@@ -1793,13 +1759,69 @@ NaNpxovePublication__btn:focus-visible {
 	font-weight: 600;
 }
 
+/*----------Profile----------*/
+.profile__boxRegister {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(0deg, rgba(234, 231, 235, 1) 40%, rgba(255, 255, 255, 1) 100%);
+    width: 100%;
+    padding: 8%;
+    gap: 8%;
+}
+
+.profile__boxInfo {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.profile__boxPhotoUser {
+    clip-path: circle(50%);
+    background: #eae7eb;
+}
+
+.profile__boxPhotoUser {
+    clip-path: circle(40%);
+    background: #eae7eb;
+}
+
+.profile__photoUser {
+    max-width: 140px;
+}
+
+.profile__name {
+	font-size: clamp(1.25rem, 0.714rem + 1.429vw, 2rem);
+    font-weight: 600;
+    color: var(--color-btn-primary);
+}
+
+.profile__info {
+	font-size: clamp(0.75rem, 0.571rem + 0.476vw, 1rem);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.profile__favoritesBtn{
+	width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: solid 2px #653cad;
+    border-radius: .625rem;
+	cursor: pointer;
+}
+.favoritesBtn__txt {
+    margin-right: .25rem;
+}
+
+/*---------------------------*/
+
 /*Publications*/
 .loader__publication {
 	width: 3.75rem;
 	height: 3.75rem;
 	border-radius: 50%;
-	/* border: .1875rem solid white;
-  border-top-color: transparent; */
 	animation: spinLoader 1.2s linear infinite;
 	position: relative;
 }
@@ -1903,7 +1925,9 @@ NaNpxovePublication__btn:focus-visible {
 	}
 
 	.createPost,
-	.publicationPosts {
+	.publicationPosts,
+	.profile__publications--box,
+	.profile__createPublications--box {
 		width: 84%;
 	}
 
@@ -1911,11 +1935,11 @@ NaNpxovePublication__btn:focus-visible {
 		column-gap: 6.4px;
 	}
 
-	.section--posts {
+	.section--posts, .section--profile {
 		background-color: #fff;
 	}
 
-	.box--posts {
+	.box--publications, .box__profile {
 		width: 800px;
 		background: #eae7eb;
 		margin-left: auto;
@@ -1926,7 +1950,7 @@ NaNpxovePublication__btn:focus-visible {
 		width: 640px;
 	}
 
-	.createPost {
+	.createPost, .profile__createPublications--box {
 		border-radius: 32px;
 	}
 
@@ -1977,7 +2001,7 @@ NaNpxovePublication__btn:focus-visible {
 		max-width: 1416px;
 	}
 
-	.createPost {
+	.createPost, .profile__createPublications--box {
 		margin-top: 24px;
 	}
 }

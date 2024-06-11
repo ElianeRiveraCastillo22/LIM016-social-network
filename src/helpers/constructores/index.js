@@ -8,7 +8,8 @@ class Account {
         publications_made = [],
         description = "",
         activeSession = false,
-        password = ""
+        password = "",
+        registrationInTheFirstInstance = false
     }){
         this.displayName = displayName,
         this.typeRegister = typeRegister,
@@ -18,7 +19,8 @@ class Account {
         this.publications_made = publications_made,
         this.description = description,
         this.activeSession = activeSession
-        this.password = password
+        this.password = password,
+        this.registrationInTheFirstInstance = registrationInTheFirstInstance
     }
 }
 

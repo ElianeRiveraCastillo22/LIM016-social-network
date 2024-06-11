@@ -26,35 +26,52 @@ export const SignIn = () => {
 
 	async function showGooglePopup() {
 		try{
+
 			loginInGoogleLoader.innerHTML = threePointTemplates("btnloader__dot--btnGoogle")
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
+
 			const registrationData = await googleAuth()
 
 			async function getFirebaseRegistration() {
 				try{
+
 					const documentExists = await getPublished(registrationData.user.uid, "user-account")
+					console.log(documentExists)
 					if(documentExists){
+
 						localStorage.setItem("photoURLUser", documentExists.photoURLUser)
 						localStorage.setItem("uidUser", documentExists.uid)
 						localStorage.setItem("displayName", documentExists.displayName)
 						localStorage.setItem("typeRegister", documentExists.typeRegister)
 						localStorage.setItem("activeSession", true)
+						localStorage.setItem("registrationInTheFirstInstance", documentExists.documentExists)
 						locationHome()
-					}else{
+
+					}
+					if(!documentExists){
+
 						localStorage.setItem("providerId", registrationData.providerId)
 						locationUpdateUser()
+
 					}
+
 				}catch(error){
+
 					console.log(error)
+
 				}
 			}
 			getFirebaseRegistration()
 
 		}catch(error){
+
 			console.log(error)
+
 		}finally{
+
 			googleLoginBtn.classList.remove("loginInGoogle--showloader")
 			loginInGoogleLoader.innerHTML= ""
+
 		}
 	}
 
@@ -70,8 +87,11 @@ export const SignIn = () => {
 		validatePassword(inputPassword)
 
 		function login() {
+
 			const allFieldsAreComplete = fieldsToFillIn.every(fields => fields.classList.contains("completed"))
+
 			if(allFieldsAreComplete){
+
 				const accountData = {
 					email: inputEmail,
 					password: inputPassword
@@ -88,6 +108,7 @@ export const SignIn = () => {
 							const pointRegistrationDocument = await getRegistrationDocument("point-account", userCredential.user.uid)
 
 							function savesTheRegistrationAccountType() {
+
 								function saveUserDataInStorage(RegistrationDocument) {
 
 									localStorage.setItem("photoURLUser", RegistrationDocument.photoURLUser)
@@ -99,16 +120,19 @@ export const SignIn = () => {
 										activeSession:true
 									})
 								}
+
 								if(userRegistrationDocument){
 									localStorage.setItem("typeRegister", userRegistrationDocument.typeRegister)
 									if(userRegistrationDocument.displayName) saveUserDataInStorage(userRegistrationDocument)
 								}
+
 								if(pointRegistrationDocument){
 									localStorage.setItem("typeRegister", pointRegistrationDocument.typeRegister)
 									if(pointRegistrationDocument.displayName) saveUserDataInStorage(pointRegistrationDocument)
 								}
-							}
-							savesTheRegistrationAccountType()
+
+							} savesTheRegistrationAccountType()
+
 
 							if(userCredential.user.displayName == null){
 
@@ -124,18 +148,19 @@ export const SignIn = () => {
 						} else signInPopUp(sectionSignIn)
 
 					} catch(error){
+
 						console.log(error)
+
 					} finally{
-						// aqui aplicar la recarga
+
 						const btnLoader = sectionSignIn.querySelector(".btn__loader")
 						btnLoader.remove()
-					}
 
+					}
 				}
 				createAccount()
 			}
-		}
-		login()
+		} login()
 	});
 	return sectionSignIn;
 };

@@ -4,7 +4,7 @@ import { Account } from "../constructores/index.js";
 import { locationHome } from "../locations.js";
 import { updateRegistrationDocumentData } from "./updateRegistrationDocumentData.js";
 
-export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterupdate) {
+export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterupdate,navegador) {
 
     const registryData  = new Account({
         photoURLUser: localStorage.getItem("photoURLUser"),
@@ -12,15 +12,15 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
         email: localStorage.getItem("email"),
         uid: localStorage.getItem("uidUser"),
         activeSession: true,
-        publications_made: []
+        publications_made: [],
+        registrationInTheFirstInstance: true
     })
 
     function getInputValues(inputName, inputDescription) {
 
         registryData.displayName = inputName.value;
-        if(inputDescription){
-            registryData.description = inputDescription.value
-        }
+        if(inputDescription) registryData.description = inputDescription.value
+
     }
 
     if(registryData.typeRegister == "user-account"){
@@ -33,6 +33,7 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
 
             e.preventDefault()
             if(inputName.value){
+
                 getInputValues(inputName)
 
                 updateRegistration(registryData.uid, registryData.typeRegister,{
@@ -40,12 +41,15 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
                     photoURLUser: registryData.photoURLUser,
                     publications_made: [],
                     activeSession: registryData.activeSession,
+                    registrationInTheFirstInstance: registryData.registrationInTheFirstInstance
                 })
                 updateRegistrationDocumentData(registryData.displayName)
 
                 localStorage.setItem("displayName", registryData.displayName)
                 localStorage.setItem("photoURLUser", registryData.photoURLUser)
                 localStorage.setItem("activeSession", registryData.activeSession)
+                localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
+                navegador.style.display="flex"
 
                 locationHome()
 
@@ -72,14 +76,16 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
                     photoURLUser: registryData.photoURLUser,
                     publications_made: [],
                     activeSession: registryData.activeSession,
-                    description: registryData.description
+                    description: registryData.description,
+                    registrationInTheFirstInstance: registryData.registrationInTheFirstInstance
                 })
                 updateRegistrationDocumentData(registryData.displayName)
 
                 localStorage.setItem("displayName", registryData.displayName)
                 localStorage.setItem("photoURLUser", registryData.photoURLUser)
                 localStorage.setItem("activeSession", registryData.activeSession)
-
+                localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
+                navegador.style.display="flex"
                 locationHome()
 
             } else alert(messaje)

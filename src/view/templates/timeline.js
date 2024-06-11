@@ -1,6 +1,6 @@
 export const mainTimelineStructure = () => {
     const timeline = /*html*/ `
-    <div class="box--posts">
+    <div class="box--publications">
 
         <div class="createPost box__createPost">
 

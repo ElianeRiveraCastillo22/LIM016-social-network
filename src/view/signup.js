@@ -28,35 +28,47 @@ export const SignUp = () => {
 
 	async function showGooglePopup() {
 		try{
+
 			loginInGoogleLoader.innerHTML = threePointTemplates("btnloader__dot--btnGoogle")
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
 			const registrationData = await googleAuth()
 
 			async function getFirebaseRegistration() {
 				try{
+
 					const documentExists = await getPublished(registrationData.user.uid, "user-account")
 
 					if(documentExists){
+
 						localStorage.setItem("photoURLUser", documentExists.photoURLUser)
 						localStorage.setItem("uidUser", documentExists.uid)
 						localStorage.setItem("displayName", documentExists.displayName)
 						localStorage.setItem("typeRegister", documentExists.typeRegister)
 						localStorage.setItem("activeSession", true)
 						locationHome()
+
 					}else{
+
 						localStorage.setItem("providerId", registrationData.providerId)
 						locationUpdateUser()
+
 					}
 				}catch(error){
+
 					console.log(error)
+
 				}
 			} getFirebaseRegistration()
 
 		}catch(error){
+
 			console.log(error)
+
 		}finally{
+
 			googleLoginBtn.classList.remove("loginInGoogle--showloader")
 			loginInGoogleLoader.innerHTML= ""
+
 		}
 	}
 
@@ -64,26 +76,35 @@ export const SignUp = () => {
 	btnToLogin .addEventListener('click', locationSignIn);
 
 	registrationOptions.forEach((option) => {
-		option.addEventListener("click",(e)=>{
+		option.addEventListener("click",()=>{
+
 			warningTxt.innerText =""
+
 		})
 	});
 
 	btnSignUp.addEventListener('click', (e)=>{
+
 		e.preventDefault()
 		let fieldsToFillIn = [inputEmail, inputPassword, boxRegisterOptions]
 
 		function showRecordTypeErrorMessage() {
+
 			const didNotChooseHowToRegister=Object.values(registrationOptions).every(registrationOption => (!registrationOption.checked))
+
 			if(didNotChooseHowToRegister){
+
 				warningTxt.innerText ="Elije como registrarte"
 				boxRegisterOptions.classList.remove("completed")
-			}else{
-				boxRegisterOptions.classList.add("completed")
-			}
+
+			}else boxRegisterOptions.classList.add("completed")
+
+
 		}
 		function createAccount() {
+
 			const allFieldsAreComplete = fieldsToFillIn.every(fields => fields.classList.contains("completed"))
+
 			if(allFieldsAreComplete){
 
 				function accounTypeChosen(){
@@ -101,6 +122,7 @@ export const SignUp = () => {
 				})
 
 				async function createAccount() {
+
 					const userCredential = await createUserWithEmailPsw(registryData)
 
 					if(userCredential) signInPopUp(sectionSignUp)
@@ -111,6 +133,7 @@ export const SignUp = () => {
 						email: registryData.email,
 						uid: registryData.uid
 					})
+
 				} createAccount()
 			}
 		}

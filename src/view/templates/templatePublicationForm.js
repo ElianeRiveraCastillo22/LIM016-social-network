@@ -1,4 +1,4 @@
-import { showIconClose } from "../../helpers/publicationsForm/publicationFormTemplate_functions.js";
+import { showIconClose } from "../../helpers/publicationsForm/publicationForm_fuctions.js";
 
 export const templatePublicationForm = (name, photo, textBtnSave, filledValue="",statebtn,scoring=0, id_post="") =>{
     let timeline =""
@@ -54,10 +54,6 @@ export const templatePublicationForm = (name, photo, textBtnSave, filledValue=""
                             </svg>
                         </div>
                     </section>
-                    <div class="createPost__file">
-                        <label for="fileUpload"><img src="../../img/iconos/image.svg"/></label>
-                        <input type="file" id="fileUpload" name="fileUpload">
-                    </div>
                 </section>
             </div>
 

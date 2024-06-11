@@ -2,17 +2,9 @@
 export const updateProfile = /*html*/ `
 <div class="box--updateProfile">
     <section class="updateProfile__containerImg">
-        <div class="updateProfile__imgUser">
-            <figure class="updatePorfile__imgUser">
+        <figure class="updateProfile__imgUser">
                 <img src="../../img/avatar.png">
-            </figure>
-            <div class="updatePorfile__iconChange">
-                <label for="updateImg">
-                    <img src="../../img/iconos/change_img.svg">
-                </label>
-                <input type="file" id="updateImg" name="updateImg">
-            </div>
-        </div>
+        </figure>
     </section>
     <form id="formRegister" class="updateProfile--form">
         <div class="updateProfile__containerForm">

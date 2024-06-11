@@ -1,4 +1,5 @@
 export const setErrorInput = (input, errorMessage) => {
+
     const formControl = input.parentElement;
     const messageError = formControl.querySelector('small');
     const messageIcon = formControl.querySelector('img')
@@ -11,10 +12,13 @@ export const setErrorInput = (input, errorMessage) => {
     messageError.classList.remove("hiddenError")
 
     formControl.addEventListener('click', () => {
+
 		messageIcon.classList.remove("showError")
 		messageIcon.classList.add("hiddenError")
 		messageError.classList.remove("showError")
 		messageError.classList.add("hiddenError")
 		messageError.innerText = '';
+
     });
+
 };

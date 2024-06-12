@@ -1,5 +1,6 @@
 import { functionsOfTheChosenRecordType } from "../helpers/updateUser/functionsOfTheChosenRecordType.js";
 import { undefinedAccountTypeFunctions } from "../helpers/updateUser/undefinedAccountTypeFunctions.js";
+import { closeTheListOfUnclickedDetails } from "../helpers/updateUser/updateInSecondInstance.js";
 import { updateProfile } from "./templates/updateProfile.js";
 import { placeRegistrationTemplate, userRegistrationTemplate } from "./templates/updateUser_cases.js";
 
@@ -13,6 +14,8 @@ export const updateRegistration = ( ) => {
     const btnRegisterupdate = sectionupdateProfile.querySelector("#btnRegisterupdate")
     const imgUser= sectionupdateProfile.querySelector(".updateProfile__imgUser img")
 
+
+
     if (localStorage.getItem("registrationInTheFirstInstance")) {
         function updateInSecondInstance(containerInputsForm,btnRegisterupdate){
 
@@ -24,6 +27,8 @@ export const updateRegistration = ( ) => {
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
 
+                closeTheListOfUnclickedDetails(containerInputsForm)
+
             }
 
             if(localStorage.getItem("typeRegister") == "point-account"){
@@ -31,6 +36,9 @@ export const updateRegistration = ( ) => {
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
                 const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
+
+                closeTheListOfUnclickedDetails(containerInputsForm)
+
             }
         }
         updateInSecondInstance(containerInputsForm,btnRegisterupdate)

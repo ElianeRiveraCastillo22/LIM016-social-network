@@ -1,6 +1,6 @@
 import { setErrorInput } from "./setErrorInput.js";
 
-const validatePassword = (inputPassword)=>{
+const validatePassword = (inputPassword) => {
 
 	if(inputPassword.value.length >= 6) inputPassword.classList.add("completed")
 	else{

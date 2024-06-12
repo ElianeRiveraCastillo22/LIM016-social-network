@@ -1,6 +1,8 @@
+import { activateButtonToUpdate, enableSavePasswordButton, showWarningMessage } from "../helpers/updateUser/activateButtonToUpdate.js";
 import { functionsOfTheChosenRecordType } from "../helpers/updateUser/functionsOfTheChosenRecordType.js";
 import { undefinedAccountTypeFunctions } from "../helpers/updateUser/undefinedAccountTypeFunctions.js";
 import { closeTheListOfUnclickedDetails } from "../helpers/updateUser/updateInSecondInstance.js";
+import { validatePassword } from "../helpers/validatePassword.js";
 import { updateProfile } from "./templates/updateProfile.js";
 import { placeRegistrationTemplate, userRegistrationTemplate } from "./templates/updateUser_cases.js";
 
@@ -27,6 +29,7 @@ export const updateRegistration = ( ) => {
 
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+                const btnsSave = containerInputsForm.querySelectorAll(".btnSave")
 
                 function showRegistryValues() {
                     inputName.value = localStorage.getItem("displayName")
@@ -34,10 +37,31 @@ export const updateRegistration = ( ) => {
 
                 closeTheListOfUnclickedDetails(containerInputsForm)
 
+                activateButtonToUpdate(
+                    inputName,
+                    containerInputsForm,
+                    "Ingresa un nombre para poder actualizar su nombre de usuario 🙏",
+                    "Es el mismo nombre 😯, ingresa uno nuevo 🙏"
+                )
+
+                enableSavePasswordButton(
+                    inputPassword,
+                    containerInputsForm,
+                     "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
+                )
+
+                btnsSave.forEach((btnSave) => {
+                    btnSave.addEventListener("click", ()=>{
+
+
+                    })
+                });
             }
 
             if(localStorage.getItem("typeRegister") == "point-account"){
+
                 containerInputsForm.innerHTML = placeRegistrationTemplate
+
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
                 const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
@@ -47,13 +71,32 @@ export const updateRegistration = ( ) => {
                     inputDescription.value = localStorage.getItem("description")
                 } showRegistryValues()
 
-
                 closeTheListOfUnclickedDetails(containerInputsForm)
 
+                activateButtonToUpdate(
+                    inputName,
+                    containerInputsForm,
+                    "Ingresa un nombre para poder actualizar su nombre de usuario 🙏",
+                    "Es el mismo nombre 😯, ingresa uno nuevo 🙏"
+                )
+
+                activateButtonToUpdate(
+                    inputDescription,
+                    containerInputsForm,
+                    "Ingrese una descripcion para poder actualizar 🙏",
+                    "Es la misma descripción que tienes, ingresa uno nuevo 🙏"
+                )
+
+                enableSavePasswordButton(
+                    inputPassword,
+                    containerInputsForm,
+                     "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
+                )
             }
-        }
-        updateInSecondInstance(containerInputsForm,btnRegisterupdate)
+        } updateInSecondInstance(containerInputsForm,btnRegisterupdate)
+
     }else{
+
         const navegador = document.querySelector("#navegador")
         navegador.style.display="none"
 

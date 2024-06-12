@@ -76,22 +76,8 @@ export function undefinedAccountTypeFunctions(containerInputsForm,btnRegisterupd
 		let newName
 		let description = inputDescription.value
 		selectedRecord == "user-account" ? newName = inputName.value : newName = inputNamePoint.value
-		localStorage.setItem("displayName", newName)
-		localStorage.setItem("typeRegister", selectedRecord)
-		localStorage.setItem("activeSession", true)
-		localStorage.setItem("registrationInTheFirstInstance", true)
 
-		const userAccount = new Account({
-			displayName: newName,
-			typeRegister: selectedRecord,
-			photoURLUser: localStorage.getItem("photoURLUser"),
-			email: localStorage.getItem("email"),
-			uid: localStorage.getItem("uidUser"),
-			activeSession: true,
-			registrationInTheFirstInstance: true
-		})
-
-		const pointAccount = new Account({
+		const registryData  = new Account({
 			displayName: newName,
 			typeRegister: selectedRecord,
 			photoURLUser: localStorage.getItem("photoURLUser"),
@@ -99,40 +85,48 @@ export function undefinedAccountTypeFunctions(containerInputsForm,btnRegisterupd
 			uid: localStorage.getItem("uidUser"),
 			description: description,
 			activeSession: true,
-			registrationInTheFirstInstance: true
+			publications_made: [],
+			registrationInTheFirstInstance: true,
 		})
+
+		localStorage.setItem("displayName", registryData.displayName)
+		localStorage.setItem("typeRegister", registryData.typeRegister)
+		localStorage.setItem("activeSession", registryData.activeSession)
+		localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
 
 
 		async function createRegistrationDataInFirestore() {
 			if(selectedRecord == "user-account"){
 
-				updateRegistrationDocumentData(userAccount.displayName)
-				addRecordToFirestore(selectedRecord, userAccount.uid, {
-					displayName: userAccount.displayName,
-					typeRegister: userAccount.typeRegister,
-					photoURLUser: userAccount.photoURLUser,
-					email: userAccount.email,
-					uid: userAccount.uid,
-					publications_made: userAccount.publications_made,
-					activeSession: userAccount.activeSession,
-					registrationInTheFirstInstance: userAccount.registrationInTheFirstInstance
+				updateRegistrationDocumentData(registryData.displayName)
+				addRecordToFirestore(selectedRecord, registryData.uid, {
+					displayName: registryData.displayName,
+					typeRegister: registryData.typeRegister,
+					photoURLUser: registryData.photoURLUser,
+					email: registryData.email,
+					uid: registryData.uid,
+					publications_made: registryData.publications_made,
+					activeSession: registryData.activeSession,
+					registrationInTheFirstInstance: registryData.registrationInTheFirstInstance
 				})
 
 			}
 
 			if(selectedRecord == "point-account"){
 
-				updateRegistrationDocumentData(pointAccount.displayName)
-				addRecordToFirestore(selectedRecord, pointAccount.uid, {
-					displayName: pointAccount.displayName,
-					typeRegister: pointAccount.typeRegister,
-					photoURLUser: pointAccount.photoURLUser,
-					email: pointAccount.email,
-					uid: pointAccount.uid,
-					publications_made: pointAccount.publications_made,
-					description: pointAccount.description,
-					activeSession: pointAccount.activeSession,
-					registrationInTheFirstInstance: pointAccount.registrationInTheFirstInstance
+				localStorage.setItem("description", registryData.description)
+
+				updateRegistrationDocumentData(registryData.displayName)
+				addRecordToFirestore(selectedRecord, registryData.uid, {
+					displayName: registryData.displayName,
+					typeRegister: registryData.typeRegister,
+					photoURLUser: registryData.photoURLUser,
+					email: registryData.email,
+					uid: registryData.uid,
+					publications_made: registryData.publications_made,
+					description: registryData.description,
+					activeSession: registryData.activeSession,
+					registrationInTheFirstInstance: registryData.registrationInTheFirstInstance
 				})
 
 			}

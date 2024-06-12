@@ -1,7 +1,8 @@
 export function closeTheListOfUnclickedDetails(containerInputsForm) {
+    const detailNames = containerInputsForm.querySelectorAll(".containerForm__fieldToEdit")
     const details = containerInputsForm.querySelectorAll(".containerForm__details")
-    details.forEach(detail => {
-        detail.addEventListener("click", ()=>{
+    detailNames.forEach(detailName => {
+        detailName.addEventListener("click", ()=>{
 
             const listOfOtherOpenDetails= Object.values(details).filter(detail=>detail.hasAttribute("open"))
 

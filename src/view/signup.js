@@ -9,6 +9,7 @@ import { signInPopUp } from '../helpers/signInPopUp.js';
 import { getPublished } from '../firebase/firestore/get_document.js';
 import { threePointTemplates } from './squeleton/index.js';
 import { addRecordToFirestore } from '../firebase/firestore/add_document.js';
+import { getFirebaseRegistration } from '../helpers/updateUser/getFirebaseRegistration.js';
 
 export const SignUp = () => {
 
@@ -31,34 +32,9 @@ export const SignUp = () => {
 
 			loginInGoogleLoader.innerHTML = threePointTemplates("btnloader__dot--btnGoogle")
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
+
 			const registrationData = await googleAuth()
-
-			async function getFirebaseRegistration() {
-				try{
-
-					const documentExists = await getPublished(registrationData.user.uid, "user-account")
-
-					if(documentExists){
-
-						localStorage.setItem("photoURLUser", documentExists.photoURLUser)
-						localStorage.setItem("uidUser", documentExists.uid)
-						localStorage.setItem("displayName", documentExists.displayName)
-						localStorage.setItem("typeRegister", documentExists.typeRegister)
-						localStorage.setItem("activeSession", true)
-						locationHome()
-
-					}else{
-
-						localStorage.setItem("providerId", registrationData.providerId)
-						locationUpdateUser()
-
-					}
-				}catch(error){
-
-					console.log(error)
-
-				}
-			} getFirebaseRegistration()
+			getFirebaseRegistration(registrationData)
 
 		}catch(error){
 

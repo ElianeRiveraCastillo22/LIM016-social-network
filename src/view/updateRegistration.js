@@ -1,6 +1,7 @@
 import { functionsOfTheChosenRecordType } from "../helpers/updateUser/functionsOfTheChosenRecordType.js";
 import { undefinedAccountTypeFunctions } from "../helpers/updateUser/undefinedAccountTypeFunctions.js";
 import { updateProfile } from "./templates/updateProfile.js";
+import { placeRegistrationTemplate, userRegistrationTemplate } from "./templates/updateUser_cases.js";
 
 export const updateRegistration = ( ) => {
 
@@ -13,7 +14,26 @@ export const updateRegistration = ( ) => {
     const imgUser= sectionupdateProfile.querySelector(".updateProfile__imgUser img")
 
     if (localStorage.getItem("registrationInTheFirstInstance")) {
+        function updateInSecondInstance(containerInputsForm,btnRegisterupdate){
 
+            btnRegisterupdate.style.display="none"
+
+            if(localStorage.getItem("typeRegister") == "user-account"){
+                containerInputsForm.innerHTML = userRegistrationTemplate
+
+                const inputName = containerInputsForm.querySelector(".updateProfile__name")
+                const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+
+            }
+
+            if(localStorage.getItem("typeRegister") == "point-account"){
+                containerInputsForm.innerHTML = placeRegistrationTemplate
+                const inputName = containerInputsForm.querySelector(".updateProfile__name")
+                const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+                const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
+            }
+        }
+        updateInSecondInstance(containerInputsForm,btnRegisterupdate)
     }else{
         const navegador = document.querySelector("#navegador")
         navegador.style.display="none"

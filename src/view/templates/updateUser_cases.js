@@ -33,3 +33,43 @@ export const templateTypePoint = /*html*/ `
     <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombre del lugar" autocomplete="off">
     <textarea id="descriptionPoint" class="updateProfile__description" placeholder="Descripción del lugar"></textarea>
 `
+
+export const userRegistrationTemplate= /*html*/ `
+    <details class="containerForm__details">
+        <summary class="containerForm__fieldToEdit">Nombre de usuario</summary>
+        <section class="containerForm__boxInput">
+            <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombres" autocomplete="off">
+            <button class="btnSave btn--disebled">Actualizar</button>
+        </section>
+    </details>
+    <details class="containerForm__details">
+        <summary class="containerForm__fieldToEdit">Contraseña</summary>
+        <section class="containerForm__boxInput">
+            <input id="password" class="input updateProfile__password" type="text" placeholder="Contraseña" autocomplete="off">
+            <button class="btnSave btn--disebled">Actualizar</button>
+        </section>
+    </details>
+`
+export const placeRegistrationTemplate= /*html*/ `
+    <details class="containerForm__details">
+        <summary class="containerForm__fieldToEdit">Nombre de usuario</summary>
+        <section class="containerForm__boxInput">
+            <input id="userName" class="input updateProfile__name" type="text" placeholder="Nombres" autocomplete="off">
+            <button class="btnSave btn--disebled">Actualizar</button>
+        </section>
+    </details>
+    <details class="containerForm__details">
+        <summary class="containerForm__fieldToEdit">Contraseña</summary>
+        <section class="containerForm__boxInput">
+            <input id="password" class="input updateProfile__password" type="text" placeholder="Contraseña" autocomplete="off">
+            <button class="btnSave btn--disebled">Actualizar</button>
+        </section>
+    </details>
+    <details class="containerForm__details">
+        <summary class="containerForm__fieldToEdit">Contraseña</summary>
+        <section class="containerForm__boxInput">
+            <input id="password" class="input updateProfile__password" type="text" placeholder="Contraseña" autocomplete="off">
+            <textarea id="descriptionPoint" class="updateProfile__description" placeholder="Descripción del lugar"></textarea>
+        </section>
+    </details>
+`

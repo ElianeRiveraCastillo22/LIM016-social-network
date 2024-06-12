@@ -1814,10 +1814,41 @@ NaNpxovePublication__btn:focus-visible {
 .favoritesBtn__txt {
     margin-right: .25rem;
 }
+/*--------------------Profile-------------------------*/
+.containerForm__details {
+	width: 100%;
+    border-radius: .75rem;
+    padding: 1rem;
+    transition: 50ms;
+    background: #F2EEF9;
+}
+.containerForm__details[open] .containerForm__boxInput{
+	padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+}
+.containerForm__fieldToEdit {
+    position: relative;
+    color: var(--color-text-public);
+    font-weight: 500;
+}
+.containerForm__fieldToEdit::marker {
+	content: none;
+}
+.containerForm__fieldToEdit::after {
+    content: url(./img/iconos/arrow.svg);
+    position: absolute;
+    right: 0;
+    transform: rotate(-90deg)
+}
+.containerForm__details[open] .containerForm__fieldToEdit::after{
+	transform: rotate(0deg)
+}
 
-/*---------------------------*/
 
-/*Publications*/
+/*---------------------------------------------------*/
 .loader__publication {
 	width: 3.75rem;
 	height: 3.75rem;
@@ -1857,7 +1888,6 @@ NaNpxovePublication__btn:focus-visible {
 	}
 }
 
-/*Publications end*/
 @keyframes shimmer {
 	to {
 		background-position: -100% 0;

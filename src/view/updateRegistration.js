@@ -20,12 +20,17 @@ export const updateRegistration = ( ) => {
         function updateInSecondInstance(containerInputsForm,btnRegisterupdate){
 
             btnRegisterupdate.style.display="none"
+            imgUser.src = localStorage.getItem("photoURLUser")
 
             if(localStorage.getItem("typeRegister") == "user-account"){
                 containerInputsForm.innerHTML = userRegistrationTemplate
 
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+
+                function showRegistryValues() {
+                    inputName.value = localStorage.getItem("displayName")
+                } showRegistryValues()
 
                 closeTheListOfUnclickedDetails(containerInputsForm)
 
@@ -36,6 +41,12 @@ export const updateRegistration = ( ) => {
                 const inputName = containerInputsForm.querySelector(".updateProfile__name")
                 const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
                 const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
+
+                function showRegistryValues() {
+                    inputName.value = localStorage.getItem("displayName")
+                    inputDescription.value = localStorage.getItem("description")
+                } showRegistryValues()
+
 
                 closeTheListOfUnclickedDetails(containerInputsForm)
 

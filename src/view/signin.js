@@ -9,6 +9,7 @@ import { validatePassword } from '../helpers/validatePassword.js';
 import { signInPopUp } from '../helpers/signInPopUp.js';
 import { updatePhotoURL } from '../helpers/updatePhotoURL.js';
 import { updateRegistration } from '../firebase/firestore/update_document.js';
+import { getFirebaseRegistration } from '../helpers/updateUser/getFirebaseRegistration.js';
 
 export const SignIn = () => {
 
@@ -31,37 +32,7 @@ export const SignIn = () => {
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
 
 			const registrationData = await googleAuth()
-
-			async function getFirebaseRegistration() {
-				try{
-
-					const documentExists = await getPublished(registrationData.user.uid, "user-account")
-					console.log(documentExists)
-					if(documentExists){
-
-						localStorage.setItem("photoURLUser", documentExists.photoURLUser)
-						localStorage.setItem("uidUser", documentExists.uid)
-						localStorage.setItem("displayName", documentExists.displayName)
-						localStorage.setItem("typeRegister", documentExists.typeRegister)
-						localStorage.setItem("activeSession", true)
-						localStorage.setItem("registrationInTheFirstInstance", documentExists.documentExists)
-						locationHome()
-
-					}
-					if(!documentExists){
-
-						localStorage.setItem("providerId", registrationData.providerId)
-						locationUpdateUser()
-
-					}
-
-				}catch(error){
-
-					console.log(error)
-
-				}
-			}
-			getFirebaseRegistration()
+			getFirebaseRegistration(registrationData)
 
 		}catch(error){
 

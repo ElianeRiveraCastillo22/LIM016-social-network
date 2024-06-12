@@ -13,7 +13,8 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
         uid: localStorage.getItem("uidUser"),
         activeSession: true,
         publications_made: [],
-        registrationInTheFirstInstance: true
+        registrationInTheFirstInstance: true,
+        description: ''
     })
 
     function getInputValues(inputName, inputDescription) {
@@ -85,6 +86,8 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
                 localStorage.setItem("photoURLUser", registryData.photoURLUser)
                 localStorage.setItem("activeSession", registryData.activeSession)
                 localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
+                localStorage.setItem("description", registryData.description)
+
                 navegador.style.display="flex"
                 locationHome()
 

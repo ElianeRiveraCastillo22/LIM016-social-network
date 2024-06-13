@@ -1,28 +1,27 @@
 import { db, doc, updateDoc ,arrayUnion, increment,arrayRemove} from "../configuraciones.js";
 
-export const updateRegistration = async(idUser, typeAccount, dataUpdate)=> {
+const updateRegistrationDoc = async(idUser, typeAccount, dataUpdate)=> {
 
     const userData = doc(db, typeAccount, idUser);
     await updateDoc(userData, dataUpdate)
 
 }
 
-export const updatePublicationDocument = async(idPublication,typeAccount, datatoUpdate)=> {
+const updatePublicationDocument = async(idPublication,typeAccount, datatoUpdate)=> {
 
     const userData = doc(db, typeAccount, idPublication);
     await updateDoc(userData, datatoUpdate)
 
 }
 
-
-
-export async function updatePublicationID (collection, idDoc, objCurrentSettings){
+async function updatePublicationID (collection, idDoc, objCurrentSettings){
 
     const docCollection = doc(db, collection, idDoc);
     await updateDoc(docCollection, objCurrentSettings);
 
 }
-export async function updateTheIdentifiersOfUserPublications(collection, idDoc, newPublicationID){
+
+async function updateTheIdentifiersOfUserPublications(collection, idDoc, newPublicationID){
 
     const docCollection = doc(db, collection, idDoc);
     await updateDoc(docCollection, {
@@ -30,7 +29,8 @@ export async function updateTheIdentifiersOfUserPublications(collection, idDoc, 
     });
 
 }
-export async function updatesUsersWhoLike(collection, idDoc, usersWhoLiked){
+
+async function updatesUsersWhoLike(collection, idDoc, usersWhoLiked){
 
     const docCollection = doc(db, collection, idDoc);
     await updateDoc(docCollection, {
@@ -38,7 +38,17 @@ export async function updatesUsersWhoLike(collection, idDoc, usersWhoLiked){
     });
 
 }
-export async function updateWhoDeletedLike(collection, idDoc, usersWhoLiked){
+
+async function deletePublicationOfRegistrationDocument(collection, idUser, idPublications){
+
+    const docCollection = doc(db, collection, idUser);
+    const prueba = await updateDoc(docCollection, {
+        publications_made: arrayRemove(idPublications)
+    });
+
+}
+
+async function updateWhoDeletedLike(collection, idDoc, usersWhoLiked){
 
     const docCollection = doc(db, collection, idDoc);
     const prueba = await updateDoc(docCollection, {
@@ -46,12 +56,24 @@ export async function updateWhoDeletedLike(collection, idDoc, usersWhoLiked){
     });
 
 }
-export async function updateLikesValues(collection, idDoc, increasedOrDecreased,usersWhoLiked){
+
+async function updateLikesValues(collection, idDoc, increasedOrDecreased,usersWhoLiked){
 
     const docCollection = doc(db, collection, idDoc);
     await updateDoc(docCollection, {
         likes: increment(increasedOrDecreased)
     });
 
+}
+
+export{
+    updateRegistrationDoc,
+    updatePublicationDocument,
+    updatePublicationID,
+    updateTheIdentifiersOfUserPublications,
+    updatesUsersWhoLike,
+    deletePublicationOfRegistrationDocument,
+    updateWhoDeletedLike,
+    updateLikesValues
 }
 

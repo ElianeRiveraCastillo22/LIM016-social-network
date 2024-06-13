@@ -1,6 +1,6 @@
 import { deletePublicationDocument } from "../../firebase/firestore/delete_document.js";
 import { getPublished } from "../../firebase/firestore/get_document.js";
-import { updateLikesValues, updatePublicationDocument, updateWhoDeletedLike, updatesUsersWhoLike } from "../../firebase/firestore/update_document.js";
+import { deletePublicationOfRegistrationDocument, updateLikesValues, updatePublicationDocument, updateWhoDeletedLike, updatesUsersWhoLike } from "../../firebase/firestore/update_document.js";
 import { templateLoader } from "../../view/squeleton/index.js";
 import { popupPublication, publicationLabelTemplate } from "../../view/templates/publications.js";
 import { templatePublicationForm } from "../../view/templates/templatePublicationForm.js";
@@ -320,8 +320,12 @@ export function functionsOfThePublication(
 
                     try{
 
+                        await deletePublicationOfRegistrationDocument(
+                            localStorage.getItem("typeRegister"),
+                            localStorage.getItem("uidUser"),
+                            ID_POST
+                        )
                         await deletePublicationDocument(ID_POST)
-
                     }catch(error){
 
                         console.log(error)

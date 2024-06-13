@@ -1,4 +1,4 @@
-import { updateRegistration } from "../../firebase/firestore/update_document.js";
+import { updateRegistrationDoc } from "../../firebase/firestore/update_document.js";
 import { templateTypePoint, templateTypeUser } from "../../view/templates/updateUser_cases.js";
 import { Account } from "../constructores/index.js";
 import { locationHome } from "../locations.js";
@@ -37,7 +37,7 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
 
                 getInputValues(inputName)
 
-                updateRegistration(registryData.uid, registryData.typeRegister,{
+                updateRegistrationDoc(registryData.uid, registryData.typeRegister,{
                     displayName: registryData.displayName,
                     photoURLUser: registryData.photoURLUser,
                     publications_made: [],
@@ -50,6 +50,7 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
                 localStorage.setItem("photoURLUser", registryData.photoURLUser)
                 localStorage.setItem("activeSession", registryData.activeSession)
                 localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
+
                 navegador.style.display="flex"
 
                 locationHome()
@@ -72,7 +73,7 @@ export function functionsOfTheChosenRecordType(containerInputsForm,btnRegisterup
             if(inputName.value){
                 getInputValues(inputName, inputDescription)
 
-                updateRegistration(registryData.uid, registryData.typeRegister,{
+                updateRegistrationDoc(registryData.uid, registryData.typeRegister,{
                     displayName: registryData.displayName,
                     photoURLUser: registryData.photoURLUser,
                     publications_made: [],

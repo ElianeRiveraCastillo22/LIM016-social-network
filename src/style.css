@@ -310,7 +310,7 @@ body {
 }
 
 .loginInGoogle--showloader {
-	row-gap: 10px;
+	row-gap: .5rem;
 }
 
 .loginInGoogle__container {
@@ -318,9 +318,9 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	max-width: 232px;
+	max-width: 14.5rem;
 	flex-wrap: wrap;
-	row-gap: 10px;
+	gap: .5rem;
 }
 
 a#google {
@@ -358,8 +358,8 @@ a#google:hover {
 }
 
 .google {
-	max-height: 28px;
-	max-width: 28px;
+	max-height: 1.75rem;
+	max-width: 1.75rem;
 }
 
 .form-control,
@@ -431,6 +431,7 @@ a#google:hover {
 	padding: 8px 10px;
 	border-radius: 10px;
 	background: var(--p--color-bg-input, #eae2f8);
+	accent-color: var(--color-btn-primary);
 }
 
 .form-control img {
@@ -1297,7 +1298,7 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 .publicationReview--user {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 12px;
+	margin-bottom: .75rem;
 }
 
 .publicationReview--tags {
@@ -1307,6 +1308,7 @@ i.fas.fa-pencil-alt.btnEdit.iconPost {
 .publicationReview--box {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
+	margin-bottom: .75rem;
 }
 
 .publicationReview--like {

@@ -5,7 +5,5 @@ export const googleAuth =async() =>{
 		return await signInWithPopup(auth, provider)
 	}catch(error){
 		console.log(error)
-	}finally{
-		console.log("ya iniciaste sesion con google")
 	}
 }

@@ -11,7 +11,8 @@ import {
     sendEmailVerification,
     setPersistence,
     browserSessionPersistence,
-    updateProfile
+    updateProfile,
+	updatePassword
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -68,6 +69,7 @@ export{
 	signOut,
 	setPersistence,
 	browserSessionPersistence,
+	updatePassword,
 	//firestore
 	db,
 	doc,

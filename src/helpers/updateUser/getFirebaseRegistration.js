@@ -2,6 +2,7 @@ import { getPublished } from "../../firebase/firestore/get_document.js"
 import { locationHome, locationUpdateUser } from "../locations.js"
 
 export async function getFirebaseRegistration(registrationData) {
+
     try{
 
         const existingUser = await getPublished(registrationData.user.uid, "user-account")
@@ -17,11 +18,11 @@ export async function getFirebaseRegistration(registrationData) {
         }
 
         if(existingUser){
+
             saveLogDataInTheLocalstorage(existingUser)
             locationHome()
 
         }
-        if(!existingUser) locationUpdateUser()
 
         if(existingPlace){
 
@@ -30,7 +31,8 @@ export async function getFirebaseRegistration(registrationData) {
             locationHome()
 
         }
-        if(!existingPlace) locationUpdateUser()
+
+        if(!existingUser && !existingPlace) locationUpdateUser()
 
     }catch(error){
 

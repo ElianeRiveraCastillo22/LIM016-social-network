@@ -10,8 +10,6 @@ export const verifyWithEmailAndPassword = async(accountData) => {
         return userCredential
     }catch(error){
         showErrorSignIn(error.code, email, password)
-    }finally{
-        console.log("cuenta verificada")
     }
 
     return userCredential

@@ -1,5 +1,6 @@
 import { getUserPublications } from "../firebase/firestore/get_document.js";
 import { Account } from "../helpers/constructores/index.js";
+import { locationSignIn } from "../helpers/locations.js";
 import { functionsOfThePublication } from "../helpers/publications/functionsOfThePublication.JS";
 import { functionsOfThePublicationForm } from "../helpers/publicationsForm/functionsOfThePublicationForm.js";
 import { resizeSpaceBetweenHeaderAndMain } from "../helpers/resizeSpaceBetweenHeaderAndMain.js";
@@ -9,29 +10,28 @@ import { templatePublications } from "./templates/publications.js";
 import { templatePublicationForm } from "./templates/templatePublicationForm.js";
 
 export const Profile = () => {
+    if(localStorage.getItem("activeSession")=="true"){
 
-    const sectionSingin = document.createElement('section');
-    sectionSingin.setAttribute('class', 'section--profile');
+        const sectionSingin = document.createElement('section');
+        sectionSingin.setAttribute('class', 'section--profile');
 
-    const heightHead=document.querySelector("#navegador");
-	resizeSpaceBetweenHeaderAndMain(sectionSingin, heightHead)
-    sectionSingin.innerHTML = showProfile;
+        const heightHead=document.querySelector("#navegador");
+        resizeSpaceBetweenHeaderAndMain(sectionSingin, heightHead)
+        sectionSingin.innerHTML = showProfile;
 
-    const boxPorfile = sectionSingin.querySelector(".profile__boxRegister")
-    const boxPublications = sectionSingin.querySelector(".profile__createPublications--box")
-    const PublicationsBox = sectionSingin.querySelector(".profile__publications--box")
+        const boxPorfile = sectionSingin.querySelector(".profile__boxRegister")
+        const boxPublications = sectionSingin.querySelector(".profile__createPublications--box")
+        const PublicationsBox = sectionSingin.querySelector(".profile__publications--box")
 
-	const userAccount = new Account({
-		displayName: localStorage.getItem("displayName"),
-		typeRegister: localStorage.getItem("typeRegister"),
-		photoURLUser: localStorage.getItem("photoURLUser"),
-		uid: localStorage.getItem("uidUser"),
-		activeSession: localStorage.getItem("activeSession")
-	})
+        const userAccount = new Account({
+            displayName: localStorage.getItem("displayName"),
+            typeRegister: localStorage.getItem("typeRegister"),
+            photoURLUser: localStorage.getItem("photoURLUser"),
+            uid: localStorage.getItem("uidUser"),
+            activeSession: localStorage.getItem("activeSession")
+        })
 
-    if(userAccount.typeRegister == "user-account"){
-
-        if(userAccount.activeSession){
+        if(userAccount.typeRegister == "user-account"){
 
             function showProfile() {
 
@@ -95,20 +95,21 @@ export const Profile = () => {
 
                 }
             } showPublications()
-        }else{
 
-            alert("Por favor inicia sesión")
-            locationSignIn()
 
         }
+
+        if(userAccount.typeRegister == "point-account"){
+
+        }
+
+        return sectionSingin
+
+    }else{
+
+        alert("inicia sesión 👀")
+        locationSignIn()
+
     }
 
-    if(userAccount.typeRegister == "point-account"){
-
-    }
-
-
-
-
-    return sectionSingin
 }

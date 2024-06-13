@@ -8,7 +8,7 @@ import { threePointTemplates } from './squeleton/index.js';
 import { validatePassword } from '../helpers/validatePassword.js';
 import { signInPopUp } from '../helpers/signInPopUp.js';
 import { updatePhotoURL } from '../helpers/updatePhotoURL.js';
-import { updateRegistration } from '../firebase/firestore/update_document.js';
+import { updateRegistrationDoc } from '../firebase/firestore/update_document.js';
 import { getFirebaseRegistration } from '../helpers/updateUser/getFirebaseRegistration.js';
 
 export const SignIn = () => {
@@ -26,19 +26,21 @@ export const SignIn = () => {
 	const inputPassword =sectionSignIn.querySelector('#password')
 
 	async function showGooglePopup() {
+
 		try{
 
 			loginInGoogleLoader.innerHTML = threePointTemplates("btnloader__dot--btnGoogle")
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
 
 			const registrationData = await googleAuth()
+			localStorage.setItem("providerId", registrationData.providerId)
 			getFirebaseRegistration(registrationData)
 
-		}catch(error){
+		} catch(error){
 
 			console.log(error)
 
-		}finally{
+		} finally{
 
 			googleLoginBtn.classList.remove("loginInGoogle--showloader")
 			loginInGoogleLoader.innerHTML= ""
@@ -86,8 +88,9 @@ export const SignIn = () => {
 									localStorage.setItem("uidUser", RegistrationDocument.uid)
 									localStorage.setItem("displayName", RegistrationDocument.displayName)
 									localStorage.setItem("activeSession", true)
+									localStorage.setItem("registrationInTheFirstInstance", RegistrationDocument.registrationInTheFirstInstance)
 
-									updateRegistration(RegistrationDocument.uid, RegistrationDocument.typeRegister, {
+									updateRegistrationDoc(RegistrationDocument.uid, RegistrationDocument.typeRegister, {
 										activeSession:true
 									})
 								}

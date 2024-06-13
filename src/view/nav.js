@@ -34,6 +34,9 @@ export const Nav = () => {
 				localStorage.removeItem("photoURLUser")
 				localStorage.removeItem("email")
 				localStorage.removeItem("photoURLUser")
+				localStorage.removeItem("registrationInTheFirstInstance")
+				localStorage.removeItem("providerId")
+				localStorage.removeItem("typeRegister")
 
 				signOutUser()
 				locationSignIn()
@@ -42,11 +45,8 @@ export const Nav = () => {
 
 				console.log(error)
 
-			}finally{
-
-				console.log("actualizo documento cuando cierro sesion")
-
 			}
+
 		} signOut()
 	})
 

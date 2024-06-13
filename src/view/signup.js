@@ -34,6 +34,7 @@ export const SignUp = () => {
 			googleLoginBtn.classList.add("loginInGoogle--showloader")
 
 			const registrationData = await googleAuth()
+			localStorage.setItem("providerId", registrationData.providerId)
 			getFirebaseRegistration(registrationData)
 
 		}catch(error){

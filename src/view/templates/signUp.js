@@ -40,7 +40,7 @@ export const showSignUp = /*html*/ `
 	<section class="signUp--options">
 		<div class="loginInGoogle">
 			<div class="loginInGoogle__container">
-				<img class="google" src="https://brandlogos.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png" alt="google"> 
+				<img class="google" src="../../img/iconos/google.svg" alt="google"> 
 				<a id="google">Iniciar sesión con Google</a>
 			</div>
 			<div class="loginInGoogle__loader">

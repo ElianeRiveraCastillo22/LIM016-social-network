@@ -94,8 +94,8 @@ export function undefinedAccountTypeFunctions(containerInputsForm,btnRegisterupd
 		localStorage.setItem("activeSession", registryData.activeSession)
 		localStorage.setItem("registrationInTheFirstInstance", registryData.registrationInTheFirstInstance)
 
-
 		async function createRegistrationDataInFirestore() {
+
 			if(selectedRecord == "user-account"){
 
 				updateRegistrationDocumentData(registryData.displayName)

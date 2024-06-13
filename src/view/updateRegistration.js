@@ -1,8 +1,6 @@
-import { activateButtonToUpdate, enableSavePasswordButton, showWarningMessage } from "../helpers/updateUser/activateButtonToUpdate.js";
 import { functionsOfTheChosenRecordType } from "../helpers/updateUser/functionsOfTheChosenRecordType.js";
 import { undefinedAccountTypeFunctions } from "../helpers/updateUser/undefinedAccountTypeFunctions.js";
-import { closeTheListOfUnclickedDetails } from "../helpers/updateUser/updateInSecondInstance.js";
-import { validatePassword } from "../helpers/validatePassword.js";
+import { activateButtonToUpdate, closeTheListOfUnclickedDetails, enableSavePasswordButton, updateNameOrDescription, updatePassword } from "../helpers/updateUser/updateInSecondInstance.js";
 import { updateProfile } from "./templates/updateProfile.js";
 import { placeRegistrationTemplate, userRegistrationTemplate } from "./templates/updateUser_cases.js";
 
@@ -16,9 +14,7 @@ export const updateRegistration = ( ) => {
     const btnRegisterupdate = sectionupdateProfile.querySelector("#btnRegisterupdate")
     const imgUser= sectionupdateProfile.querySelector(".updateProfile__imgUser img")
 
-
-
-    if (localStorage.getItem("registrationInTheFirstInstance")) {
+    if(localStorage.getItem("registrationInTheFirstInstance")) {
         function updateInSecondInstance(containerInputsForm,btnRegisterupdate){
 
             btnRegisterupdate.style.display="none"
@@ -50,12 +46,10 @@ export const updateRegistration = ( ) => {
                      "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
                 )
 
-                btnsSave.forEach((btnSave) => {
-                    btnSave.addEventListener("click", ()=>{
+                updatePassword(btnsSave,inputPassword)
+                updateNameOrDescription(inputName,btnsSave)
 
 
-                    })
-                });
             }
 
             if(localStorage.getItem("typeRegister") == "point-account"){
@@ -92,7 +86,12 @@ export const updateRegistration = ( ) => {
                     containerInputsForm,
                      "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
                 )
+
+                updatePassword(btnsSave,inputPassword)
+                updateNameOrDescription(inputName,btnsSave)
+                updateDescription(inputDescription, btnsSave)
             }
+
         } updateInSecondInstance(containerInputsForm,btnRegisterupdate)
 
     }else{

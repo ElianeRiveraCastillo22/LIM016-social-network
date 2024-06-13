@@ -1,3 +1,4 @@
+import { resizeSpaceBetweenHeaderAndMain } from "../helpers/resizeSpaceBetweenHeaderAndMain.js";
 import { functionsOfTheChosenRecordType } from "../helpers/updateUser/functionsOfTheChosenRecordType.js";
 import { undefinedAccountTypeFunctions } from "../helpers/updateUser/undefinedAccountTypeFunctions.js";
 import { activateButtonToUpdate, closeTheListOfUnclickedDetails, enableSavePasswordButton, updateNameOrDescription, updatePassword } from "../helpers/updateUser/updateInSecondInstance.js";
@@ -18,6 +19,9 @@ export const updateRegistration = ( ) => {
         function updateInSecondInstance(containerInputsForm,btnRegisterupdate){
 
             btnRegisterupdate.style.display="none"
+            sectionupdateProfile.style.position="absolute"
+            const heightHead=document.querySelector("#navegador");
+            resizeSpaceBetweenHeaderAndMain(sectionupdateProfile,heightHead)
             imgUser.src = localStorage.getItem("photoURLUser")
 
             if(localStorage.getItem("typeRegister") == "user-account"){

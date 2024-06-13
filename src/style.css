@@ -1835,6 +1835,7 @@ NaNpxovePublication__btn:focus-visible {
     position: relative;
     color: var(--color-text-public);
     font-weight: 500;
+	font-size: clamp(14px, 12.576px + 0.238vw, 16px);
 }
 .containerForm__fieldToEdit::marker {
 	content: none;

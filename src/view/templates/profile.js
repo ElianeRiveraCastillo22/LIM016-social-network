@@ -18,7 +18,7 @@ export const showProfile = /*html*/ `
 export const templateInfoUser = (name, photoUser)=>{
     const userProfile = /*html*/ `
         <figure class="profile__boxPhotoUser">
-            <img src="${photoUser}" class="profile__photoUser"/>
+            <img src="${photoUser}" class="profile__photoUser" alt="profile picture"/>
         </figure>
         <section class="profile__boxInfo">
             <h1 class="profile__name">${name}</h1>
@@ -29,7 +29,7 @@ export const templateInfoUser = (name, photoUser)=>{
 export const templateInfoPoint = (name, descrition, photoUser)=>{
     const userProfile = /*html*/ `
         <figure class="profile__boxPhotoUser">
-            <img src="${photoUser}" class="profile__photoUser"/>
+            <img src="${photoUser}" class="profile__photoUser" alt="profile picture"/>
         </figure>
         <section class="profile__boxInfo">
             <h1 class="profile__name">${name}</h1>

@@ -1,7 +1,12 @@
 import { updateAuthenticationPassword } from "../../firebase/auth/auth_update_password.js";
 import { getRegistrationDocument } from "../../firebase/firestore/get_document.js";
 import { updatePublicationDocument, updateRegistrationDoc } from "../../firebase/firestore/update_document.js";
+import { templateLoader } from "../../view/squeleton/index.js";
+import { popupMessaje } from "../../view/templates/popupMessaje.js";
+import { placeRegistrationTemplate, userRegistrationTemplate } from "../../view/templates/updateUser_cases.js";
 import { Account } from "../constructores/index.js";
+import { closePopup } from "../popupMessaje.js";
+import { resizeSpaceBetweenHeaderAndMain } from "../resizeSpaceBetweenHeaderAndMain.js";
 import { updateRegistrationDocumentData } from "./updateRegistrationDocumentData.js";
 
 function closeTheListOfUnclickedDetails(containerInputsForm) {
@@ -98,13 +103,12 @@ function enableSavePasswordButton(inputPassword,containerInputsForm, message) {
     })
 }
 
-function updatePassword(btnsSave,inputPassword){
+function updatePassword(btnsSave, inputPassword, sectionupdateProfile){
 
     btnsSave.forEach((btnSave) => {
         btnSave.addEventListener("click", (e)=>{
 
             e.preventDefault()
-
 
             if(btnSave.classList.contains("btn--active")){
 
@@ -114,26 +118,48 @@ function updatePassword(btnsSave,inputPassword){
                         return inputPassword.value
                     }
 
-                    async function saveNewPassword() {
+                    const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                        try{
+                    popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                    popupUpdate.show()
+                    popupUpdate.classList.add("popup__dialog--center")
 
-                            await updateAuthenticationPassword(getASecureRandomPassword())
+                    const popupBtnCancel = sectionupdateProfile.querySelector(".popupBox__btn--cancel")
+                    const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actulizar")
+                    popupBtnUpdate.addEventListener("click", ()=>{
 
-                        }catch(error){
+                        closePopup(popupUpdate)
 
-                            console.log(error)
+                        templateLoader(sectionupdateProfile,"Actuando nombre")
+                        const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
+                        const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
-                        }
+                        async function saveNewPassword() {
 
-                    } saveNewPassword()
+                            try{
+
+                                await updateAuthenticationPassword(getASecureRandomPassword())
+
+                            }catch(error){
+
+                                console.log(error)
+
+                            }finally{
+
+                                msjLoader.innerText ="Actualizado ✔"
+                                popupLoader.remove()
+
+                            }
+
+                        } saveNewPassword()
+                    })
                 }
             }
         })
     });
 }
 
-function updateNameOrDescription(inputElement, btnsSave) {
+function updateName(inputElement, btnsSave, sectionupdateProfile) {
     btnsSave.forEach((btnSave) => {
         btnSave.addEventListener("click", (e)=>{
 
@@ -155,42 +181,72 @@ function updateNameOrDescription(inputElement, btnsSave) {
 
                     if(fieldName == "displayName"){
 
-                        async function updateNameDocument() {
+                        const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                            try{
-                                await updateRegistrationDocumentData(getTheName())
-                                await updateRegistrationDoc(localLogDataStorage.uid,localLogDataStorage.typeRegister,{
-                                    displayName: getTheName()
-                                })
-                                const publicationType = localLogDataStorage.typeRegister.split("-")[0] + "-publication"
-                                const registryData = await getRegistrationDocument(localLogDataStorage.typeRegister, localLogDataStorage.uid)
+                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                        popupUpdate.show()
+                        popupUpdate.classList.add("popup__dialog--center")
 
-                                registryData.publications_made.forEach((idpublication)=>{
+                        const popupBtnCancel = sectionupdateProfile.querySelector(".popupBox__btn--cancel")
+                        const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actulizar")
 
-                                    async function updateEachPublicationDocument (){
-                                        try{
-                                            await updatePublicationDocument(idpublication,publicationType,{
-                                                publicationOwner:getTheName()
-                                            })
-                                            localStorage.setItem("displayName",getTheName())
+                        popupBtnUpdate.addEventListener("click", ()=>{
 
-                                        }catch(error){
+                            closePopup(popupUpdate)
 
-                                            console.log(error)
+                            templateLoader(sectionupdateProfile,"Actuando nombre")
+                            const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
+                            const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
-                                        }
+                            async function updateNameDocument() {
 
-                                    } updateEachPublicationDocument()
-                                })
+                                try {
+                                    await updateRegistrationDocumentData(getTheName())
+                                    await updateRegistrationDoc(localLogDataStorage.uid,localLogDataStorage.typeRegister,{
+                                        displayName: getTheName()
+                                    })
+                                    const publicationType = localLogDataStorage.typeRegister.split("-")[0] + "-publication"
+                                    const registryData = await getRegistrationDocument(localLogDataStorage.typeRegister, localLogDataStorage.uid)
 
-                            }catch(error){
+                                    registryData.publications_made.forEach((idpublication)=>{
 
-                                console.log(error)
+                                        async function updateEachPublicationDocument (){
 
-                            }
+                                            try{
 
-                        } updateNameDocument()
+                                                await updatePublicationDocument(idpublication,publicationType,{
+                                                    publicationOwner:getTheName()
+                                                })
 
+                                                localStorage.setItem("displayName",getTheName())
+
+                                            }catch(error){
+
+                                                console.log(error)
+
+                                            }
+
+                                        } updateEachPublicationDocument()
+                                    })
+
+                                }catch(error) {
+
+                                    console.log(error)
+
+                                }finally {
+
+                                    msjLoader.innerText ="Actualizado ✔"
+                                    popupLoader.remove()
+
+                                }
+
+                            } updateNameDocument()
+
+                        })
+
+                        popupBtnCancel.addEventListener("click", ()=>{
+                            closePopup(popupUpdate)
+                        })
                     }
                 }
             }
@@ -218,21 +274,51 @@ function updateDescription(inputElement, btnsSave) {
 
                     if(fieldName == "description"){
 
-                        async function updateNameDocument() {
+                        const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                            try{
+                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                        popupUpdate.show()
+                        popupUpdate.classList.add("popup__dialog--center")
 
-                                await updateRegistrationDoc(localLogDataStorage.uid,localLogDataStorage.typeRegister,{
-                                    description: getDescription()
-                                })
+                        const popupBtnCancel = sectionupdateProfile.querySelector(".popupBox__btn--cancel")
+                        const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actulizar")
 
-                            }catch(error){
+                        popupBtnUpdate.addEventListener("click", ()=>{
 
-                                console.log(error)
+                            closePopup(popupUpdate)
 
-                            }
+                            templateLoader(sectionupdateProfile,"Actuando nombre")
+                            const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
+                            const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
-                        } updateNameDocument()
+                            async function updateNameDocument() {
+
+                                try{
+
+                                    await updateRegistrationDoc(localLogDataStorage.uid,localLogDataStorage.typeRegister,{
+                                        description: getDescription()
+                                    })
+
+                                }catch(error){
+
+                                    console.log(error)
+
+                                }finally{
+
+                                    msjLoader.innerText ="Actualizado ✔"
+                                    popupLoader.remove()
+
+                                }
+
+                            } updateNameDocument()
+
+                        })
+
+                        popupBtnCancel.addEventListener("click", ()=>{
+                            closePopup(popupUpdate)
+                        })
+
+
 
                     }
                 }
@@ -241,12 +327,96 @@ function updateDescription(inputElement, btnsSave) {
     })
 }
 
+function updateInSecondInstance(sectionupdateProfile,containerInputsForm,btnRegisterupdate,imgUser){
+
+    btnRegisterupdate.style.display="none"
+    sectionupdateProfile.style.position="absolute"
+    const heightHead=document.querySelector("#navegador");
+    resizeSpaceBetweenHeaderAndMain(sectionupdateProfile,heightHead)
+    imgUser.src = localStorage.getItem("photoURLUser")
+
+    if(localStorage.getItem("typeRegister") == "user-account"){
+        containerInputsForm.innerHTML = userRegistrationTemplate
+
+        const inputName = containerInputsForm.querySelector(".updateProfile__name")
+        const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+        const btnsSave = containerInputsForm.querySelectorAll(".btnSave")
+
+        function showRegistryValues() {
+            inputName.value = localStorage.getItem("displayName")
+        } showRegistryValues()
+
+        closeTheListOfUnclickedDetails(containerInputsForm)
+
+        activateButtonToUpdate(
+            inputName,
+            containerInputsForm,
+            "Ingresa un nombre para poder actualizar su nombre de usuario 🙏",
+            "Es el mismo nombre 😯, ingresa uno nuevo 🙏"
+        )
+
+        enableSavePasswordButton(
+            inputPassword,
+            containerInputsForm,
+             "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
+        )
+
+        updatePassword(btnsSave, inputPassword, sectionupdateProfile)
+        updateName(inputName, btnsSave, sectionupdateProfile)
+
+
+    }
+
+    if(localStorage.getItem("typeRegister") == "point-account"){
+
+        containerInputsForm.innerHTML = placeRegistrationTemplate
+
+        const inputName = containerInputsForm.querySelector(".updateProfile__name")
+        const inputPassword = containerInputsForm.querySelector(".updateProfile__password")
+        const inputDescription = containerInputsForm.querySelector(".updateProfile__description")
+
+        function showRegistryValues() {
+            inputName.value = localStorage.getItem("displayName")
+            inputDescription.value = localStorage.getItem("description")
+        } showRegistryValues()
+
+        closeTheListOfUnclickedDetails(containerInputsForm)
+
+        activateButtonToUpdate(
+            inputName,
+            containerInputsForm,
+            "Ingresa un nombre para poder actualizar su nombre de usuario 🙏",
+            "Es el mismo nombre 😯, ingresa uno nuevo 🙏"
+        )
+
+        activateButtonToUpdate(
+            inputDescription,
+            containerInputsForm,
+            "Ingrese una descripcion para poder actualizar 🙏",
+            "Es la misma descripción que tienes, ingresa uno nuevo 🙏"
+        )
+
+        enableSavePasswordButton(
+            inputPassword,
+            containerInputsForm,
+             "Ingresa una contraseña con más de 5 caracteres 🧐🏋️‍♀️"
+        )
+        console.log(containerInputsForm)
+        updatePassword(btnsSave, inputPassword, sectionupdateProfile)
+        updateName(inputName, btnsSave, sectionupdateProfile)
+        updateDescription(inputDescription, btnsSave)
+    }
+
+}
+
+
 export {
     closeTheListOfUnclickedDetails,
     showWarningMessage,
     activateButtonToUpdate,
     enableSavePasswordButton,
     updatePassword,
-    updateNameOrDescription,
-    updateDescription
+    updateName,
+    updateDescription,
+    updateInSecondInstance
 }

@@ -5,11 +5,13 @@ import { functionsOfThePublication } from "../helpers/publications/functionsOfTh
 import { functionsOfThePublicationForm } from "../helpers/publicationsForm/functionsOfThePublicationForm.js";
 import { resizeSpaceBetweenHeaderAndMain } from "../helpers/resizeSpaceBetweenHeaderAndMain.js";
 import { updatePhotoURL } from "../helpers/updatePhotoURL.js";
+import { skeletonPublications } from "./squeleton/index.js";
 import { showProfile, templateInfoUser } from "./templates/profile.js";
 import { templatePublications } from "./templates/publications.js";
 import { templatePublicationForm } from "./templates/templatePublicationForm.js";
 
 export const Profile = () => {
+
     if(localStorage.getItem("activeSession")=="true"){
 
         const sectionSingin = document.createElement('section');
@@ -30,6 +32,12 @@ export const Profile = () => {
             uid: localStorage.getItem("uidUser"),
             activeSession: localStorage.getItem("activeSession")
         })
+
+		function showSkeletonHome() {
+
+			PublicationsBox.innerHTML = skeletonPublications();
+
+		} showSkeletonHome()
 
         if(userAccount.typeRegister == "user-account"){
 

@@ -5,13 +5,13 @@ export const showSignUp = /*html*/ `
 
 		<div class="form-control">
 			<input id="email" type="email" placeholder="Correo electrónico">
-			<img class="hiddenError" src="../../img/iconos/close.svg">
+			<img class="hiddenError" src="../../img/iconos/close.svg" alt="icon close">
 			<small></small>
 		</div>
 
 		<div class="form-control">
 			<input id="password" class="input" type="password" placeholder="Contraseña">
-			<img class="hiddenError" src="../../img/iconos/close.svg">
+			<img class="hiddenError" src="../../img/iconos/close.svg" alt="icon close">
 			<small></small>
 		</div>
 
@@ -40,7 +40,7 @@ export const showSignUp = /*html*/ `
 	<section class="signUp--options">
 		<div class="loginInGoogle">
 			<div class="loginInGoogle__container">
-				<img class="google" src="../../img/iconos/google.svg" alt="google"> 
+				<img class="google" src="../../img/iconos/google.svg" alt="icon google"> 
 				<a id="google">Iniciar sesión con Google</a>
 			</div>
 			<div class="loginInGoogle__loader">
@@ -51,7 +51,7 @@ export const showSignUp = /*html*/ `
 		<p class="signUp-text--question">¿No tienes cuenta?</p>
 		<a class="goToOption">Iniciar sesión</a>
 	</section>
-	<img src="./img/CB2.png" alt="img Welcome" class="imgRegistration">
+	<img src="./img/imageOfTheGirls.png" alt="image of the girls" class="imgRegistration">
 </div>
 <dialog class="signUp__popup signUp__popup--close">
 	<div>

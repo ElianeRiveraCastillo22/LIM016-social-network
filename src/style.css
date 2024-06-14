@@ -147,10 +147,6 @@ body {
 	font-size: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
 }
 
-#btnJoin {
-	z-index: 1;
-}
-
 .box--welcome,
 .box--signIn,
 .box--signUp {
@@ -194,7 +190,7 @@ body {
 	display: flex;
 }
 
-.signUp__popup>div {
+.signUp__popup > div {
 	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 	color: var(--color-text-title);
 	background: #fff;
@@ -238,7 +234,6 @@ body {
 }
 
 .section--signup,
-.section--singnin,
 .section--updateProfile {
 	background: var(--color-bg-form);
 }
@@ -268,39 +263,7 @@ body {
 	row-gap: 20px;
 }
 
-.updateProfile__containertxt {
-	font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
-	color: var(--color-text-public, rgba(39, 36, 29, 0.9));
-	font-weight: 400;
-	row-gap: 8px;
-}
-
 /**/
-.conteinerGeneral {
-	background-color: rgba(var(--b3f, 250, 250, 250), 1);
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	padding: 20px;
-	align-items: center;
-	height: 100vh;
-	width: 100%;
-	align-content: center;
-	justify-content: center;
-}
-
-.updateBoX,
-.postBox {
-	border-radius: 8px;
-	width: 350px;
-	max-width: 100%;
-	overflow: hidden;
-}
-
-.update {
-	background-color: white;
-	box-shadow: 0 2px 5px rgb(151 148 148 / 50%);
-}
 
 .loginInGoogle {
 	display: flex;
@@ -323,19 +286,15 @@ body {
 	gap: .5rem;
 }
 
-a#google {
+#google {
 	font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
 	color: var(--color-text-public, rgba(39, 36, 29, 0.9));
 	font-weight: 400;
 	cursor: pointer;
 }
 
-a#google:hover {
+#google:hover {
 	font-weight: 500;
-}
-
-.signIn-text--question {
-	font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
 }
 
 .goToOption {
@@ -362,8 +321,7 @@ a#google:hover {
 	max-width: 1.75rem;
 }
 
-.form-control,
-.formProfileControl {
+.form-control {
 	width: 100%;
 	position: relative;
 }
@@ -387,7 +345,7 @@ a#google:hover {
 	align-items: flex-start;
 }
 
-.typeregister__container>p {
+.typeregister__container > p {
 	color: var(--p-color-text-Input);
 	font-size: clamp(0.875rem, 0.786rem + 0.238vw, 1rem);
 	font-weight: 500;
@@ -407,7 +365,7 @@ a#google:hover {
 	row-gap: 4px;
 }
 
-.form__optionRegister>label {
+.form__optionRegister > label {
 	color: var(--p-color-text-Input);
 	font-size: clamp(0.625rem, 0.536rem + 0.238vw, 0.75rem);
 	font-weight: 500;
@@ -484,8 +442,7 @@ input[data-autocompleted] {
 }
 
 #btnSignUp,
-#btnSignIn,
-#btnRegister {
+#btnSignIn{
 	width: 100%;
 }
 
@@ -623,10 +580,8 @@ img.box__post--iconloader {
 	transition-behavior: allow-discrete;
 }
 
-/*AQUIII*/
 .box--publications, .box__profile  {
 	width: 100%;
-	/* height: 100%; */
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -1949,8 +1904,7 @@ NaNpxovePublication__btn:focus-visible {
 @media (width >=768px) {
 
 	.box--signIn,
-	.box--signUp,
-	.box--updateProfile {
+	.box--signUp {
 		max-width: 350px;
 		border-radius: 16px;
 		background-color: white;

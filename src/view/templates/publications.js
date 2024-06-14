@@ -9,7 +9,7 @@ export const templatePublications = (data, userIdActive) => {
         <header class="boxProfile publicationPosts--profile">
             <div class="boxProfile--user">
                 <figure class="boxProfilePhoto publicationPosts--photo">
-                    <img class="perfil" src="${updatePhotoURL(data.photoOfPublicationOwner)}" alt="image profile">
+                    <img class="perfil" src="${updatePhotoURL(data.photoOfPublicationOwner)}"  alt="profile picture">
                 </figure>
                 <p class="user--name publicationPosts--name">${data.publicationOwner}</p>
             </div>`
@@ -27,7 +27,7 @@ export const templatePublications = (data, userIdActive) => {
             <section class="publicationReview--review">
                 <div class="publicationReview--box">
                 <figure class="publicationReview--imgReference">
-                    <img src="../img/imgDefauld.png" />
+                    <img src="../img/imgDefauld.png"  alt="profile picture by defauld"/>
                 </figure>
                 <section class="publicationReview--post">
                     <p>${data.description}</p>
@@ -53,16 +53,16 @@ export const templatePublications = (data, userIdActive) => {
 export const publicationConfigurationTemplate = ( data ) => {
     const publicationConfiguration= /*html*/ `
     <figure class="boxProfile--iconMore" popovertarget="${data.id_post}">
-      <img src="../img/iconos/more.svg"/>
+      <img src="../img/iconos/more.svg" alt="icon more"/>
     </figure>
     <dialog id="${data.id_post}" class="boxProfile__popupEditorDelate">
         <li class="popupEditorDelate__containerBox">
             <ul class="popupEditorDelate__box popupEditorDelate__box--Edit" data-IDPublication="${data.id_post}">
-                <img class="popupEditorDelate__icon" src="../img/iconos/edit.svg" alt="icono de editar"/>
+                <img class="popupEditorDelate__icon" src="../img/iconos/edit.svg" alt="icon update"/>
                 <p class="popupEditorDelate__txt">Editar</p>
             </ul>
             <ul class="popupEditorDelate__box popupEditorDelate__box--delete" data-IDPublication="${data.id_post}">
-                <img class="popupEditorDelate__icon" src="../img/iconos/delate.svg" alt="icono de eliminar" />
+                <img class="popupEditorDelate__icon" src="../img/iconos/delate.svg" alt="icon delate" />
                 <p class="popupEditorDelate__txt">Eliminar</p>
             </ul>
         </li>
@@ -105,16 +105,5 @@ export const publicationLabelTemplate = ( identificationText ) => {
     `
     return label
 }
-export const popupPublication = (messaje, btnName, classEdit="") => {
-    const dialog = /*html*/ `
-    <div class="popupBox__content ${classEdit}">
-        <p class=" popupBox__messsaje">${messaje}</p>
-        <section class="popupBox__containerBtn">
-            <button class="popupBox__btn popupBox__btn--cancel btn--secondary" >Cancelar</button>
-            <button class="popupBox__btn popupBox__btn--${btnName} btn--primary" >${btnName}</button>
-        </section>
-    </div>
-    `
-    return dialog
-}
+
 

@@ -2,7 +2,8 @@ import { deletePublicationDocument } from "../../firebase/firestore/delete_docum
 import { getPublished } from "../../firebase/firestore/get_document.js";
 import { deletePublicationOfRegistrationDocument, updateLikesValues, updatePublicationDocument, updateWhoDeletedLike, updatesUsersWhoLike } from "../../firebase/firestore/update_document.js";
 import { templateLoader } from "../../view/squeleton/index.js";
-import { popupPublication, publicationLabelTemplate } from "../../view/templates/publications.js";
+import { popupMessaje } from "../../view/templates/popupMessaje.js";
+import { publicationLabelTemplate } from "../../view/templates/publications.js";
 import { templatePublicationForm } from "../../view/templates/templatePublicationForm.js";
 import { PublicationFormValues, getElementsOfThePublicationForm, paintTheStarsToEdit } from "../publicationsForm/publicationForm_fuctions.js";
 import { publicationFormFunctions } from "../publicationsForm/publicationsForm_event.js";
@@ -246,7 +247,7 @@ export function functionsOfThePublication(
 
                 const updatedValuesForPublication = keys_currentPublication.reduce(compareValuesForUpdate,{})
 
-                popupEdit.innerHTML += popupPublication("¿Seguro que quiere editar la publicación? 🤔", "Editar","popupBox__content--edit")
+                popupEdit.innerHTML += popupMessaje("¿Seguro que quiere editar la publicación? 🤔", "Editar","popupBox__content--edit")
                 popupEdit.show()
                 popupEdit.classList.add("popup__dialog--center")
 
@@ -303,7 +304,7 @@ export function functionsOfThePublication(
             const ID_POST = btnDelete.dataset.idpublication
             const popupRemove = generalContainer.querySelector(".popup__dialog")
 
-            popupRemove.innerHTML = popupPublication("¿Seguro que quiere eliminar la publicación? 🤔", "Eliminar")
+            popupRemove.innerHTML = popupMessaje("¿Seguro que quiere eliminar la publicación? 🤔", "Eliminar")
             popupRemove.show()
             popupRemove.classList.add("popup__dialog--center")
 

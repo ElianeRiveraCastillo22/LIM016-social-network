@@ -2,6 +2,7 @@ import { signOutUser } from "../firebase/auth/auth_sign_out.js";
 import { updatePublicationDocument } from "../firebase/firestore/update_document.js";
 import { Account } from "../helpers/constructores/index.js";
 import { locationHome, locationProfile, locationSignIn, locationUpdateUser } from "../helpers/locations.js";
+import { templateLoader } from "./squeleton/index.js";
 import { templateNav } from "./templates/nav.js"
 
 export const Nav = () => {
@@ -21,6 +22,9 @@ export const Nav = () => {
 			activeSession: localStorage.getItem("activeSession")
 		})
 
+		/* const dialog = navElemt.parentElement.parentElement.querySelector(".popup__dialog")
+		templateLoader(dialog,"Cerrando sesión...") */
+
 		async function signOut () {
 			try{
 
@@ -38,12 +42,15 @@ export const Nav = () => {
 				localStorage.removeItem("providerId")
 				localStorage.removeItem("typeRegister")
 
-				signOutUser()
-				locationSignIn()
+				await signOutUser()
 
 			}catch(error){
 
 				console.log(error)
+
+			}finally{
+
+				locationSignIn()
 
 			}
 

@@ -1,6 +1,6 @@
 import { DifferentPage } from "./404.js";
 import { Nav } from "./nav.js";
-import { Profile } from "./profile.js";
+import { Profile } from "./pprofile.js";
 import { SignIn } from "./signin.js";
 import { SignUp } from "./signup.js";
 import { Timeline } from "./timeline.js";

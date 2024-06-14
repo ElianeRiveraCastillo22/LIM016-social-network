@@ -86,7 +86,7 @@ export const publicationLabelsTemplate = ( label ) => {
 }
 export const likeIconsTemplate = (idPost, className = "" ) => {
     const likeIcon = /*html*/ `
-    <svg width="22" height="21" viewBox="0 0 22 21" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <svg width="22" height="21" viewBox="0 0 22 21"  fill="#ffffff00" xmlns="http://www.w3.org/2000/svg">
         <path data-idpublication="${idPost}" d="M21.0001 7.58683C21.0001 9.13331 20.4063 10.6187 19.3459 11.7175C16.905 14.2476 14.5375 16.8859 12.0054 19.3243C11.425 19.8751 10.5043 19.855 9.94892 19.2793L2.65388 11.7175C0.44887 9.43181 0.44887 5.74184 2.65388 3.45618C4.88056 1.14806 8.50806 1.14806 10.7347 3.45618L10.9999 3.73103L11.2649 3.45634C12.3325 2.34911 13.7865 1.72461 15.3054 1.72461C16.8243 1.72461 18.2782 2.34905 19.3459 3.45618C20.4064 4.55506 21.0001 6.04038 21.0001 7.58683Z" stroke="#653CAD" stroke-width="2" stroke-linejoin="round" class="publicationReview--iconLike ${className}" />
     </svg>
     `

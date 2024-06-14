@@ -1874,7 +1874,7 @@ NaNpxovePublication__btn:focus-visible {
 	}
 
 	.createPost__stars {
-		column-gap: 4px;
+		column-gap: .375rem;
 	}
 
 	.createPost__file {

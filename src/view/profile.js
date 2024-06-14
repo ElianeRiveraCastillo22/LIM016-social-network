@@ -1,7 +1,7 @@
 import { getUserPublications } from "../firebase/firestore/get_document.js";
 import { Account } from "../helpers/constructores/index.js";
 import { locationSignIn } from "../helpers/locations.js";
-import { functionsOfThePublication } from "../helpers/publications/functionsOfThePublication.JS";
+import { functionsOfThePublication } from "../helpers/publications/functionsOfThePublication.js";
 import { functionsOfThePublicationForm } from "../helpers/publicationsForm/functionsOfThePublicationForm.js";
 import { resizeSpaceBetweenHeaderAndMain } from "../helpers/resizeSpaceBetweenHeaderAndMain.js";
 import { updatePhotoURL } from "../helpers/updatePhotoURL.js";

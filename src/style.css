@@ -1723,7 +1723,6 @@ NaNpxovePublication__btn:focus-visible {
     background: linear-gradient(0deg, rgba(234, 231, 235, 1) 40%, rgba(255, 255, 255, 1) 100%);
     width: 100%;
     padding: 8%;
-    gap: 8%;
 }
 
 .profile__boxInfo {

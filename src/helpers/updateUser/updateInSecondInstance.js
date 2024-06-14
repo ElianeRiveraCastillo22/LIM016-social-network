@@ -190,18 +190,18 @@ function updateName(inputElement, btnsSave, sectionupdateProfile) {
 
                         const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actualizar su nombre? 🤔", "Actulizar")
+                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actualizar su nombre? 🤔", "Actualizar")
                         popupUpdate.show()
                         popupUpdate.classList.add("popup__dialog--center")
 
                         const popupBtnCancel = sectionupdateProfile.querySelector(".popupBox__btn--cancel")
-                        const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actulizar")
+                        const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actualizar")
 
                         popupBtnUpdate.addEventListener("click", ()=>{
 
                             closePopup(popupUpdate)
 
-                            templateLoader(sectionupdateProfile,"Actualizando nombre")
+                            templateLoader(sectionupdateProfile,"Actualizando nombre...")
                             const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
                             const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
@@ -212,6 +212,9 @@ function updateName(inputElement, btnsSave, sectionupdateProfile) {
                                     await updateRegistrationDoc(localLogDataStorage.uid,localLogDataStorage.typeRegister,{
                                         displayName: getTheName()
                                     })
+
+                                    localStorage.setItem("displayName",getTheName())
+
                                     const publicationType = localLogDataStorage.typeRegister.split("-")[0] + "-publication"
                                     const registryData = await getRegistrationDocument(localLogDataStorage.typeRegister, localLogDataStorage.uid)
 
@@ -224,8 +227,6 @@ function updateName(inputElement, btnsSave, sectionupdateProfile) {
                                                 await updatePublicationDocument(idpublication,publicationType,{
                                                     publicationOwner:getTheName()
                                                 })
-
-                                                localStorage.setItem("displayName",getTheName())
 
                                             }catch(error){
 

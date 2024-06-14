@@ -1,11 +1,8 @@
 import { firstLetterCapitalized } from "../firstLetterCapitalized.js";
 import { 
-    getElementsOfThePublicationForm,
-    changeClasses,
     addClassIfComplete,
     activateTheSubmitBtn,
     showDefaultTags,
-    createTag,
     closeThelistTags,
     dimensionsTheWidthOfTheList,
     createsTheListInTheFirstApproachInInput,

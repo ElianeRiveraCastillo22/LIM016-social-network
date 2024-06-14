@@ -8,6 +8,8 @@ export async function getFirebaseRegistration(registrationData) {
         const existingUser = await getPublished(registrationData.user.uid, "user-account")
         const existingPlace = await getPublished(registrationData.user.uid, "point-account")
 
+        localStorage.setItem("activeSession", true)
+
         function saveLogDataInTheLocalstorage(document) {
             localStorage.setItem("photoURLUser", document.photoURLUser)
             localStorage.setItem("uidUser", document.uid)

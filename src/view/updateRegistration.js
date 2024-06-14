@@ -18,6 +18,8 @@ export const updateRegistration = ( ) => {
 
         if(localStorage.getItem("registrationInTheFirstInstance")) {
 
+            localStorage.setItem("path", "update-registration")
+
             updateInSecondInstance(sectionupdateProfile,containerInputsForm,btnRegisterupdate,imgUser)
 
         }else{

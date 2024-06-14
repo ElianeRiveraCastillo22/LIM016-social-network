@@ -1,5 +1,5 @@
 import { DifferentPage } from "./404.js";
-import { Nav } from "./Nav.js";
+import { Nav } from "./nav.js";
 import { Profile } from "./profile.js";
 import { SignIn } from "./signin.js";
 import { SignUp } from "./signup.js";

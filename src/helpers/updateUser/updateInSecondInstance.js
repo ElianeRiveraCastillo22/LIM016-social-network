@@ -120,17 +120,18 @@ function updatePassword(btnsSave, inputPassword, sectionupdateProfile){
 
                     const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                    popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                    popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actualizar su contraseña? 🤔", "Actualizar")
                     popupUpdate.show()
                     popupUpdate.classList.add("popup__dialog--center")
 
                     const popupBtnCancel = sectionupdateProfile.querySelector(".popupBox__btn--cancel")
-                    const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actulizar")
+                    const popupBtnUpdate = sectionupdateProfile.querySelector(".popupBox__btn--Actualizar")
+
                     popupBtnUpdate.addEventListener("click", ()=>{
 
                         closePopup(popupUpdate)
 
-                        templateLoader(sectionupdateProfile,"Actuando nombre")
+                        templateLoader(sectionupdateProfile,"Actualizando contraseña")
                         const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
                         const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
@@ -152,6 +153,12 @@ function updatePassword(btnsSave, inputPassword, sectionupdateProfile){
                             }
 
                         } saveNewPassword()
+                    })
+
+                    popupBtnCancel.addEventListener("click",()=>{
+
+                        closePopup(popupUpdate)
+
                     })
                 }
             }
@@ -183,7 +190,7 @@ function updateName(inputElement, btnsSave, sectionupdateProfile) {
 
                         const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actualizar su nombre? 🤔", "Actulizar")
                         popupUpdate.show()
                         popupUpdate.classList.add("popup__dialog--center")
 
@@ -194,7 +201,7 @@ function updateName(inputElement, btnsSave, sectionupdateProfile) {
 
                             closePopup(popupUpdate)
 
-                            templateLoader(sectionupdateProfile,"Actuando nombre")
+                            templateLoader(sectionupdateProfile,"Actualizando nombre")
                             const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
                             const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 
@@ -276,7 +283,7 @@ function updateDescription(inputElement, btnsSave) {
 
                         const popupUpdate = sectionupdateProfile.querySelector(".popup__dialog")
 
-                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actulizar su nombre? 🤔", "Actulizar")
+                        popupUpdate.innerHTML = popupMessaje("¿Seguro que quiere actualizar su descripcion? 🤔", "Actualizar")
                         popupUpdate.show()
                         popupUpdate.classList.add("popup__dialog--center")
 
@@ -287,7 +294,7 @@ function updateDescription(inputElement, btnsSave) {
 
                             closePopup(popupUpdate)
 
-                            templateLoader(sectionupdateProfile,"Actuando nombre")
+                            templateLoader(sectionupdateProfile,"Actualizando descripción")
                             const popupLoader = sectionupdateProfile.querySelector(".popupLoader")
                             const msjLoader = sectionupdateProfile.querySelector(".popupLoader__msj")
 

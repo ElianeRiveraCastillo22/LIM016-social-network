@@ -41,6 +41,7 @@ export const Nav = () => {
 				localStorage.removeItem("registrationInTheFirstInstance")
 				localStorage.removeItem("providerId")
 				localStorage.removeItem("typeRegister")
+				localStorage.removeItem("path")
 
 				await signOutUser()
 

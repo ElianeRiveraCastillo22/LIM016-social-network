@@ -12,6 +12,8 @@ import { templatePublicationForm } from "./templates/templatePublicationForm.js"
 
 export const Profile = () => {
 
+    localStorage.setItem("path", "profile")
+
     if(localStorage.getItem("activeSession")=="true"){
 
         const sectionSingin = document.createElement('section');

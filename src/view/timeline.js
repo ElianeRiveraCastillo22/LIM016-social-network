@@ -14,6 +14,7 @@ export const Timeline = () => {
 
 	if(localStorage.getItem("activeSession")=="true"){
 
+		localStorage.setItem("path", "home")
 		const sectionAllPost = document.createElement('section');
 		sectionAllPost.setAttribute('class', 'section--posts');
 

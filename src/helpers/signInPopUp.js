@@ -1,6 +1,3 @@
-import { verificationPopUp } from "../view/templates/verificationPopUp.js"
-import { locationSignIn } from "./locations.js"
-
 export const signInPopUp = (sectionSignUp)=>{
 
     const btnpopup= sectionSignUp.querySelector(".btnpopup__signUp")

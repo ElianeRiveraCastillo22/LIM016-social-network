@@ -7,10 +7,10 @@ export const templateTypeUndefine = ()=>{
                 <input type="radio" id="user" name="option register" value="user"/>
                 <label for="user" class="updateGglRegister--selected" data-recordType="user-account">Usuario</label>
             </section>
-            <section class="updateGglRegister__type">
+<!--            <section class="updateGglRegister__type">
                 <input type="radio" id="point" name="option register" value="point"/>
                 <label for="point" class="updateGglRegister--noselected" data-recordType="point-account">Lugar</label>
-            </section>
+            </section> -->
       </section>
     </section>
     <section class="updateProfile__containerGglOptions">

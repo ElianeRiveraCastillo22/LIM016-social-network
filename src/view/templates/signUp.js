@@ -20,13 +20,13 @@ export const showSignUp = /*html*/ `
 				<p>Registrarse como:</p>
 				<section class="form__radios">
 					<section class="form__optionRegister">
-					<input id="user" type="radio" name="option register" value="user" class="optionRegister" data-recordType="user-account">
-					<label for="user">Usuario</label>
+						<input id="user" type="radio" name="option register" value="user" class="optionRegister" data-recordType="user-account" checked>
+						<label for="user">Usuario</label>
 					</section>
-					<section class="form__optionRegister">
-					<input id="point" type="radio" name="option register" value="point" class="optionRegister"  data-recordType="point-account">
-					<label for="point">Lugar</label>
-					</section>
+<!--					<section class="form__optionRegister">
+						<input id="point" type="radio" name="option register" value="point" class="optionRegister"  data-recordType="point-account">
+						<label for="point">Lugar</label>
+					</section>-->
 				</section>
 			</div>
 			<small class="typeregister__warningTxt"></small>

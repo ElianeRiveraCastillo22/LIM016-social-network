@@ -19,7 +19,7 @@ export const templatePublicationForm = (name, photo, textBtnSave, filledValue=""
                 <textarea class="createPost__Info ${filledValue}" placeholder="¿Tienes alguna recomendación?" autocomplete="off"></textarea>
                 <section class="createPost__tags">
                     <div class="createTags">
-                        <input class="createTags__input createTags__input--onFocus" placeholder="inlusivos o diversos con:" type="text">
+                        <input class="createTags__input createTags__input--onFocus" placeholder="Inclusivos o diversos con:" type="text">
                         <ul class="createTags__list">
 
                         </ul>

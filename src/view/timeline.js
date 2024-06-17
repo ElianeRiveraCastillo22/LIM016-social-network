@@ -1,233 +1,160 @@
-/* import {
-  savePost,
-  onGetPosts,
-  deletePost,
-  getPost,
-} from '../firebase/firestore/firestore-add.js'; */
-/* import {updatePost, addLike} from '../firebase/firestore/fb-test.js'; */
-
-import { userActive } from "../firebase/auth/auth_state_listener.js";
-import { createUser } from "../helpers/functions.js";
-/* import { publicationPosts } from "./templates/createPost.js"; */
-
-/* export const currentUser = (user, name, photo) => {
-  postUser = user;
-  userName = name;
-  userPhoto = photo;
-
-  console.log(userPhoto);
-};
-currentUser(); */
-/*  let postDescription;
-let postLike;
-let postUser;
-let cleanPost;
-let userName;
-let userPhoto;
-
-
-
-const addPost = (e) => {
-  e.preventDefault();
-
-  postDescription = e.target.closest('form')
-      .querySelector('#postDescription').value;
-  postLike = [];
-  const postDescriptionVerified = postDescription.replace(/\s+/g, '');
-  const date = new Date();
-
-  const postDate = date.getTime();
-
-  console.log(postDate);
-
-  if (postDescriptionVerified !== '') {
-    savePost(
-        postDate, postDescription, postLike, userName, userPhoto, postUser);
-    cleanPost.reset();
-  };
-};
- */
-/* CreatePost */
+import { getUsersPublications } from "../firebase/firestore/get_document.js";
+import { skeletonPublicationForm, skeletonPublications } from "./squeleton/index.js";
+import { mainTimelineStructure } from "./templates/timeline.js";
+import { templatePublicationForm } from "./templates/templatePublicationForm.js";
+import { templatePublications } from "./templates/publications.js";
+import { Account } from "../helpers/constructores/index.js";
+import { updatePhotoURL } from "../helpers/updatePhotoURL.js";
+import { locationSignIn } from "../helpers/locations.js";
+import { resizeSpaceBetweenHeaderAndMain } from "../helpers/resizeSpaceBetweenHeaderAndMain.js";
+import { functionsOfThePublicationForm } from "../helpers/publicationsForm/functionsOfThePublicationForm.js";
+import { functionsOfThePublication } from "../helpers/publications/functionsOfThePublication.js";
 
 export const Timeline = () => {
-/*   if (userPhoto == null) {
-    userPhoto = './img/avatar.png';
-  } else {
-    userPhoto;
-  } */
 
-  const divElemt = document.createElement('section');
-  divElemt.setAttribute('class', 'section--posts');
-  /* divElemt.innerHTML=publicationPosts */
+	if(localStorage.getItem("activeSession")=="true"){
 
-  let heightHead=document.querySelector("#navegador")
-  divElemt.style.top=`${heightHead.clientHeight}px`
-  createUser(userActive,divElemt)
+		localStorage.setItem("path", "home")
+		const sectionAllPost = document.createElement('section');
+		sectionAllPost.setAttribute('class', 'section--posts');
+
+		const heightHead=document.querySelector("#navegador");
+
+		resizeSpaceBetweenHeaderAndMain(sectionAllPost, heightHead)
+
+		sectionAllPost.innerHTML = mainTimelineStructure();
+
+		const boxCreatePost = sectionAllPost.querySelector(".box__createPost")
+		const publicationPosts = sectionAllPost.querySelector(".publicationPosts");
+		const loaderPublications = document.querySelector(".box__posts--boxloader")
+
+		function showSkeletonHome() {
+
+			boxCreatePost.innerHTML = skeletonPublicationForm()
+			publicationPosts.innerHTML = skeletonPublications();
+
+		} showSkeletonHome()
+
+		const userAccount = new Account({
+
+			displayName: localStorage.getItem("displayName"),
+			typeRegister: localStorage.getItem("typeRegister"),
+			photoURLUser: localStorage.getItem("photoURLUser"),
+			uid: localStorage.getItem("uidUser"),
+			activeSession: localStorage.getItem("activeSession")
+
+		})
+
+		if(userAccount.typeRegister == "user-account"){
+
+			boxCreatePost.classList.add("createPost--space")
+
+			function showPublicationForm() {
+
+				if(userAccount.activeSession){
+
+					function showPublicationForm() {
+						boxCreatePost.innerHTML = templatePublicationForm(userAccount.displayName, updatePhotoURL(userAccount.photoURLUser),"Publicar","incomplete","btn--disebled")
+					} showPublicationForm()
+
+					functionsOfThePublicationForm(
+						sectionAllPost,
+						publicationPosts,
+						boxCreatePost,
+						userAccount
+					)
+
+				}else{
+
+					alert("Por favor inicia sesión")
+					locationSignIn()
+
+				}
+
+			} showPublicationForm()
+
+			async function showPublications() {
+
+				try{
+
+					await getUsersPublications( (response)=>{
+
+						let publicationsDocument = response.docs.map((doc) => {
+							return { ...doc.data() };
+						})
+
+						const templateAllPublications = publicationsDocument.reduce((acctemplate, publication)=>{
+							return acctemplate + templatePublications(publication, userAccount.uid)
+						},"")
+
+						publicationPosts.innerHTML = templateAllPublications
+
+						const iconsLike = sectionAllPost.querySelectorAll(".publicationReview--iconLike")
+						const iconsMore = sectionAllPost.querySelectorAll(".boxProfile--iconMore")
+						const publicationConfigurationoptions  = sectionAllPost.querySelectorAll(".boxProfile__popupEditorDelate")
+						const btnsEdit = sectionAllPost.querySelectorAll(".popupEditorDelate__box--Edit")
+						const btnsDelete = sectionAllPost.querySelectorAll(".popupEditorDelate__box--delete")
+
+						functionsOfThePublication(
+							userAccount,
+							sectionAllPost,
+							boxCreatePost,
+							iconsLike,
+							iconsMore,
+							publicationConfigurationoptions,
+							btnsEdit,
+							btnsDelete,
+						)
+					})
+
+				}catch(error){
+
+					console.log(error)
+
+				}
+
+			} showPublications()
+
+		}
+
+		boxCreatePost.addEventListener("touchstart", (eventStart)=>{
+
+			function moveAt(pageY) {
+
+				if(pageY - eventStart.targetTouches[0].pageY <= 90){
+
+					loaderPublications.style.top = pageY - eventStart.targetTouches[0].pageY + 'px'
+					loaderPublications.firstElementChild.style.transform =`rotate(${(pageY - eventStart.targetTouches[0].pageY)*4}deg)`
+
+				}else{
+
+					loaderPublications.style.top="-32px";
+					document.location.reload()
+
+				}
+			}
+
+			function onTouchMove(eventMove) {
+
+				moveAt(eventMove.targetTouches[0].pageY);
+
+			}
+
+			boxCreatePost.addEventListener('touchmove', onTouchMove);
+			boxCreatePost.addEventListener("touchend",()=>{
+
+				loaderPublications.style.top="-32px";
+
+			})
+		})
+
+		return sectionAllPost;
+	}else{
+
+		alert("inicia sesión 👀")
+		locationSignIn()
+
+	}
 
 
-
-
-
-
-/*   const dataUserGoogle=async(dataUser)=>{
-    const prueba = await dataUser
-    divElemt.innerHTML = CreatePost(prueba.displayName);
-  } */
-  /* dataUserGoogle(userActive) */
-  //necesito guaradr los datos de user active
-  
-
-  /* console.log(firebase.auth.Auth.Persistence.LOCAL) */
-/*   divElemt.querySelector('#btnSave').addEventListener('click', addPost);
-
-  cleanPost = divElemt.querySelector('#form'); */
-/* 
-  let allPosts;
-  let showAllPosts;
-  let allLikes;
-
-  const timelineFuntion = async () => {
-    if (postUser == null) {
-      alert('Inicia sesión para disfrutar de nuestro contenido');
-    } else {
-      await onGetPosts((callback) => {
-        allPosts = '';
-        callback.forEach((doc) => {
-          const likes = doc.data().like.length;
-          if (likes == 0) {
-            allLikes = '';
-          } else {
-            allLikes = doc.data().like.length;
-          }
-
-          allPosts += `
-      <form class="postForm">
-        <div class="divRow">
-          <div class="postSection">
-            <div class="postUser">
-              <div class="boxPerfil">
-                <img class="perfil" src="${doc.data().photo}" alt="">
-              </div>
-              <p class="user">${doc.data().name}</p>
-            </div>
-            <textarea id="postDescription" class="postDescription"
-              data-id="${doc.id}" disabled>
-                ${doc.data().description}</textarea>
-            <div class="divBtbUpdate">
-              <button class='btnUpdate' data-id="${doc.id}"> Guardar</button>
-            </div>
-          </div>
-          <div class="iconPosts">
-
-            <i class="fas fa-trash-alt btnDelete iconPost"
-            data-id="${doc.id}"></i>
-            <i class="fas fa-pencil-alt btnEdit iconPost"
-            data-id="${doc.id}"></i>
-            <div class="divbtnLike">
-              <i class="fas fa-heart btnLike iconPost" data-id="${doc.id}"></i>
-              <span class='postsLike'
-                data-like="${doc.id}">${allLikes}</span>
-            </div>
-
-          </div>
-        </div>
-      </form>
-      `;
-        });
-        showAllPosts = document.querySelector('#postsContainer');
-        showAllPosts.innerHTML = allPosts;
-
-        // like
-        const btnLike = divElemt.querySelectorAll('.btnLike');
-
-        btnLike.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            const likeID = e.target.dataset.id;
-            const doc = await getPost(likeID);
-            const dataLikes = doc.data().like;
-            const totalLikes = dataLikes;
-
-            if (totalLikes.includes(postUser) == false) {
-              totalLikes.push(postUser);
-              await addLike(likeID, totalLikes);
-            } else {
-              const dislike = totalLikes.filter((user) => user !== postUser);
-              await addLike(likeID, dislike);
-            }
-          });
-        });
-
-        // para eliminar
-        const btnDelete = divElemt.querySelectorAll('.btnDelete');
-
-        btnDelete.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const btnDeleteID = e.target.dataset.id;
-
-            const doc = await getPost(btnDeleteID);
-            const dataUser = doc.data().user;
-            console.log(postUser, dataUser, btnDeleteID);
-
-            if (postUser == dataUser) {
-              if (confirm('¿Desea eliminar esta publicación?')) {
-                await deletePost(btnDeleteID);
-              }
-            }
-          });
-        });
-
-        const btnEdit = divElemt.querySelectorAll('.btnEdit');
-
-        let btnEditID;
-        let textAreaEdit;
-
-        btnEdit.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            btnEditID = e.target.dataset.id;
-            textAreaEdit = divElemt.querySelector(`[data-id="${btnEditID}"]`);
-
-            const doc = await getPost(btnEditID);
-            const dataUser = doc.data().user;
-
-            if (postUser == dataUser) {
-              textAreaEdit.disabled = false;
-            } else {
-              console.warn('El post NO es tuyo');
-            }
-          });
-        });
-
-        const btnUpdate = divElemt.querySelectorAll('.btnUpdate');
-
-        btnUpdate.forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            const btnUpdateID = e.target.dataset.id;
-            const textAreaEdit = divElemt.querySelector(
-                `[data-id="${btnUpdateID}"]`,
-            );
-            const doc = await getPost();
-            const dataUser = doc.data().user;
-            const textEditVerified = textAreaEdit.value.replace(/\s+/g, '');
-
-            if (postUser == dataUser) {
-              if (textEditVerified !== '') {
-                await updatePost(textAreaEdit.dataset.id, textAreaEdit.value);
-              } else {
-                alert('ups, el campo esta vacio');
-              }
-            }
-          });
-        });
-      });
-    }
-  };
-  timelineFuntion(); */
-  return divElemt;
 };

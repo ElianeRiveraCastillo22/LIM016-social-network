@@ -1,25 +1,22 @@
-import { locationHome, locationUpdateUser } from '../../helpers/locations.js';
-import {app, auth, dataUser, onAuthStateChanged} from '../configuraciones.js';
-/* import { showHome } from '../../view/SignIn.js' */;
-import { loginPersistence } from './auth_setPersistence.js';
+import { auth, onAuthStateChanged } from '../configuraciones.js';
 
-let userActive
-export const listensToTheActiveUser = () => {
-  return onAuthStateChanged(auth, (user) => {
-    if (user !== undefined && user.emailVerified) {
-      console.log(user.displayName)
-      if(user.displayName !== null){
-        locationHome()
-      }else{
-        locationUpdateUser()
-      }
-      userActive=user
+export const listensToTheActiveUser = async() => {
 
-    }else{
-        alert("verifica tu correo 👮‍♀️")
+    let userActive;
+    try{
+
+        await onAuthStateChanged(auth,(user) => {
+
+            if (user) userActive = user
+
+        });
+
+    }catch(error){
+
+        console.log(error)
+
     }
-  });
+
+    return userActive
+
 };
-export {
-  userActive
-}

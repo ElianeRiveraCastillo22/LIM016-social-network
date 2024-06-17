@@ -1,18 +1,35 @@
 export const locationSignUp = (e) => {
+
     window.location.hash = '#/signUp';
+
 };
-export const locationSignIn = (e) => {
+
+export const locationSignIn = () => {
+
     window.location.hash = '#/signIn';
+
 };
-export const locationHome = (e) => {
+
+export const locationHome = () => {
+
     window.location.hash = '#/home';
+
 };
-export const locationProfile = (e) => {
+
+export const locationProfile = () => {
+
     window.location.hash = '#/profile';
+
 };
-export const locationDifferent = (e) => {
+
+export const locationDifferent = () => {
+
     window.location.hash = '#/different';
+
 };
-export const locationUpdateUser = (e) => {
-    window.location.hash = '#/update-profile';
+
+export const locationUpdateUser = () => {
+
+    window.location.hash = '#/update-registration';
+
 };

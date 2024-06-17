@@ -1,30 +1,54 @@
-export const showSignIn = `
-<div class="box--singIn">
-  <p class="singIn--title">¡Bienvenidx!</p>
-  <form id="formLogIn" class="singIn--form">
+export const showSignIn = /*html*/ `
+<div class="box--signIn">
+	<h1 class="logo--queerPlace">Queer Place</h1>
+	<form id="formRegister" class="signIn--form">
 
-    <div class="form-control">
-      <input id="email" type="email" placeholder="Correo electrónico">
-      <i class="far fa-times-circle"></i>
-      <small></small>
-    </div>
+		<div class="form-control">
+			<input id="email" class="input" type="email" placeholder="Correo electrónico">
+			<img class="hiddenError" src="img/iconos/close.svg" alt="icon close">
+			<small class="messageError"></small>
+		</div>
 
-    <div class="form-control">
-      <input minlength="5" id="password" type="password" placeholder="Contraseña">
-      <i class="far fa-times-circle"></i>
-      <small></small>
-    </div>
-    <button id="btnSignIn" class="button">Inicia sesión</button>
+		<div class="form-control">
+		<input id="password" class="input" type="password" placeholder="Contraseña">
+		<img class="hiddenError" src="img/iconos/close.svg" alt="icon close">
+		<small class="messageError"></small>
+		</div>
 
-  </form>
-  <div class="loginInGoogle">
-    <img class="google" src="https://brandlogos.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png" alt="google"> 
-    <a id="google">Iniciar sesión con google</a>
-  </div>
+		<button id="btnSignIn" class="button"><p>Iniciar sesión</p></button>
 
-  <p class="signin-text--question">¿No tienes cuenta?</p>
-  <a id="btnSignUp" class="loginInCheckIn">Regístrate</a>
-  <img src="./img/CB2.png" alt="img Welcome" class="imgRegistration">
+	</form>
+	<section class="signIn--options">
 
+		<div class="loginInGoogle">
+		<div class="loginInGoogle__container">
+			<img class="google" src="img/iconos/google.svg" alt="icon google">
+			<a id="google">Iniciar sesión con Google</a>
+		</div>
+		<div class="loginInGoogle__loader">
+
+		</div>
+		</div>
+		<p class="signIn-text--question">¿Tienes cuenta?</p>
+		<a class="goToOption">Registrarse</a>
+
+	</section>
+	<img class="imgRegistration" src="img/imageOfTheGirls.png" alt="image of the girls">
 </div>
+<dialog class="signUp__popup signUp__popup--close">
+	<div>
+		<p>Te enviamos un mensaje a tu correo, verificalo 👨‍💻</p>
+		<button class="btnpopup__signUp">Ok!</button>
+	</div>
+</dialog>
 `;
+export const templateLoaderSingin = () => {
+  let loadedFromLogin = /*html*/ `
+	<div class="btn__loader">
+		<span class="btnloader__dot"></span>
+		<span class="btnloader__dot"></span>
+		<span class="btnloader__dot"></span>
+	</div>
+  `
+  return loadedFromLogin
+}

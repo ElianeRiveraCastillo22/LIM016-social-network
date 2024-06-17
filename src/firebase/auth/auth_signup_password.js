@@ -1,40 +1,18 @@
-import { registerLocalStorage } from '../../helpers/functions.js';
-import { showErrorRegister } from '../../view/Signup.js';
-import {
-  auth,
-  createUserWithEmailAndPassword,
-/*   sendEmailVerification,
-    updateProfile, */
-} from '../configuraciones.js';
+import { showErrorSignUp } from '../../helpers/showErrorSignUp.js';
+import { auth, createUserWithEmailAndPassword } from '../configuraciones.js';
 import { sendEmail } from './auth_send_email.js';
 
-export const createUserWithEmailPsw = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
+export const createUserWithEmailPsw = async(accountData) => {
+
+    let userCredential
+    try{
+        userCredential = await createUserWithEmailAndPassword(auth,accountData.email, accountData.password)
         sendEmail()
-        alert("te acabamos te enviar un email de confirmacion, verificalo 👨‍💻")
-        console.log(user)
-       /*  registerLocalStorage(user,name) */
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        /* console.log(errorCode) */
-        showErrorRegister(errorCode)
-      });
+        return userCredential
+    }catch(error){
+        showErrorSignUp(error.code, email, password)
+    }
+
+    return userCredential
+
 };
-
-/*
-
-export const updateUserName = (name) => {
-  return updateProfile(auth.currentUser, {
-    displayName: name,
-  }).then(() => {
-    alert('Verifica tu correo para disfrutar de nuestro contenido');
-
-    window.location.hash = '#/signIn';
-  }).catch((error) => {
-    console.error(error.code);
-    alert('Lo sentimos, se ha producido un error');
-  });
-}; */

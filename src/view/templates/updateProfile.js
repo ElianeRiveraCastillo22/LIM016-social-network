@@ -1,22 +1,17 @@
 
-export const updateProfile =`
-<div class="box--updateProfile">
-    <h1 class="logo--queerPlace">Queer Place</h1>
-    <p class="updateProfile--text__request">Completa tu perfil por favor</p>
-    <p class="updateProfile--question">¿Como que nombre te identificas?</p>
-    <form id="formRegister" class="updateProfile--form">
-        <div class="form-control">
-            <input id="userName" class="input" type="text" placeholder="Nombre">
-            <i class="far fa-times-circle"></i>
-            <small></small>
-        </div>
-        <div class="form-control">
-            <input id="userName" class="input" type="text" placeholder="apellido">
-            <i class="far fa-times-circle"></i>
-            <small></small>
-        </div>
-        <button id="btnRegister" class="button">Registrar</button>
-    </form>
-    <img class="imgRegistration" src="./img/CB2.png" alt="img">
-</div>
-    `
+export const updateProfile = /*html*/ `
+    <div class="box--updateProfile">
+        <section class="updateProfile__containerImg">
+            <figure class="updateProfile__imgUser">
+                <img src="img/avatar.png" alt="icon profile">
+            </figure>
+        </section>
+        <form id="formRegister" class="updateProfile--form">
+            <div class="updateProfile__containerForm">
+
+            </div>
+            <button id="btnRegisterupdate" class="button btn--active">Guardar los datos</button>
+        </form>
+    </div>
+    <dialog class="popup__dialog"></dialog>
+`

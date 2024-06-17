@@ -12,13 +12,12 @@
 
 <h1 align="center" style="color:#8662c7 ">Queer Place</h1>
 <p align="center">Queer Place es una red social que tiene como enfoque crear una comunidad inclusiva y libre de discriminación donde los usuarios puedan brindar y encontrar, por medio de publicaciones, recomendaciones acerca de lugares y servicios con las características mencionadas.</p>
-<img src="src/img/the-movement-together.png"/>
-
-
-
-
+<div align="center">
+    <img src="src/img/the-movement-together.png"/>
+</div>
 
 ## 1. Estudio de usuario
+
 a) ¿Quiénes son los principales usuarios?
 Los principales usuarios son aquellas personas que buscan una comunidad segura donde encontrar recomendaciones.
 Las edades de estas personas oscilan entre 18 y 30 años.
@@ -39,6 +38,7 @@ d) ¿Cuándo utilizan o utilizarían el producto?
 *	Cuando tengan la necesidad de investigar acerca de la experiencia vivida en algún lugar o con algún servicio. Por otro lado, el dispositivo donde más la usarían, sería el teléfono móvil.
 
 ## 2. Historias de usuario
+
 | Historias de usuario | Detalle |
 | --- | --- |
 | HU 1 | Como usuario, quiero una red social para difundir y/o recomendar espacios seguros y libres de discriminación. |
@@ -49,20 +49,30 @@ d) ¿Cuándo utilizan o utilizarían el producto?
 | HU 6 | Como usuario, quiero poder indicar que me gusta una publicación mediante un botón like. |
 
 ## 3. Diseño de la interfaz de usuario
+
 En base a los resultados obtenidos, diseñamos los siguientes prototipos:
 
 
 ### Celular
+
 Bienvenida - Iniciar sesión - Registrar
 <img src="src/img/welcome-signin-singup.png"/>
+<br/>
+
 Publicaciones - Perfil - Actualizar
 <img src="src/img/home-profile-update.png"/>
+<br/>
 
 ### Laptop
-Bienvenida - Iniciar sesión - Registrar
+
+Bienvenida - Iniciar sesión - Registarse
 <img src="src/img/welcome-signin-singup-desktop.png"/>
+<br/>
+
 Publicaciones - Perfil - Actualizar
 <img src="src/img/home-profile-update-desktop.png"/>
+<br/>
+
 ## 4. Tecnologías empleadas
 
 *	HTML
@@ -74,17 +84,26 @@ Publicaciones - Perfil - Actualizar
 *	Jest
 
 ## 5. Producto final
+
 ### Celular
-Bienvenida - Iniciar sesión - Registrar
+
+Bienvenida - Iniciar sesión - Registrarse
 <img src="src/img/welcome-signin-singup-app.png"/>
+<br/>
+
 Publicaciones - Perfil - Actualizar
 <img src="src/img/home-profile-update-app.png"/>
+<br/>
 
 ### Laptop
-Bienvenida - Iniciar sesión - Registrar
+
+Bienvenida - Iniciar sesión - Registrarse
 <img src="src/img/welcome-signin-singup-desktop-app.png"/>
+<br/>
+
 Publicaciones - Perfil - Actualizar
 <img src="src/img/home-profile-update-desktop-app.png"/>
+<br/>
 
 ## 6. Creadoras
 
